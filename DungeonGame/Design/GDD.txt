@@ -1,15 +1,23 @@
-General Idea: Heist, but funny. (so revolutionary i know)
+General Idea: Steal from the rich.
+Heist game, but instead of a boring target like a bank or museum, it's socialism!
 
 New Objects
 Key/Keycard
 Lockpick
 Rename goal to door
+Bank details, cash case. (Items to be stolen)
+Stairs
 
 New Levels
-SO many
+Front gate
+Front yard
+Downstairs (Open concept downstairs, whole downstairs is one level)
+Upstairs hallway
+Bedroom
+Bathroom
+Office
 
 New Behaviours
-Health
 Metroidvania-style movement through levels
 Pick lock
 Unlock door
@@ -17,4 +25,3 @@ Inventory
 Pick up item
 Enemy sight/patrols
 Make it impossible for enemies to walk through walls
-Talking (maybe?)
