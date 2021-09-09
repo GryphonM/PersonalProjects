@@ -19,6 +19,7 @@
 
 // Level Functions
 #include "Level1.h"
+#include "Level2.h"
 
 //------------------------------------------------------------------------------
 // Libraries
@@ -43,6 +44,7 @@ int main(int argc, char* argv[])
 
 	// Add levels to the game
 	EngineAddLevel(Level1Init, Level1Update, Level1Shutdown);
+	EngineAddLevel(Level2Init, Level2Update, Level2Shutdown);
 
 	// Set starting level
 	EngineSetLevel(0);

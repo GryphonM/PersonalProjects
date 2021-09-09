@@ -88,11 +88,8 @@ void PlayerCollisionGoal(GameObject* player, GameObject* goal)
 	UNREFERENCED_PARAMETER(player);
 	UNREFERENCED_PARAMETER(goal);
 
-	// Quit the game
-	EngineSetLevel(gEngineLevelQuit);
-
-	// TO DO: Once you have another level, go to the next level
-	//EngineSetLevel(gEngineLevelNext);
+	// Go to the next level
+	EngineSetLevel(gEngineLevelNext);
 }
 
 // Handle collision logic when player collides with an enemy.
