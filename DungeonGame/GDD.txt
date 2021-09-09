@@ -1,0 +1,20 @@
+General Idea: Heist, but funny. (so revolutionary i know)
+
+New Objects
+Key/Keycard
+Lockpick
+Rename goal to door
+
+New Levels
+SO many
+
+New Behaviours
+Health
+Metroidvania-style movement through levels
+Pick lock
+Unlock door
+Inventory
+Pick up item
+Enemy sight/patrols
+Make it impossible for enemies to walk through walls
+Talking (maybe?)
