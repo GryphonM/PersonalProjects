@@ -25,4 +25,9 @@ Inventory
 //Objective
 Pick up item
 Enemy sight/patrols
+	Two kinds of enemies
+	Patrol
+		Follow a path and attack player if in vision
+	Stationary
+		Stay put and attack player if in vision
 Make it impossible for enemies to walk through walls
