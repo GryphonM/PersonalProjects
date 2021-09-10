@@ -33,6 +33,15 @@ static const float enemySpeed = 3.0f;
 static const float chaseDistance = 10.0f;
 
 //------------------------------------------------------------------------------
+// Private Variables:
+//------------------------------------------------------------------------------
+
+//Handle wall collision
+static bool hitWall = false;
+static enum Directions{up, right, down, left};
+static enum Directions wallDirection;
+
+//------------------------------------------------------------------------------
 // Public Functions:
 //------------------------------------------------------------------------------
 
@@ -59,14 +68,53 @@ void EnemyUpdate(GameObject* enemy, float dt)
 	{
 		// Find direction from enemy to player.
 		Vector2DSub(&velocity, positionPlayer, positionEnemy);
+		
+		if (!hitWall)
+		{
+			// Normalize direction vector.
+			Vector2DNormalize(&velocity, &velocity);
 
-		// Normalize direction vector.
-		Vector2DNormalize(&velocity, &velocity);
+			// Scale direction vector using speed.
+			Vector2DScale(&velocity, &velocity, enemySpeed);
+		}
+		else
+		{
 
-		// Scale direction vector using speed.
-		Vector2DScale(&velocity, &velocity, enemySpeed);
+		}
 	}
 
 	// Set velocity
+	GameObjectSetVelocity(enemy, &velocity);
+}
+
+// Handles an Enemy's collision with walls
+// Params:
+//	 enemy = The enemy game object.
+//	 wall = The wall game object.
+void EnemyWallCollision(GameObject* enemy, GameObject* wall)
+{
+	UNREFERENCED_PARAMETER(wall);
+
+	Vector2D velocity = *GameObjectGetVelocity(enemy);
+
+	hitWall = true;
+
+	if (velocity.x > velocity.y)
+	{
+		//if (velocity.x > 0)
+			
+	}
+	else if (velocity.y > velocity.x)
+	{
+
+	}
+	else
+	{
+
+	}
+
+	velocity.x = 0.0f;
+	velocity.y = 0.0f;
+
 	GameObjectSetVelocity(enemy, &velocity);
 }

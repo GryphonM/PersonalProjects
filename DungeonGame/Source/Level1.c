@@ -70,9 +70,12 @@ void Level1Init(void)
 
 	GameObject* door = GameObjectCreate(levelCenter.x + 5.0f, levelCenter.y + 5.0f, 'G', COLOR_GREEN, NULL, doorRoom);
 
-	// Check for player collision with walls
+	// Check for player and enemy collision with walls
 	for (int i = 0; i < NUM_WALLS; ++i)
+	{
 		GameObjectAddCollisionPair(player, walls[i], WallCollision);
+		GameObjectAddCollisionPair(enemy, walls[i], EnemyWallCollision);
+	}
 
 	// Check other collisions
 	GameObjectAddCollisionPair(player, door, PlayerCollisionDoor);
@@ -84,7 +87,7 @@ void Level1Init(void)
 	ObjectManagerAddObject(enemy);
 
 	// Create a color pair to use later
-	EngineSetColorPair(0, COLOR_BLACK, COLOR_BLUE);
+	EngineSetColorPair(0, COLOR_WHITE, COLOR_BLUE);
 	EngineSetColorPair(1, COLOR_BLACK, COLOR_CYAN);
 }
 

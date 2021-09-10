@@ -32,3 +32,9 @@ typedef struct GameObject GameObject;
 //   enemy = The enemy game object.
 //	 dt = Change in time (in seconds) since the last game loop.
 void EnemyUpdate(GameObject* enemy, float dt);
+
+// Handles an Enemy's collision with walls
+// Params:
+//	 enemy = The enemy game object.
+//	 wall = The wall game object.
+void EnemyWallCollision(GameObject* enemy, GameObject* wall);
