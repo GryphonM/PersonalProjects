@@ -60,17 +60,22 @@ void Level1Init(void)
 	GameObject* player = GameObjectCreate(startPosition.x, startPosition.y, 'o', COLOR_YELLOW, PlayerUpdate, NULL);
 
 	// Create other game objects
-	GameObject* door = GameObjectCreate(levelCenter.x + 5.0f, levelCenter.y + 5.0f, 'G', COLOR_GREEN, NULL, NULL);
 	GameObject* enemy = GameObjectCreate(levelCenter.x - 5.0f, levelCenter.y - 5.0f, 'X', COLOR_RED, EnemyUpdate, NULL);
 	GameObject* walls[NUM_WALLS];
 	Level1CreateWalls(walls);
+
+	//define which room this door points to
+	int* doorRoom = (int*)malloc(1 * sizeof(int));
+	*doorRoom = 1;
+
+	GameObject* door = GameObjectCreate(levelCenter.x + 5.0f, levelCenter.y + 5.0f, 'G', COLOR_GREEN, NULL, doorRoom);
 
 	// Check for player collision with walls
 	for (int i = 0; i < NUM_WALLS; ++i)
 		GameObjectAddCollisionPair(player, walls[i], WallCollision);
 
 	// Check other collisions
-	GameObjectAddCollisionPair(player, door, PlayerCollisionGoal);
+	GameObjectAddCollisionPair(player, door, PlayerCollisionDoor);
 	GameObjectAddCollisionPair(player, enemy, PlayerCollisionEnemy);
 
 	// Register objects with Object Manager to ensure they are updated
@@ -79,7 +84,8 @@ void Level1Init(void)
 	ObjectManagerAddObject(enemy);
 
 	// Create a color pair to use later
-	EngineSetColorPair(0, COLOR_WHITE, COLOR_RED);
+	EngineSetColorPair(0, COLOR_BLACK, COLOR_BLUE);
+	EngineSetColorPair(1, COLOR_BLACK, COLOR_CYAN);
 }
 
 // Update the Level1 game state.
@@ -90,8 +96,12 @@ void Level1Update(float dt)
 	UNREFERENCED_PARAMETER(dt);
 
 	// Draw level title
-	EngineDrawTextColorPair("DUNGEON", 0, levelCenter.x - 3.0f, levelCenter.y - 14.0f);
-	EngineDrawText("LEVEL 1", COLOR_GREEN, levelCenter.x - 3.0f, levelCenter.y - 12.0f);
+	EngineDrawTextColorPair("DUNGEON", 1, levelCenter.x - 3.0f, levelCenter.y - 14.0f);
+	EngineDrawText("Outside Front Gate", COLOR_GREEN, levelCenter.x - 9.0f, levelCenter.y - 12.0f);
+
+	// Draw objective
+	EngineDrawTextColorPair("Objective:", 0, levelCenter.x + 25.0f, levelCenter.y - 9.0f);
+	EngineDrawText("Break into house", COLOR_WHITE, levelCenter.x + 25.0f, levelCenter.y - 8.0f);
 }
 
 // Free any memory associated with the Level1 game state.

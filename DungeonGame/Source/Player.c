@@ -103,3 +103,16 @@ void PlayerCollisionEnemy(GameObject* player, GameObject* enemy)
 	
 	EngineSetLevel(gEngineLevelRestart);
 }
+
+// Handle Collision logic when player collides with a door
+// Params:
+//   player = The player game object.
+//   enemy = The enemy game object.
+void PlayerCollisionDoor(GameObject* player, GameObject* door)
+{
+	UNREFERENCED_PARAMETER(player);
+
+	int *nextLevel = GameObjectGetExtraData(door);
+
+	EngineSetLevel(*nextLevel);
+}

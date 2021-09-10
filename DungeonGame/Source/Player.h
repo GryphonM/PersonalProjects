@@ -56,3 +56,9 @@ void PlayerCollisionGoal(GameObject* player, GameObject* goal);
 //   player = The player game object.
 //	 enemy = The enemy game object.
 void PlayerCollisionEnemy(GameObject* player, GameObject* enemy);
+
+// Handle Collision logic when player collides with a door
+// Params:
+//   player = The player game object.
+//   door = The door game object.
+void PlayerCollisionDoor(GameObject* player, GameObject* door);
