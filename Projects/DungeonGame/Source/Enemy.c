@@ -38,8 +38,8 @@ static const float chaseDistance = 10.0f;
 
 //Handle wall collision
 static bool hitWall = false;
-static enum Directions{up, right, down, left};
-static enum Directions wallDirection;
+static enum Direction{up, right, down, left};
+static enum Direction wallDirection;
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -69,17 +69,17 @@ void EnemyUpdate(GameObject* enemy, float dt)
 		// Find direction from enemy to player.
 		Vector2DSub(&velocity, positionPlayer, positionEnemy);
 		
-		if (!hitWall)
+		if (hitWall)
+		{
+			
+		}
+		else
 		{
 			// Normalize direction vector.
 			Vector2DNormalize(&velocity, &velocity);
 
 			// Scale direction vector using speed.
 			Vector2DScale(&velocity, &velocity, enemySpeed);
-		}
-		else
-		{
-
 		}
 	}
 
@@ -99,18 +99,21 @@ void EnemyWallCollision(GameObject* enemy, GameObject* wall)
 
 	hitWall = true;
 
-	if (velocity.x > velocity.y)
+	if (velocity.x > 0)
 	{
-		//if (velocity.x > 0)
-			
+		wallDirection = right;
 	}
-	else if (velocity.y > velocity.x)
+	else if (velocity.x < 0)
 	{
-
+		wallDirection = left;
 	}
-	else
+	else if (velocity.y > 0)
 	{
-
+		wallDirection = down;
+	}
+	else if (velocity.y < 0)
+	{
+		wallDirection = up;
 	}
 
 	velocity.x = 0.0f;
