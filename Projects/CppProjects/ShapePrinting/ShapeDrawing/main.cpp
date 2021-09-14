@@ -65,6 +65,9 @@ int main(void)
 	}
 }
 
+// Prints a filled or not filled rectangle based on the parameter passed into it
+// Params:
+//   filled = tells the function whether to print a filled in rectangle or an empty rectangle
 void PrintRectangle(bool filled)
 {
 	int x, y;
@@ -76,30 +79,64 @@ void PrintRectangle(bool filled)
 		for (int i = 0; i < y; i++)
 		{
 			for (int j = 0; j < x; j++)
-			{
 				cout << "*";
-			}
 			cout << std::endl;
 		}
 	}
 	else
 	{
-
+		//set i and j equal to 1 so they will be compared directly to x and y
+		//therefore the if statement in the second for loop can more easily
+		//compare these values
+		for (int i = 1; i <= y; i++)
+		{			
+			for (int j = 1; j <= x; j++)
+			{
+				if (i == 1 || i == y || j == 1 || j == x)
+					cout << "*";
+				else
+					cout << " ";
+			}
+			cout << std::endl;
+		}
 	}
 }
 
+// Prints a filled or not filled triangle based on the parameter passed into it
+// Params:
+//   filled = tells the function whether to print a filled in triangle or an empty triangle
 void PrintTriangle(bool filled)
 {
-	int x;
+	int height;
 	std::cout << "Enter the triangle's height: ";
-	std::cin >> x;
+	std::cin >> height;
 
 	if (filled)
 	{
-
+		for (int i = 0; i < height; i++)
+		{
+			int width = height - i;
+			cout.width(width);
+			for (int j = 0; j <= 2 * i; j++)
+				cout << "*";
+			cout << std::endl;
+		}
 	}
 	else
 	{
+		for (int i = 0; i < height; i++)
+		{
+			int width = height - i;
+			cout.width(width);
 
+			for (int j = 0; j <= 2 * i; j++)
+			{
+				if (i == 0 || i == height - 1 || j == 0 || j == 2 * i)
+					cout << "*";
+				else
+					cout << " ";
+			}
+			cout << std::endl;
+		}
 	}
 }
