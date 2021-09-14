@@ -71,8 +71,14 @@ int main(void)
 void PrintRectangle(bool filled)
 {
 	int x, y;
-	cout << "Enter the rectangle's width and height values: ";
+	cout << "\nEnter the rectangle's width and height values: ";
 	cin >> x >> y;
+
+	//check if incorrect values were given
+	if (x <= 0)
+		cout << "The width must be at least 1" << std::endl;
+	else if (y <= 0)
+		cout << "The height must be at least 1" << std::endl;
 
 	if (filled)
 	{
@@ -121,8 +127,12 @@ void PrintRectangle(bool filled)
 void PrintTriangle(bool filled)
 {
 	int height;
-	std::cout << "Enter the triangle's height: ";
-	std::cin >> height;
+	cout << "\nEnter the triangle's height: ";
+	cin >> height;
+
+	//check if incorrect value was given
+	if (height <= 0)
+		cout << "The height must be at least 1" << std::endl;
 
 	if (filled)
 	{
