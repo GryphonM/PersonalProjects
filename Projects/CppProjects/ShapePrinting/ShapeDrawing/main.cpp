@@ -85,13 +85,26 @@ void PrintRectangle(bool filled)
 	}
 	else
 	{
-		//set i and j equal to 1 so they will be compared directly to x and y
-		//therefore the if statement in the second for loop can more easily
-		//compare these values
+		//set i equal to 1 so it can be compared directly to y.
+		//the if statement can then easily compare these values
 		for (int i = 1; i <= y; i++)
-		{			
+		{
+			/* Version that loops less using std::setw()
+			if (i == 1 || i == y)
+			{
+				for (int j = 0; j < x; j++)
+					cout << "*";
+			}
+			else
+			{
+				int width = x - 1;
+				cout << "*" << std::setw(width) << "*";
+			}
+			cout << std::endl;*/
+			
 			for (int j = 1; j <= x; j++)
 			{
+				//these cases are when something should be printed, otherwise only a space is needed
 				if (i == 1 || i == y || j == 1 || j == x)
 					cout << "*";
 				else
@@ -129,6 +142,20 @@ void PrintTriangle(bool filled)
 			int width = height - i;
 			cout.width(width);
 
+			/* Version that loops less using std::setw()
+			if (i == 0 || i == height - 1)
+			{
+				for (int j = 0; j <= 2 * i; j++)
+					cout << "*";
+			}
+			else
+			{
+				int width = 2 * i;
+				cout << "*" << std::setw(width) << "*";
+			}
+			cout << std::endl;*/
+			
+			//these cases are when something should be printed, otherwise only a space is needed
 			for (int j = 0; j <= 2 * i; j++)
 			{
 				if (i == 0 || i == height - 1 || j == 0 || j == 2 * i)
