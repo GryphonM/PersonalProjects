@@ -38,8 +38,8 @@ static const float chaseDistance = 10.0f;
 
 //Handle wall collision
 static bool hitWall = false;
-static enum Direction{up, right, down, left};
-static enum Direction wallDirection;
+enum Direction{up, right, down, left, none};
+static enum Direction wallDirection = none;
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -71,16 +71,23 @@ void EnemyUpdate(GameObject* enemy, float dt)
 		
 		if (hitWall)
 		{
-			
-		}
-		else
-		{
-			// Normalize direction vector.
-			Vector2DNormalize(&velocity, &velocity);
+			if (wallDirection == up || wallDirection == down)
+				//because the player is against a wall that is above or below them
+				//they can only go left or right, therefore their y movement is 0
+				velocity.y = 0;
+			else if (wallDirection == right || wallDirection == left)
+				//because the player is against a wall that is to the side of them
+				//they can only go up or down, therefore their x movement is 0
+				velocity.x = 0;
 
-			// Scale direction vector using speed.
-			Vector2DScale(&velocity, &velocity, enemySpeed);
+			wallDirection = none;
 		}
+
+		// Normalize direction vector.
+		Vector2DNormalize(&velocity, &velocity);
+
+		// Scale direction vector using speed.
+		Vector2DScale(&velocity, &velocity, enemySpeed);
 	}
 
 	// Set velocity
@@ -96,25 +103,35 @@ void EnemyWallCollision(GameObject* enemy, GameObject* wall)
 	UNREFERENCED_PARAMETER(wall);
 
 	Vector2D velocity = *GameObjectGetVelocity(enemy);
+	Vector2D position = *GameObjectGetPosition(enemy);
+	const Vector2D* scale = GameObjectGetScale(enemy);
+
+	const Vector2D* wallPosition = GameObjectGetPosition(wall);
 
 	hitWall = true;
 
+	// Determine where the wall is
 	if (velocity.x > 0)
-	{
 		wallDirection = right;
-	}
 	else if (velocity.x < 0)
-	{
 		wallDirection = left;
-	}
 	else if (velocity.y > 0)
-	{
 		wallDirection = down;
-	}
 	else if (velocity.y < 0)
-	{
 		wallDirection = up;
-	}
+
+	// Set position back to outside of wall
+	// Same code from Wall.c with updated variable names and less pointers
+	// Adjust object position based on current velocity and position
+	if (velocity.x > 0.0f && position.x < wallPosition->x)
+		position.x -= scale->x * 0.5f;
+	else if (velocity.x < 0.0f && position.x > wallPosition->x)
+		position.x += scale->x * 0.5f;
+
+	if (velocity.y > 0.0f && position.y < wallPosition->y)
+		position.y -= scale->y * 0.5f;
+	else if (velocity.y < 0.0f && position.y > wallPosition->y)
+		position.y += scale->y * 0.5f;
 
 	velocity.x = 0.0f;
 	velocity.y = 0.0f;

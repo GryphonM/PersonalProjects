@@ -52,9 +52,6 @@ GameObject* WallCreate(float centerX, float centerY, float width, float height)
 //   wall = The wall game object.
 void WallCollision(GameObject* other, GameObject* wall)
 {
-	UNREFERENCED_PARAMETER(wall);
-	UNREFERENCED_PARAMETER(other);
-
 	const Vector2D* positionWall = GameObjectGetPosition(wall);
 
 	Vector2D velocityOther = *GameObjectGetVelocity(other);
