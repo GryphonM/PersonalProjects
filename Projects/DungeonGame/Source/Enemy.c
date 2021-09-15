@@ -29,17 +29,28 @@
 // Speed of enemy movement.
 static const float enemySpeed = 3.0f;
 
-// When player is at least this close, chase the player.
-static const float chaseDistance = 10.0f;
+// When player is at least this close, reset the level.
+static const float visionDistance = 5.0f;
 
 //------------------------------------------------------------------------------
 // Private Variables:
 //------------------------------------------------------------------------------
 
-//Handle wall collision
-static bool hitWall = false;
-enum Direction{up, right, down, left, none};
-static enum Direction wallDirection = none;
+// Keep track of target patrol point
+int nextPatrolPoint = 0;
+
+//How far from the target the enemy has to be to have reached it
+float closeEnough = 0.1f;
+
+//------------------------------------------------------------------------------
+// Public Variables:
+//------------------------------------------------------------------------------
+
+typedef struct patrolPoints
+{
+	Vector2D* points;
+	int size;
+} patrolPoints;
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -52,34 +63,54 @@ void EnemyUpdate(GameObject* enemy, float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 
+	// Determine target patrol point
+	patrolPoints* Points = (patrolPoints *) GameObjectGetExtraData(enemy);
+	Vector2D target = Points->points[nextPatrolPoint];
+
 	// Grab my position
 	const Vector2D* positionEnemy = GameObjectGetPosition(enemy);
 
-	// Grab player position
+	Vector2D velocity = { 0.0f, 0.0f };
+
+	// Move towards next patrol point
+	// Find direction from enemy to target
+	Vector2DSub(&velocity, &target, positionEnemy);
+
+	// Normalize direction vector.
+	Vector2DNormalize(&velocity, &velocity);
+
+	// Scale direction vector using speed.
+	Vector2DScale(&velocity, &velocity, enemySpeed);
+
+	// Determine the "close enough" point based on target
+	float lowX = target.x - closeEnough;
+	float highX = target.x + closeEnough;
+	float lowY = target.y - closeEnough;
+	float highY = target.x + closeEnough;
+
+	// Determine if enemy has reached the target and set new target if so
+	if (velocity.x >= lowX || velocity.x <= highX ||
+		velocity.y >= lowY || velocity.y <= highY)
+	{
+		if (nextPatrolPoint == Points->size)
+			nextPatrolPoint = 0;
+		else
+			nextPatrolPoint++;
+	}
+
+	/*// Grab player position
 	const Vector2D* positionPlayer = PlayerGetPosition();
 
 	// Calculate distance
-	float distance = Vector2DDistance(positionPlayer, positionEnemy);
+	float distance = Vector2DDistance(&target, positionEnemy);
 
 	Vector2D velocity = { 0.0f, 0.0f };
 
-	// Chase player if player is close enough.
-	if (distance <= chaseDistance)
+	// Restart level if player is close enough and in front of enemy.
+	if (distance <= visionDistance)
 	{
 		// Find direction from enemy to player.
 		Vector2DSub(&velocity, positionPlayer, positionEnemy);
-		
-		if (hitWall)
-		{
-			if (wallDirection == up || wallDirection == down)
-				//because the player is against a wall that is above or below them
-				//they can only go left or right, therefore their y movement is 0
-				velocity.y = 0;
-			else if (wallDirection == right || wallDirection == left)
-				//because the player is against a wall that is to the side of them
-				//they can only go up or down, therefore their x movement is 0
-				velocity.x = 0;
-		}
 
 		// Normalize direction vector.
 		Vector2DNormalize(&velocity, &velocity);
@@ -90,4 +121,5 @@ void EnemyUpdate(GameObject* enemy, float dt)
 
 	// Set velocity
 	GameObjectSetVelocity(enemy, &velocity);
+	*/
 }
