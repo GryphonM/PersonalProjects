@@ -79,8 +79,6 @@ void EnemyUpdate(GameObject* enemy, float dt)
 				//because the player is against a wall that is to the side of them
 				//they can only go up or down, therefore their x movement is 0
 				velocity.x = 0;
-
-			wallDirection = none;
 		}
 
 		// Normalize direction vector.
@@ -91,50 +89,5 @@ void EnemyUpdate(GameObject* enemy, float dt)
 	}
 
 	// Set velocity
-	GameObjectSetVelocity(enemy, &velocity);
-}
-
-// Handles an Enemy's collision with walls
-// Params:
-//	 enemy = The enemy game object.
-//	 wall = The wall game object.
-void EnemyWallCollision(GameObject* enemy, GameObject* wall)
-{
-	UNREFERENCED_PARAMETER(wall);
-
-	Vector2D velocity = *GameObjectGetVelocity(enemy);
-	Vector2D position = *GameObjectGetPosition(enemy);
-	const Vector2D* scale = GameObjectGetScale(enemy);
-
-	const Vector2D* wallPosition = GameObjectGetPosition(wall);
-
-	hitWall = true;
-
-	// Determine where the wall is
-	if (velocity.x > 0)
-		wallDirection = right;
-	else if (velocity.x < 0)
-		wallDirection = left;
-	else if (velocity.y > 0)
-		wallDirection = down;
-	else if (velocity.y < 0)
-		wallDirection = up;
-
-	// Set position back to outside of wall
-	// Same code from Wall.c with updated variable names and less pointers
-	// Adjust object position based on current velocity and position
-	if (velocity.x > 0.0f && position.x < wallPosition->x)
-		position.x -= scale->x * 0.5f;
-	else if (velocity.x < 0.0f && position.x > wallPosition->x)
-		position.x += scale->x * 0.5f;
-
-	if (velocity.y > 0.0f && position.y < wallPosition->y)
-		position.y -= scale->y * 0.5f;
-	else if (velocity.y < 0.0f && position.y > wallPosition->y)
-		position.y += scale->y * 0.5f;
-
-	velocity.x = 0.0f;
-	velocity.y = 0.0f;
-
 	GameObjectSetVelocity(enemy, &velocity);
 }

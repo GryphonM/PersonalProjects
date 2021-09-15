@@ -74,7 +74,6 @@ void Level1Init(void)
 	for (int i = 0; i < NUM_WALLS; ++i)
 	{
 		GameObjectAddCollisionPair(player, walls[i], WallCollision);
-		GameObjectAddCollisionPair(enemy, walls[i], EnemyWallCollision);
 	}
 
 	// Check other collisions
