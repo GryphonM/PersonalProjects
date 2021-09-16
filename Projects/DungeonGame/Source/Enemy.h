@@ -15,6 +15,8 @@
 // Include Files:
 //------------------------------------------------------------------------------
 
+#include "Vector2D.h" // Vector2D
+
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -27,7 +29,13 @@ typedef struct GameObject GameObject;
 // Public Variables:
 //------------------------------------------------------------------------------
 
-typedef struct patrolPoints patrolPoints;
+//typedef struct patrolPoints patrolPoints;
+
+typedef struct patrolPoints
+{
+	Vector2D* points;
+	int size;
+} patrolPoints;
 
 //------------------------------------------------------------------------------
 // Public Function Declarations:

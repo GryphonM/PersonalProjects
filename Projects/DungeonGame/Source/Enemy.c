@@ -18,6 +18,7 @@
 
 #include "GameObject.h" // GameObjectGetPosition
 #include "Vector2D.h" // Vector2D
+#include "Engine.h" // SetLevel
 #include "Player.h" // GetPosition
 
 //------------------------------------------------------------------------------
@@ -43,16 +44,6 @@ int nextPatrolPoint = 0;
 float closeEnough = 0.1f;
 
 //------------------------------------------------------------------------------
-// Public Variables:
-//------------------------------------------------------------------------------
-
-typedef struct patrolPoints
-{
-	Vector2D* points;
-	int size;
-} patrolPoints;
-
-//------------------------------------------------------------------------------
 // Public Functions:
 //------------------------------------------------------------------------------
 
@@ -65,61 +56,80 @@ void EnemyUpdate(GameObject* enemy, float dt)
 
 	// Determine target patrol point
 	patrolPoints* Points = (patrolPoints *) GameObjectGetExtraData(enemy);
-	Vector2D target = Points->points[nextPatrolPoint];
-
-	// Grab my position
-	const Vector2D* positionEnemy = GameObjectGetPosition(enemy);
-
-	Vector2D velocity = { 0.0f, 0.0f };
-
-	// Move towards next patrol point
-	// Find direction from enemy to target
-	Vector2DSub(&velocity, &target, positionEnemy);
-
-	// Normalize direction vector.
-	Vector2DNormalize(&velocity, &velocity);
-
-	// Scale direction vector using speed.
-	Vector2DScale(&velocity, &velocity, enemySpeed);
-
-	// Determine the "close enough" point based on target
-	float lowX = target.x - closeEnough;
-	float highX = target.x + closeEnough;
-	float lowY = target.y - closeEnough;
-	float highY = target.x + closeEnough;
-
-	// Determine if enemy has reached the target and set new target if so
-	if (velocity.x >= lowX || velocity.x <= highX ||
-		velocity.y >= lowY || velocity.y <= highY)
+	// Make sure a value was passed in
+	if (Points == NULL)
 	{
-		if (nextPatrolPoint == Points->size)
-			nextPatrolPoint = 0;
-		else
-			nextPatrolPoint++;
+		EngineSetLevel(gEngineLevelQuit);
 	}
-
-	/*// Grab player position
-	const Vector2D* positionPlayer = PlayerGetPosition();
-
-	// Calculate distance
-	float distance = Vector2DDistance(&target, positionEnemy);
-
-	Vector2D velocity = { 0.0f, 0.0f };
-
-	// Restart level if player is close enough and in front of enemy.
-	if (distance <= visionDistance)
+	else 
 	{
-		// Find direction from enemy to player.
-		Vector2DSub(&velocity, positionPlayer, positionEnemy);
+		Vector2D target = Points->points[nextPatrolPoint];
+
+		// Grab my position
+		const Vector2D* position = GameObjectGetPosition(enemy);
+
+		// Determine the "close enough" point based on target
+		float lowX = target.x - closeEnough;
+		float highX = target.x + closeEnough;
+		float lowY = target.y - closeEnough;
+		float highY = target.x + closeEnough;
+
+		// Determine if enemy has reached the target and set new target if so
+		if (position->x >= lowX && position->x <= highX &&
+			position->y >= lowY && position->y <= highY)
+		{
+			if (nextPatrolPoint >= Points->size)
+				nextPatrolPoint = 0;
+			else
+				nextPatrolPoint++;
+
+			//reset next patrol point
+			target = Points->points[nextPatrolPoint];
+		}
+
+		// Move towards next patrol point
+		Vector2D velocity = { 0.0f, 0.0f };
+
+		// Find direction from enemy to target
+		Vector2DSub(&velocity, &target, position);
 
 		// Normalize direction vector.
 		Vector2DNormalize(&velocity, &velocity);
 
 		// Scale direction vector using speed.
 		Vector2DScale(&velocity, &velocity, enemySpeed);
-	}
 
-	// Set velocity
-	GameObjectSetVelocity(enemy, &velocity);
-	*/
+		// Determine if Player is in sight of Enemy
+		// Grab player position
+		const Vector2D* positionPlayer = PlayerGetPosition();
+
+		// Calculate distance
+		float distance = Vector2DDistance(positionPlayer, position);
+
+		// Restart level if player is close enough and in front of the enemy
+		if (distance <= visionDistance)
+			EngineSetLevel(gEngineLevelRestart);
+
+		/*// Calculate distance
+		float distance = Vector2DDistance(&target, positionEnemy);
+
+		Vector2D velocity = { 0.0f, 0.0f };
+
+		// Restart level if player is close enough and in front of enemy.
+		if (distance <= visionDistance)
+		{
+			// Find direction from enemy to player.
+			Vector2DSub(&velocity, positionPlayer, positionEnemy);
+
+			// Normalize direction vector.
+			Vector2DNormalize(&velocity, &velocity);
+
+			// Scale direction vector using speed.
+			Vector2DScale(&velocity, &velocity, enemySpeed);
+		}
+		*/
+
+		// Set velocity
+		GameObjectSetVelocity(enemy, &velocity);
+	}
 }

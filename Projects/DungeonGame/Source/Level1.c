@@ -55,12 +55,11 @@ void Level1Init(void)
 {
 	// Create the player object
 	Vector2D startPosition;
-	startPosition.x = levelCenter.x - 10.0f;
+	startPosition.x = levelCenter.x - 15.0f;
 	startPosition.y = levelCenter.y - 5.0f;
 	GameObject* player = GameObjectCreate(startPosition.x, startPosition.y, 'o', COLOR_YELLOW, PlayerUpdate, NULL);
 
-	// Create other game objects
-	GameObject* enemy = GameObjectCreate(levelCenter.x - 5.0f, levelCenter.y - 5.0f, 'X', COLOR_RED, EnemyUpdate, NULL);
+	// Create walls
 	GameObject* walls[NUM_WALLS];
 	Level1CreateWalls(walls);
 
@@ -69,6 +68,22 @@ void Level1Init(void)
 	*doorRoom = 1;
 
 	GameObject* door = GameObjectCreate(levelCenter.x + 5.0f, levelCenter.y + 5.0f, 'G', COLOR_GREEN, NULL, doorRoom);
+
+	// Create enemy game objects
+	// Create variables
+	int totalPatrolPoints = 2;
+	Vector2D* patrolPos = (Vector2D*)malloc(totalPatrolPoints * sizeof(Vector2D));
+	// Set patrol positions
+	patrolPos[0].x = levelCenter.x - 5.0f;
+	patrolPos[0].y = levelCenter.y - 5.0f;
+	patrolPos[1].x = levelCenter.x + 5.0f;
+	patrolPos[1].y = levelCenter.y - 5.0f;
+	// Create patrolPoints structure
+	patrolPoints* Points = (patrolPoints*)malloc(sizeof(patrolPoints));
+	Points->points = patrolPos;
+	Points->size = totalPatrolPoints;
+	// Create game object
+	GameObject* enemy = GameObjectCreate(patrolPos[0].x, patrolPos[0].y, 'X', COLOR_RED, EnemyUpdate, Points);
 
 	// Check for player and enemy collision with walls
 	for (int i = 0; i < NUM_WALLS; ++i)
