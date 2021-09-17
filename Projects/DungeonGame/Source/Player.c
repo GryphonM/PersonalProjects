@@ -47,8 +47,8 @@ static const float playerSpeed = 7.0f;
 // Current position of player object (used by enemies to find player).
 static Vector2D playerPosition = { 0.0f, 0.0f };
 
-// List of strings represents inventory
-static char inventory[INVENTORY_SPACE][INVENTORY_NAME_SIZE];
+// List of strings represents inventory with default inventory
+static char inventory[INVENTORY_SPACE][INVENTORY_NAME_SIZE] = { "Lockpick" };
 
 //------------------------------------------------------------------------------
 // Public Functions:
