@@ -51,10 +51,14 @@ static enum Directions facing = left;
 // Private Functions:
 //------------------------------------------------------------------------------
 
+// Sets the enemies direction based on it's velocity.
+// If velocity is diagonal, will set direction based on x.
+// Params:
+//   velocity = the enemy's current velocity
 void SetFacing(const Vector2D* velocity);
 
 //------------------------------------------------------------------------------
-// Public Functions:
+// Public Function Declarations:
 //------------------------------------------------------------------------------
 
 // Update the Level1 game state.
@@ -123,43 +127,28 @@ void EnemyUpdate(GameObject* enemy, float dt)
 			SetFacing(&velocity);
 
 			// Check the direction the enemy is facing with the players position
-			// If player x position is greater than enemy's x position, then it is to the right of it
+			// If player's x position is greater than enemy's x position, then it is to the right of it
 			if (facing == right && positionPlayer->x > position->x)
 				EngineSetLevel(gEngineLevelRestart);
-			// If player x position is less than enemy's x position, then it is to the left of it
+			// If player's x position is less than enemy's x position, then it is to the left of it
 			else if (facing == left && positionPlayer->x < position->x)
 				EngineSetLevel(gEngineLevelRestart);
-			// If player y position is greater than enemy's y position, then it is above it
+			// If player's y position is greater than enemy's y position, then it is above it
 			else if (facing == up && positionPlayer->y > position->y)
 				EngineSetLevel(gEngineLevelRestart);
-			// If player y position is less than enemy's y position, then it is below it
+			// If player's y position is less than enemy's y position, then it is below it
 			else if (facing == down && positionPlayer->y < position->y)
 				EngineSetLevel(gEngineLevelRestart);
 		}
-
-		/*// Calculate distance
-		float distance = Vector2DDistance(&target, positionEnemy);
-
-		Vector2D velocity = { 0.0f, 0.0f };
-
-		// Restart level if player is close enough and in front of enemy.
-		if (distance <= visionDistance)
-		{
-			// Find direction from enemy to player.
-			Vector2DSub(&velocity, positionPlayer, positionEnemy);
-
-			// Normalize direction vector.
-			Vector2DNormalize(&velocity, &velocity);
-
-			// Scale direction vector using speed.
-			Vector2DScale(&velocity, &velocity, enemySpeed);
-		}
-		*/
 
 		// Set velocity
 		GameObjectSetVelocity(enemy, &velocity);
 	}
 }
+
+//------------------------------------------------------------------------------
+// Public Function Declarations:
+//------------------------------------------------------------------------------
 
 // Sets the enemies direction based on it's velocity.
 // If velocity is diagonal, will set direction based on x.
