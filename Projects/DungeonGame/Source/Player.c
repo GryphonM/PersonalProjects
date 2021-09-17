@@ -69,7 +69,7 @@ void PlayerPrintInventory(short color, float xPos, float yPos)
 {	
 	for (int i = 0; i < INVENTORY_SPACE; i++)
 	{
-		if (!strcmp(inventory[i], ""))
+		if (strcmp(inventory[i], "") == 0)
 			break;
 		EngineDrawText(inventory[i], color, xPos, yPos + i);
 	}

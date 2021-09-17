@@ -53,6 +53,7 @@ static enum Directions facing = left;
 
 // Sets the enemies direction based on it's velocity.
 // If velocity is diagonal, will set direction based on x.
+// If velocity is 0, will do nothing
 // Params:
 //   velocity = the enemy's current velocity
 void SetFacing(const Vector2D* velocity);
