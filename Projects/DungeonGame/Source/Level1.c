@@ -103,6 +103,7 @@ void Level1Init(void)
 	// Create a color pair to use later
 	EngineSetColorPair(0, COLOR_WHITE, COLOR_BLUE);
 	EngineSetColorPair(1, COLOR_BLACK, COLOR_CYAN);
+	EngineSetColorPair(2, COLOR_BLACK, COLOR_GREEN);
 }
 
 // Update the Level1 game state.
@@ -117,8 +118,15 @@ void Level1Update(float dt)
 	EngineDrawText("Outside Front Gate", COLOR_GREEN, levelCenter.x - 9.0f, levelCenter.y - 12.0f);
 
 	// Draw objective
-	EngineDrawTextColorPair("Objective:", 0, levelCenter.x + 25.0f, levelCenter.y - 9.0f);
-	EngineDrawText("Break into house", COLOR_WHITE, levelCenter.x + 25.0f, levelCenter.y - 8.0f);
+	EngineDrawTextColorPair("Objective:", 0, levelCenter.x + 26.0f, levelCenter.y - 9.0f);
+	EngineDrawText("Break into house", COLOR_WHITE, levelCenter.x + 26.0f, levelCenter.y - 8.0f);
+
+	// Display inventory
+	// Draw inventory title
+	EngineDrawTextColorPair("Inventory:", 2, levelCenter.x + 26.0f, levelCenter.y - 5.0f);
+
+	// Call player function to print inventory with given print locations
+	PlayerPrintInventory(COLOR_WHITE, levelCenter.x + 26.0f, levelCenter.y - 4.0f);
 }
 
 // Free any memory associated with the Level1 game state.

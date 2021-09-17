@@ -24,6 +24,16 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
+// Definitions:
+//------------------------------------------------------------------------------
+
+// Players Inventory Space
+#define INVENTORY_SPACE 10
+
+// Max Name Size for Player Inventory Items
+#define INVENTORY_NAME_SIZE 20
+
+//------------------------------------------------------------------------------
 // Private Consts:
 //------------------------------------------------------------------------------
 
@@ -37,6 +47,9 @@ static const float playerSpeed = 7.0f;
 // Current position of player object (used by enemies to find player).
 static Vector2D playerPosition = { 0.0f, 0.0f };
 
+// List of strings represents inventory
+static char inventory[INVENTORY_SPACE][INVENTORY_NAME_SIZE];
+
 //------------------------------------------------------------------------------
 // Public Functions:
 //------------------------------------------------------------------------------
@@ -47,6 +60,19 @@ static Vector2D playerPosition = { 0.0f, 0.0f };
 const Vector2D* PlayerGetPosition(void)
 {
 	return &playerPosition;
+}
+
+// Retrieve the player's current inventory.
+// Returns:
+//   The player's current inventory.
+void PlayerPrintInventory(short color, float xPos, float yPos)
+{	
+	for (int i = 0; i < INVENTORY_SPACE; i++)
+	{
+		if (!strcmp(inventory[i], ""))
+			break;
+		EngineDrawText(inventory[i], color, xPos, yPos + i);
+	}
 }
 
 // Update the player-controlled object.

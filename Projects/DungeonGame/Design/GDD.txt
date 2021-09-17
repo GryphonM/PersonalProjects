@@ -21,7 +21,7 @@ New Behaviours
 //Metroidvania-style movement through levels
 Pick lock
 Unlock door
-Inventory
+//Inventory
 //Objective
 Pick up item
 //Enemy sight/patrols

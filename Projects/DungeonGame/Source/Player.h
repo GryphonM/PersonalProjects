@@ -33,6 +33,12 @@ typedef struct Vector2D Vector2D;
 //   The player's current position.
 const Vector2D* PlayerGetPosition(void);
 
+// Retrieve the player's current inventory.
+// Params:
+//	 xPos = the X Position at which to print the inventory
+//	 yPos = the Y Position at which to print the first bit of inventory
+void PlayerPrintInventory(short color, float xPos, float yPos);
+
 // Update the player-controlled object.
 // Params:
 //   player = The player game object.
