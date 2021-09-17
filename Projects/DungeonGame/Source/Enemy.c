@@ -38,10 +38,20 @@ static const float visionDistance = 5.0f;
 //------------------------------------------------------------------------------
 
 // Keep track of target patrol point
-int nextPatrolPoint = 0;
+static int nextPatrolPoint = 0;
 
-//How far from the target the enemy has to be to have reached it
+// How far from the target the enemy has to be to have reached it
 float closeEnough = 0.1f;
+
+// Keep track of where the enemy is facing
+enum Directions{ up, down, left, right };
+static enum Directions facing = left;
+
+//------------------------------------------------------------------------------
+// Private Functions:
+//------------------------------------------------------------------------------
+
+void SetFacing(const Vector2D* velocity);
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -78,12 +88,12 @@ void EnemyUpdate(GameObject* enemy, float dt)
 		if (position->x >= lowX && position->x <= highX &&
 			position->y >= lowY && position->y <= highY)
 		{
-			if (nextPatrolPoint >= Points->size)
+			if (nextPatrolPoint >= Points->size - 1)
 				nextPatrolPoint = 0;
 			else
 				nextPatrolPoint++;
 
-			//reset next patrol point
+			// Set next patrol point
 			target = Points->points[nextPatrolPoint];
 		}
 
@@ -106,9 +116,26 @@ void EnemyUpdate(GameObject* enemy, float dt)
 		// Calculate distance
 		float distance = Vector2DDistance(positionPlayer, position);
 
-		// Restart level if player is close enough and in front of the enemy
+		// If player is close enough to be seen, check if enemy is facing the player
 		if (distance <= visionDistance)
-			EngineSetLevel(gEngineLevelRestart);
+		{
+			// Determine direction enemy is facing
+			SetFacing(&velocity);
+
+			// Check the direction the enemy is facing with the players position
+			// If player x position is greater than enemy's x position, then it is to the right of it
+			if (facing == right && positionPlayer->x > position->x)
+				EngineSetLevel(gEngineLevelRestart);
+			// If player x position is less than enemy's x position, then it is to the left of it
+			else if (facing == left && positionPlayer->x < position->x)
+				EngineSetLevel(gEngineLevelRestart);
+			// If player y position is greater than enemy's y position, then it is above it
+			else if (facing == up && positionPlayer->y > position->y)
+				EngineSetLevel(gEngineLevelRestart);
+			// If player y position is less than enemy's y position, then it is below it
+			else if (facing == down && positionPlayer->y < position->y)
+				EngineSetLevel(gEngineLevelRestart);
+		}
 
 		/*// Calculate distance
 		float distance = Vector2DDistance(&target, positionEnemy);
@@ -132,4 +159,20 @@ void EnemyUpdate(GameObject* enemy, float dt)
 		// Set velocity
 		GameObjectSetVelocity(enemy, &velocity);
 	}
+}
+
+// Sets the enemies direction based on it's velocity.
+// If velocity is diagonal, will set direction based on x.
+// Params:
+//   velocity = the enemy's current velocity
+void SetFacing(const Vector2D* velocity)
+{
+	if (velocity->x > 0)
+		facing = right;
+	else if (velocity->x < 0)
+		facing = left;
+	else if (velocity->y > 0)
+		facing = down;
+	else if (velocity->y < 0)
+		facing = down;
 }
