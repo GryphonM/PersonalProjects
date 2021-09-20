@@ -13,6 +13,7 @@
 // Include Files:
 //------------------------------------------------------------------------------
 #include "Board.h"
+#include <iostream>
 
 namespace CS170
 {
@@ -35,6 +36,13 @@ namespace CS170
 	Board* BoardCreate()
 	{
 		Board *newBoard = new Board;
+
+		// Allocate Tile State data
+		newBoard->data = new TileState * [boardLength];
+		for (int i = 0; i < (int)boardLength; i++)
+			newBoard->data[i] = new TileState[boardLength];
+
+		return newBoard;
 	}
 
 	// Free memory for the tic-tac-toe board.
@@ -42,7 +50,15 @@ namespace CS170
 	//   theBoard = A reference to the pointer to the board.
 	void BoardFree(Board*& theBoard)
 	{
+		// Loop through the data and free the other arrays
+		for (int i = 0; i < (int)boardLength; i++)
+			delete[] theBoard->data[i];
 
+		// Free the overhead array
+		delete[] theBoard->data;
+
+		// Free the structure
+		delete theBoard;
 	}
 
 	// Display the contents of the board using the standard output stream.
@@ -50,7 +66,8 @@ namespace CS170
 	//   theBoard = A reference to the game board.
 	void BoardDisplay(const Board& board)
 	{
-
+		if (board.data[0][0] == tsEMPTY)
+			std::cout << "UNREFERENCED_PARAMETER";
 	}
 
 	// Place a token on the board at a specific position.
@@ -63,7 +80,11 @@ namespace CS170
 	//   Whether the token was able to be placed.
 	PlaceResult BoardPlaceToken(Board& board, unsigned row, unsigned column, TileState value)
 	{
-
+		PlaceResult result = prREJECTED_OCCUPIED;
+		
+		if (board.data[0][0] == value || row == column)
+			return result;
+		return result;
 	}
 
 	// Reset the board to an empty state.
@@ -71,7 +92,8 @@ namespace CS170
 	//   theBoard = A reference to the game board.
 	void BoardReset(Board& board)
 	{
-
+		if (board.data[0][0] == tsEMPTY)
+			std::cout << "UNREFERENCED_PARAMETER";
 	}
 
 	// Get the current state of the board. (Is the game over?)
@@ -81,6 +103,10 @@ namespace CS170
 	//   The current state of the game - win, tie, or open (still going).
 	BoardState BoardGetState(const Board& board)
 	{
+		BoardState state = bsOPEN;
 
+		if (board.data[0][0] == tsEMPTY)
+			return state;
+		return state;
 	}
 }
