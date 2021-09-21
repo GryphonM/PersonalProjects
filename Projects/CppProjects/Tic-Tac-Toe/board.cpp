@@ -40,8 +40,13 @@ namespace CS170
 
 		// Allocate Tile State data
 		newBoard->data = new TileState * [boardLength];
-		for (int i = 0; i < (int)boardLength; i++)
+		for (unsigned i = 0; i < boardLength; i++)
+		{
 			newBoard->data[i] = new TileState[boardLength];
+			// Set values to empty
+			for (unsigned j = 0; j < boardLength; j++)
+				newBoard->data[i][j] = tsEMPTY;
+		}
 
 		return newBoard;
 	}
@@ -72,8 +77,39 @@ namespace CS170
 	//   theBoard = A reference to the game board.
 	void BoardDisplay(const Board& board)
 	{
-		if (board.data[0][0] == tsEMPTY)
-			std::cout << "UNREFERENCED_PARAMETER";
+		// Loop through the data and print it out
+		for (unsigned i = 0; i < boardLength; i++)
+		{
+			// Print row separator
+			std::cout << "-------------" << std::endl;
+			
+			// Print each column
+			for (unsigned j = 0; j < boardLength; j++)
+			{
+				// Print column separator
+				std::cout << "|";
+
+				// Determine which value to print
+				switch (board.data[i][j])
+				{
+					case tsEMPTY:
+						std::cout << "   ";
+						break;
+					case tsPLAYER_ONE:
+						std::cout << " X ";
+						break;
+					case tsPLAYER_TWO:
+						std::cout << " O ";
+						break;
+				}
+			}
+
+			// Print final column seperator and new line
+			std::cout << "|" << std::endl;
+		}
+
+		// Print final row seperator
+		std::cout << "-------------" << std::endl;
 	}
 
 	// Place a token on the board at a specific position.
@@ -86,11 +122,20 @@ namespace CS170
 	//   Whether the token was able to be placed.
 	PlaceResult BoardPlaceToken(Board& board, unsigned row, unsigned column, TileState value)
 	{
-		PlaceResult result = prREJECTED_OCCUPIED;
-		
-		if (board.data[0][0] == value || row == column)
-			return result;
-		return result;
+		// Determine if place is out of bounds
+		if (row > 2 || column > 2)
+			return prREJECTED_OUTOFBOUNDS;
+		else
+		{
+			// Determine if place is filled, if not fill it, otherwise return error
+			if (board.data[row][column] == tsEMPTY)
+			{
+				board.data[row][column] = value;
+				return prACCEPTED;
+			}
+			else
+				return prREJECTED_OCCUPIED;
+		}
 	}
 
 	// Reset the board to an empty state.
@@ -98,8 +143,12 @@ namespace CS170
 	//   theBoard = A reference to the game board.
 	void BoardReset(Board& board)
 	{
-		if (board.data[0][0] == tsEMPTY)
-			std::cout << "UNREFERENCED_PARAMETER";
+		// Loop through board and set each value to empty
+		for (unsigned i = 0; i < boardLength; i++)
+		{
+			for (unsigned j = 0; j < boardLength; j++)
+				board.data[i][j] = tsEMPTY;
+		}
 	}
 
 	// Get the current state of the board. (Is the game over?)
