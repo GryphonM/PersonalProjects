@@ -28,6 +28,20 @@ namespace CS170
 	};
 
 	//------------------------------------------------------------------------------
+	// Private Functions:
+	//------------------------------------------------------------------------------
+
+	// Converts a tile state to board state.
+	// Only called if a win was confirmed, used to determine which player won
+	// Should not be called with an empty space
+	// Params:
+	//   state = the tilestate to convert to a board state
+	// Return:
+	//   A bsWIN_ONE if the given value is tsPLAYER_ONE
+	//   A bsWIN_TWO if the given value is tsPLAYER_TWO
+	BoardState ConvertToBoardState(TileState state);
+
+	//------------------------------------------------------------------------------
 	// Function Declarations:
 	//------------------------------------------------------------------------------
 
@@ -158,10 +172,39 @@ namespace CS170
 	//   The current state of the game - win, tie, or open (still going).
 	BoardState BoardGetState(const Board& board)
 	{
-		BoardState state = bsOPEN;
+		// Store all possible win conditions (3 down, 3 across, 2 diagonal)
+		bool winConditions[8] = {
+			// 3 down
+			board.data[0][0] == board.data[0][1] == board.data[0][2],
+			board.data[1][0] == board.data[1][1] == board.data[1][2],
+			board.data[2][0] == board.data[2][1] == board.data[2][2],
+			// 3 across
+			board.data[0][0] == board.data[1][0] == board.data[2][0],
+			board.data[0][1] == board.data[1][1] == board.data[2][1],
+			board.data[0][2] == board.data[1][2] == board.data[2][2],
+			// 2 diagonal
+			board.data[0][0] == board.data[1][1] == board.data[2][2],
+			board.data[0][2] == board.data[1][1] == board.data[2][0]
+		};
+	}
 
-		if (board.data[0][0] == tsEMPTY)
-			return state;
-		return state;
+	//------------------------------------------------------------------------------
+	// Private Function Declarations:
+	//------------------------------------------------------------------------------
+
+	// Converts a tile state to board state.
+	// Only called if a win was confirmed, used to determine which player won
+	// Should not be called with an empty space
+	// Params:
+	//   state = the tilestate to convert to a board state
+	// Return:
+	//   A bsWIN_ONE if the given value is tsPLAYER_ONE
+	//   A bsWIN_TWO if the given value is tsPLAYER_TWO
+	BoardState ConvertToBoardState(TileState state)
+	{
+		if (state == tsPLAYER_ONE)
+			return bsWIN_ONE;
+		else if (state == tsPLAYER_TWO)
+			return bsWIN_TWO;
 	}
 }
