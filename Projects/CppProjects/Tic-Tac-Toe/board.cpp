@@ -172,20 +172,67 @@ namespace CS170
 	//   The current state of the game - win, tie, or open (still going).
 	BoardState BoardGetState(const Board& board)
 	{
+		const int totalWinConditions = 8;
 		// Store all possible win conditions (3 down, 3 across, 2 diagonal)
-		bool winConditions[8] = {
+		// Does not store a win if the values are empty
+		bool winConditions[totalWinConditions] = {
 			// 3 down
-			board.data[0][0] == board.data[0][1] == board.data[0][2],
-			board.data[1][0] == board.data[1][1] == board.data[1][2],
-			board.data[2][0] == board.data[2][1] == board.data[2][2],
+			(board.data[0][0] == board.data[0][1] == board.data[0][2]) && board.data[0][0] != tsEMPTY,
+			(board.data[1][0] == board.data[1][1] == board.data[1][2]) && board.data[1][0] != tsEMPTY,
+			(board.data[2][0] == board.data[2][1] == board.data[2][2]) && board.data[2][0] != tsEMPTY,
 			// 3 across
-			board.data[0][0] == board.data[1][0] == board.data[2][0],
-			board.data[0][1] == board.data[1][1] == board.data[2][1],
-			board.data[0][2] == board.data[1][2] == board.data[2][2],
+			(board.data[0][0] == board.data[1][0] == board.data[2][0]) && board.data[0][0] != tsEMPTY,
+			(board.data[0][1] == board.data[1][1] == board.data[2][1]) && board.data[0][1] != tsEMPTY,
+			(board.data[0][2] == board.data[1][2] == board.data[2][2]) && board.data[0][2] != tsEMPTY,
 			// 2 diagonal
-			board.data[0][0] == board.data[1][1] == board.data[2][2],
-			board.data[0][2] == board.data[1][1] == board.data[2][0]
+			(board.data[0][0] == board.data[1][1] == board.data[2][2]) && board.data[0][0] != tsEMPTY,
+			(board.data[0][2] == board.data[1][1] == board.data[2][0]) && board.data[0][2] != tsEMPTY
 		};
+
+		// Loop through winConditions to find a win
+		for (int i = 0; i < totalWinConditions; i++)
+		{
+			if (winConditions[i])
+			{
+				// Convert to a board state if there is a win
+				// Cases do not go up in order so similar calls to ConvertToBoardState can be grouped
+				switch (i)
+				{
+					case 0:
+					case 3:
+					case 6:
+						return ConvertToBoardState(board.data[0][0]);
+						break;
+					case 1:
+						return ConvertToBoardState(board.data[1][0]);
+						break;
+					case 2:
+						return ConvertToBoardState(board.data[2][0]);
+						break;
+					case 4:
+						return ConvertToBoardState(board.data[0][1]);
+						break;
+					case 5:
+					case 7:
+						return ConvertToBoardState(board.data[0][2]);
+						break;
+				}
+			}
+		}
+
+		// If we reach this point, there are no win conditions
+		// Therefore we need to check if there are empty spaces
+		for (unsigned i = 0; i < boardLength; i++)
+		{
+			for (unsigned j = 0; j < boardLength; j++)
+			{
+				if (board.data[i][j] == tsEMPTY)
+					return bsOPEN;
+			}
+		}
+
+		// If we reach this point, then the board is full and it is a tie
+		return bsTIE;
 	}
 
 	//------------------------------------------------------------------------------
