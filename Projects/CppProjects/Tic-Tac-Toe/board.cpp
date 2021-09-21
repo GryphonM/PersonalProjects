@@ -14,6 +14,7 @@
 //------------------------------------------------------------------------------
 #include "Board.h"
 #include <iostream>
+#include <cstdlib>
 
 namespace CS170
 {
@@ -51,14 +52,19 @@ namespace CS170
 	void BoardFree(Board*& theBoard)
 	{
 		// Loop through the data and free the other arrays
-		for (int i = 0; i < (int)boardLength; i++)
+		for (unsigned i = 0; i < boardLength; i++)
+		{
 			delete[] theBoard->data[i];
+			theBoard->data[i] = NULL;
+		}
 
 		// Free the overhead array
 		delete[] theBoard->data;
+		theBoard->data = NULL;
 
 		// Free the structure
 		delete theBoard;
+		theBoard = NULL;
 	}
 
 	// Display the contents of the board using the standard output stream.
