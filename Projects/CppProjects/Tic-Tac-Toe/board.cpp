@@ -64,7 +64,7 @@ namespace CS170
 		for (unsigned i = 0; i < boardLength; i++)
 		{
 			newBoard->data[i] = new TileState[boardLength];
-			// Set values to empty
+			// Initialize values
 			for (unsigned j = 0; j < boardLength; j++)
 				newBoard->data[i][j] = tsEMPTY;
 		}
@@ -77,7 +77,7 @@ namespace CS170
 	//   theBoard = A reference to the pointer to the board.
 	void BoardFree(Board*& theBoard)
 	{
-		// Loop through the data and free the other arrays
+		// Loop through the data and free the internal arrays
 		for (unsigned i = 0; i < boardLength; i++)
 		{
 			delete[] theBoard->data[i];
@@ -164,7 +164,6 @@ namespace CS170
 	//   theBoard = A reference to the game board.
 	void BoardReset(Board& board)
 	{
-		// Loop through board and set each value to empty
 		for (unsigned i = 0; i < boardLength; i++)
 		{
 			for (unsigned j = 0; j < boardLength; j++)
