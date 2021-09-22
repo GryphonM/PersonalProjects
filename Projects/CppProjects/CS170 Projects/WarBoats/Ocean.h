@@ -8,7 +8,7 @@ namespace CS175
         // The attributes of the ocean
         struct Ocean
         {
-            int *grid;        // The 2D ocean 
+            int **grid;        // The 2D ocean 
             Boat *boats;      // The dynamic array of boats
             int num_boats;    // Number of boats in the ocean
             int x_quadrants;  // Ocean size along x-axis

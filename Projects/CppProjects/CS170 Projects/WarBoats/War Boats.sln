@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "War Boats", "War Boats.vcxproj", "{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Debug|x64.ActiveCfg = Debug|x64
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Debug|x64.Build.0 = Debug|x64
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Debug|x86.ActiveCfg = Debug|Win32
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Debug|x86.Build.0 = Debug|Win32
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Release|x64.ActiveCfg = Release|x64
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Release|x64.Build.0 = Release|x64
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Release|x86.ActiveCfg = Release|Win32
+		{B64D85AC-94F0-4C6A-93E9-7EB825635EBC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B1E5408E-1C65-4839-88AC-B827DA1503E6}
+	EndGlobalSection
+EndGlobal
