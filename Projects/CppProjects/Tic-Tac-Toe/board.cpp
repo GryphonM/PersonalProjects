@@ -181,6 +181,9 @@ namespace CS170
 			(board.data[1][0] == board.data[1][1] == board.data[1][2]) && board.data[1][0] != tsEMPTY,
 			(board.data[2][0] == board.data[2][1] == board.data[2][2]) && board.data[2][0] != tsEMPTY,
 			// 3 across
+			// Breaking when first value is tsPLAYER_ONE and rest are tsEMPTY
+			// because enum's act as numbers, it's saying 1 == 0 == 0, which can
+			// translate to true == false == false, which for some reason is true.
 			(board.data[0][0] == board.data[1][0] == board.data[2][0]) && board.data[0][0] != tsEMPTY,
 			(board.data[0][1] == board.data[1][1] == board.data[2][1]) && board.data[0][1] != tsEMPTY,
 			(board.data[0][2] == board.data[1][2] == board.data[2][2]) && board.data[0][2] != tsEMPTY,
