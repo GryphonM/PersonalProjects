@@ -51,13 +51,13 @@ int main(int argc, char *argv[])
 
 	// Create array of tests
 	TestFunction tests[] = {
-		//TestCreateFree, // Test 1
-		//TestDisplay,    // Test 2
-		//TestPlaceToken, // Test 3
-		//TestClear,      // Test 4
+		TestCreateFree, // Test 1
+		TestDisplay,    // Test 2
+		TestPlaceToken, // Test 3
+		TestClear,      // Test 4
 		TestGetState,   // Test 5
-		//TestRandom,     // Test 6
-		//TestStress,     // Test 7
+		TestRandom,     // Test 6
+		TestStress,     // Test 7
 	};
 
 	// Seed random number generator - same result every time

@@ -42,6 +42,13 @@ namespace CS170
 	BoardState ConvertToBoardState(TileState state);
 
 	//------------------------------------------------------------------------------
+	// Private Consts:
+	//------------------------------------------------------------------------------
+
+	// Keep track of how many possible win conditions there are
+	const int totalWinConditions = 8;
+
+	//------------------------------------------------------------------------------
 	// Function Declarations:
 	//------------------------------------------------------------------------------
 
@@ -172,24 +179,20 @@ namespace CS170
 	//   The current state of the game - win, tie, or open (still going).
 	BoardState BoardGetState(const Board& board)
 	{
-		const int totalWinConditions = 8;
 		// Store all possible win conditions (3 down, 3 across, 2 diagonal)
 		// Does not store a win if the values are empty
 		bool winConditions[totalWinConditions] = {
 			// 3 down
-			(board.data[0][0] == board.data[0][1] == board.data[0][2]) && board.data[0][0] != tsEMPTY,
-			(board.data[1][0] == board.data[1][1] == board.data[1][2]) && board.data[1][0] != tsEMPTY,
-			(board.data[2][0] == board.data[2][1] == board.data[2][2]) && board.data[2][0] != tsEMPTY,
+			((board.data[0][0] == board.data[0][1]) && (board.data[0][1] == board.data[0][2])) && board.data[0][0] != tsEMPTY,
+			((board.data[1][0] == board.data[1][1]) && (board.data[1][1] == board.data[1][2])) && board.data[1][0] != tsEMPTY,
+			((board.data[2][0] == board.data[2][1]) && (board.data[2][1] == board.data[2][2])) && board.data[2][0] != tsEMPTY,
 			// 3 across
-			// Breaking when first value is tsPLAYER_ONE and rest are tsEMPTY
-			// because enum's act as numbers, it's saying 1 == 0 == 0, which can
-			// translate to true == false == false, which for some reason is true.
-			(board.data[0][0] == board.data[1][0] == board.data[2][0]) && board.data[0][0] != tsEMPTY,
-			(board.data[0][1] == board.data[1][1] == board.data[2][1]) && board.data[0][1] != tsEMPTY,
-			(board.data[0][2] == board.data[1][2] == board.data[2][2]) && board.data[0][2] != tsEMPTY,
+			((board.data[0][0] == board.data[1][0]) && (board.data[1][0] == board.data[2][0])) && board.data[0][0] != tsEMPTY,
+			((board.data[0][1] == board.data[1][1]) && (board.data[1][1] == board.data[2][1])) && board.data[0][1] != tsEMPTY,
+			((board.data[0][2] == board.data[1][2]) && (board.data[1][2] == board.data[2][2])) && board.data[0][2] != tsEMPTY,
 			// 2 diagonal
-			(board.data[0][0] == board.data[1][1] == board.data[2][2]) && board.data[0][0] != tsEMPTY,
-			(board.data[0][2] == board.data[1][1] == board.data[2][0]) && board.data[0][2] != tsEMPTY
+			((board.data[0][0] == board.data[1][1]) && (board.data[1][1] == board.data[2][2])) && board.data[0][0] != tsEMPTY,
+			((board.data[0][2] == board.data[1][1]) && (board.data[1][1] == board.data[2][0])) && board.data[0][2] != tsEMPTY
 		};
 
 		// Loop through winConditions to find a win
@@ -256,5 +259,9 @@ namespace CS170
 			return bsWIN_ONE;
 		else if (state == tsPLAYER_TWO)
 			return bsWIN_TWO;
+		// Only other situation is empty, in which case the board is still open
+		// However, empty shouldn't be passed into array
+		else
+			return bsOPEN;
 	}
 }
