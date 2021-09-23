@@ -91,8 +91,9 @@ namespace CS175
         //   a code that determines the succes of the placement
         BoatPlacement PlaceBoat(Ocean& ocean, const Boat& boat)
         {
-            // Check to make sure it isn't out of bounds
-            if (boat.position.x > ocean.x_quadrants || boat.position.y > ocean.y_quadrants)
+            // Check to make sure it isn't out of bounds and won't reach out of bounds
+            if (boat.position.x > ocean.x_quadrants || boat.position.y > ocean.y_quadrants ||
+                boat.position.x + BOAT_LENGTH > ocean.x_quadrants || boat.position.y + BOAT_LENGTH > ocean.y_quadrants)
                 return bpREJECTED;
 
             // Check if position is occupied, if so, reject placement
