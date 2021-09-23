@@ -79,8 +79,41 @@ namespace CS175
         ShotResult TakeShot(Ocean& ocean, const Point& coordinate)
         {
             // Make sure coordinates are not outside of the ocean
-            if (coordinate.x > ocean.x_quadrants || coordinate.y > ocean.y_quadrants)
+            if (coordinate.x > ocean.x_quadrants || coordinate.y > ocean.y_quadrants ||
+                coordinate.x < 0 || coordinate.y < 0)
                 return srILLEGAL;
+
+            // Store value of shot
+            int shotValue = ocean.grid[coordinate.x][coordinate.y];
+
+            // Determine what the shot hit
+            if (shotValue < 0 || shotValue > 100)
+            {
+                ocean.stats.duplicates++;
+                return srDUPLICATE;
+            }
+            else if (shotValue == 0)
+            {
+                ocean.grid[coordinate.x][coordinate.y]--;
+                ocean.stats.misses++;
+                return srMISS;
+            }
+            // If the value is anything else, it was hit
+            else
+            {
+                ocean.boats[shotValue - 1].hits++;
+                ocean.grid[coordinate.x][coordinate.y] += HIT_OFFSET;
+                ocean.stats.hits++;
+                
+                // Check if the boat has been hit enough to be sunk
+                if (ocean.boats[shotValue - 1].hits == BOAT_LENGTH)
+                {
+                    ocean.stats.sunk++;
+                    return srSUNK;
+                }
+                else
+                    return srHIT;
+            }
         }
 
         // Manages placing a boat
@@ -92,7 +125,8 @@ namespace CS175
         BoatPlacement PlaceBoat(Ocean& ocean, const Boat& boat)
         {
             // Check to make sure the starting point and ending point isn't out of bounds
-            if (boat.position.x > ocean.x_quadrants || boat.position.y > ocean.y_quadrants)
+            if (boat.position.x > ocean.x_quadrants || boat.position.y > ocean.y_quadrants ||
+                boat.position.x < 0  || boat.position.y < 0)
                 return bpREJECTED;
             else if (boat.orientation == oHORIZONTAL && boat.position.x + BOAT_LENGTH > ocean.x_quadrants)
                 return bpREJECTED;
@@ -125,6 +159,8 @@ namespace CS175
                     ocean.grid[boat.position.x][boat.position.y + i] = boat.ID;
             }
 
+            // Initialize boat's hits
+            ocean.boats[boat.ID - 1].hits = 0;
             return bpACCEPTED;
         }
 
