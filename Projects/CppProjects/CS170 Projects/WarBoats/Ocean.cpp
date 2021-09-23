@@ -78,9 +78,9 @@ namespace CS175
         //   a code that determines the succes of the shot
         ShotResult TakeShot(Ocean& ocean, const Point& coordinate)
         {
-            if (coordinate.x != ocean.boats[0].position.x)
+            // Make sure coordinates are not outside of the ocean
+            if (coordinate.x > ocean.x_quadrants || coordinate.y > ocean.y_quadrants)
                 return srILLEGAL;
-            return srILLEGAL;
         }
 
         // Manages placing a boat
@@ -91,9 +91,12 @@ namespace CS175
         //   a code that determines the succes of the placement
         BoatPlacement PlaceBoat(Ocean& ocean, const Boat& boat)
         {
-            // Check to make sure it isn't out of bounds and won't reach out of bounds
-            if (boat.position.x > ocean.x_quadrants || boat.position.y > ocean.y_quadrants ||
-                boat.position.x + BOAT_LENGTH > ocean.x_quadrants || boat.position.y + BOAT_LENGTH > ocean.y_quadrants)
+            // Check to make sure the starting point and ending point isn't out of bounds
+            if (boat.position.x > ocean.x_quadrants || boat.position.y > ocean.y_quadrants)
+                return bpREJECTED;
+            else if (boat.orientation == oHORIZONTAL && boat.position.x + BOAT_LENGTH > ocean.x_quadrants)
+                return bpREJECTED;
+            else if (boat.orientation == oVERTICAL && boat.position.y + BOAT_LENGTH > ocean.y_quadrants)
                 return bpREJECTED;
 
             // Check if position is occupied, if so, reject placement
@@ -112,7 +115,7 @@ namespace CS175
             }
 
             // If we've gotten here, then the place is available to place the boat
-            ocean.boats[boat.ID] = boat;
+            ocean.boats[boat.ID - 1] = boat;
             // Place boat
             for (int i = 0; i < BOAT_LENGTH; i++)
             {
