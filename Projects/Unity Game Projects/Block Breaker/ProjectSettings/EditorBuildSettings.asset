@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Block Breaker.unity
+    path: Assets/Scenes/Start Screen.unity
+    guid: 6a556f33d2eafb04fa293835850090bf
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 3806fdd09edea0a4d9b16d316b0e715b
+  - enabled: 1
+    path: Assets/Scenes/End Screen.unity
+    guid: 85748caa857502e4990a60a8b9a8c3a5
   m_configObjects: {}
