@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TimeKeeper : MonoBehaviour
 {
-    float time = 60;
+    [SerializeField] float time = 60;
     
     // Start is called before the first frame update
     void Start()
