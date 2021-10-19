@@ -129,5 +129,5 @@ MonoBehaviour:
   rightMoveLimit: 4.7
   increasedDamage: 2
   speedTimer: 5
-  sizeTimer: 10
-  damageTimer: 5
+  sizeTimer: 7
+  damageTimer: 10

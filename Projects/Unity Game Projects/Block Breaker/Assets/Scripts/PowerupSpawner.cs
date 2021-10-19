@@ -11,8 +11,11 @@ public class PowerupSpawner : MonoBehaviour
     [SerializeField] float maxTimerLength;
     float powerupTimer;
 
-    [SerializeField] GameObject Powerup;
+    [SerializeField] GameObject PowerupObject;
     Powerup powerupController;
+
+    [Tooltip("The color of the powerup.\n0 Index = Speed\n1 Index = Size\n2 Index = Damge")]
+    [SerializeField] Color[] powerupColors;
     
     // Start is called before the first frame update
     void Start()
@@ -23,12 +26,15 @@ public class PowerupSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (powerupTimer <= 0)
+        if (powerupTimer <= 0 && FindObjectOfType<Ball>() != null)
         {
-            GameObject currentPowerup = Instantiate(Powerup);
+            GameObject currentPowerup = Instantiate(PowerupObject);
             powerupController = currentPowerup.GetComponent<Powerup>();
-            int powerupIndex = Random.Range(0, 2);
+
+            int powerupIndex = Random.Range(0, 3);
             powerupController.powerupType = (Powerup.powerUpTypes)powerupIndex;
+            currentPowerup.GetComponent<SpriteRenderer>().color = powerupColors[powerupIndex];
+
             float xSpawn = Random.Range(lowerLeftSpawnArea.x, upperRightSpawnArea.x);
             float ySpawn = Random.Range(lowerLeftSpawnArea.y, upperRightSpawnArea.y);
             currentPowerup.transform.position = new Vector2(xSpawn, ySpawn);

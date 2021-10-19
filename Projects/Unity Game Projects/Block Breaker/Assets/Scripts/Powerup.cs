@@ -21,10 +21,14 @@ public class Powerup : MonoBehaviour
     private Paddle gamePaddle;
     private Ball gameBall;
 
+    LevelController lc;
+
     private void Start()
     {
-        gamePaddle = FindObjectOfType<Paddle>();
-        gameBall = FindObjectOfType<Ball>();
+        if (powerupType != powerUpTypes.damageIncrease)
+            gamePaddle = FindObjectOfType<Paddle>();
+
+        lc = FindObjectOfType<LevelController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,6 +38,8 @@ public class Powerup : MonoBehaviour
             float ogSpeed = gamePaddle.speed;
             gamePaddle.speed = increasedSpeed;
 
+            lc.updatePowerupText(GetComponent<SpriteRenderer>().color, (int)powerupType);
+
             gamePaddle.SpeedPowerup(speedTimer, ogSpeed);
         }
         else if (powerupType == powerUpTypes.sizeIncrease)
@@ -41,16 +47,23 @@ public class Powerup : MonoBehaviour
             float ogSize = gamePaddle.transform.localScale.x;
             float ogLowLimit = gamePaddle.leftLimit;
             float ogUpLimit = gamePaddle.rightLimit;
+
             gamePaddle.transform.localScale = new Vector3(increasedSize, gamePaddle.transform.localScale.y, gamePaddle.transform.localScale.z);
             gamePaddle.leftLimit = leftMoveLimit;
             gamePaddle.rightLimit = rightMoveLimit;
+
+            lc.updatePowerupText(GetComponent<SpriteRenderer>().color, (int)powerupType);
 
             gamePaddle.SizePowerup(sizeTimer, ogSize, ogLowLimit, ogUpLimit);
         }
         else if (powerupType == powerUpTypes.damageIncrease)
         {
+            gameBall = FindObjectOfType<Ball>();
+            
             int ogDamage = gameBall.damage;
             gameBall.damage = increasedDamage;
+
+            lc.updatePowerupText(GetComponent<SpriteRenderer>().color, (int)powerupType);
 
             gameBall.DamagePowerup(damageTimer, ogDamage);
         }

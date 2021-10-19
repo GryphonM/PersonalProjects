@@ -7,11 +7,14 @@ public class Paddle : MonoBehaviour
     public float speed;
     public float leftLimit = -5.5f;
     public float rightLimit = 5.5f;
+
+    LevelController lc;
     
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector2(0f, -4.5f);
+        lc = FindObjectOfType<LevelController>();
     }
 
     // Update is called once per frame
@@ -39,6 +42,7 @@ public class Paddle : MonoBehaviour
     {
         yield return new WaitForSeconds(length);
         speed = originalSpeed;
+        lc.updatePowerupText(Color.white);
     }
 
     IEnumerator Size(float length, float originalSize, float originalLowerLimit, float originalUpperLimit)
@@ -47,5 +51,6 @@ public class Paddle : MonoBehaviour
         transform.localScale = new Vector3(originalSize, transform.localScale.y, transform.localScale.z);
         leftLimit = originalLowerLimit;
         rightLimit = originalUpperLimit;
+        lc.updatePowerupText(Color.white);
     }
 }

@@ -5,10 +5,15 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public int damage = 1;
+
+    LevelController lc;
+
+    bool extraDamage;
     
     // Start is called before the first frame update
     void Start()
     {
+        lc = FindObjectOfType<LevelController>();
         StartCoroutine(DelayStart());
     }
 
@@ -18,6 +23,9 @@ public class Ball : MonoBehaviour
         {
             if (transform.position.y > FindObjectOfType<Paddle>().transform.position.y)
             {
+                if (extraDamage)
+                    lc.updatePowerupText(Color.white);
+
                 FindObjectOfType<LevelController>().RespawnPlayer();
                 Destroy(gameObject);
             }
@@ -26,10 +34,11 @@ public class Ball : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        LevelController lc = FindObjectOfType<LevelController>();
-
         if (collision.CompareTag("Out Of Bounds"))
         {
+            if (extraDamage)
+                lc.updatePowerupText(Color.white);
+
             lc.RespawnPlayer();
             Destroy(gameObject);
         }
@@ -39,6 +48,9 @@ public class Ball : MonoBehaviour
         }
         else
         {
+            if (extraDamage)
+                lc.updatePowerupText(Color.white);
+
             lc.DecreaseLives();
             Destroy(gameObject);
         }
@@ -52,6 +64,7 @@ public class Ball : MonoBehaviour
 
     public void DamagePowerup(float length, int originalDamage)
     {
+        extraDamage = true;
         StartCoroutine(Damage(length, originalDamage));
     }
     
@@ -59,5 +72,7 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForSeconds(length);
         damage = originalDamage;
+        extraDamage = false;
+        lc.updatePowerupText(Color.white);
     }
 }

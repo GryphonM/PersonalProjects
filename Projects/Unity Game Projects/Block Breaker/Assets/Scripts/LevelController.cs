@@ -10,7 +10,9 @@ public class LevelController : MonoBehaviour
     [SerializeField] int lives = 3;
     [SerializeField] Text scoreText;
     [SerializeField] Text livesText;
+    [SerializeField] Text powerupText;
     [SerializeField] GameObject ballPrefab;
+    Color defaultTextColor = Color.white;
     
     // Start is called before the first frame update
     void Start()
@@ -54,5 +56,26 @@ public class LevelController : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
+    }
+
+    public void updatePowerupText(Color color, int state = -1)
+    {
+        switch(state)
+        {
+            case 0:
+                powerupText.text = "Speed";
+                break;
+            case 1:
+                powerupText.text = "Size";
+                break;
+            case 2:
+                powerupText.text = "Damage";
+                break;
+            default:
+                powerupText.text = "None";
+                break;
+        }
+
+        powerupText.color = color;
     }
 }
