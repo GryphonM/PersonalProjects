@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public int damage = 1;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +16,11 @@ public class Ball : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(5f, 5f);
+            if (transform.position.y > FindObjectOfType<Paddle>().transform.position.y)
+            {
+                FindObjectOfType<LevelController>().RespawnPlayer();
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -27,6 +33,10 @@ public class Ball : MonoBehaviour
             lc.RespawnPlayer();
             Destroy(gameObject);
         }
+        else if (collision.CompareTag("Powerup"))
+        {
+            // Do Nothing, Just Catch This Case So Player Doesn't Die
+        }
         else
         {
             lc.DecreaseLives();
@@ -38,5 +48,16 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         GetComponent<Rigidbody2D>().AddForce(new Vector2(250f, 250f));
+    }
+
+    public void DamagePowerup(float length, int originalDamage)
+    {
+        StartCoroutine(Damage(length, originalDamage));
+    }
+    
+    IEnumerator Damage(float length, int originalDamage)
+    {
+        yield return new WaitForSeconds(length);
+        damage = originalDamage;
     }
 }

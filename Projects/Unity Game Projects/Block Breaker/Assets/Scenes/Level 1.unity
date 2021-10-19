@@ -1291,6 +1291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88e8ae31c1151e4c8d59f4a57973499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  leftLimit: -5.3
+  rightLimit: 5.3
 --- !u!50 &432980803
 Rigidbody2D:
   serializedVersion: 4
@@ -2712,6 +2715,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &981369628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 981369629}
+  - component: {fileID: 981369630}
+  m_Layer: 0
+  m_Name: PowerupSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &981369629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981369628}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &981369630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981369628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11dcac7acdc011542bd5c7accb83244a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowerLeftSpawnArea: {x: -5, y: -3}
+  upperRightSpawnArea: {x: 5, y: 1}
+  minTimerLength: 0
+  maxTimerLength: 1
+  Powerup: {fileID: 8379492852363547583, guid: 099ec5187c498bb4f9d4b158aa191071, type: 3}
 --- !u!4 &996400353 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5651025375403258916, guid: 3221b4b4096bc014da82c1306fa6fe08, type: 3}

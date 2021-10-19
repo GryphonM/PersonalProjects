@@ -17,12 +17,12 @@ public class Bricks : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         FindObjectOfType<LevelController>().IncreaseScore();
-        DecreaseHealth();
+        DecreaseHealth(collision.gameObject.GetComponent<Ball>().damage);
     }
 
-    private void DecreaseHealth()
+    private void DecreaseHealth(int damage)
     {
-        health--;
+        health -= damage;
         if (health <= 0)
         {
             FindObjectOfType<LevelLoader>().DeductBrick();

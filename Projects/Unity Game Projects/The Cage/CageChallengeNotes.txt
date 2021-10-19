@@ -1,0 +1,5 @@
+I did both the Pinball challenge and the Red/Blue Challenge.
+
+The Red/Blue Challenge is shown upon the start of the program as two balls are set to directly fall into their respective boxes.
+
+The Pinball challenges is shown with the other two balls in the scene which will be given random velocities. The paddles can be controlled with the left and right shift keys, respectively. If you have trouble with this, the keycode variable that chooses the key to be pressed for the paddles has a serialize field tag, so you can change it in the editor if you wish.

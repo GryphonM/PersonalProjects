@@ -1,0 +1,5 @@
+I did the powerups challenge, as well as some additional quality of life/anti-cheat improvements to the game.
+
+Instead of escaping soft locks by changing the ball's velocity (which could make "cheesing" the game possible as one could just press space before the ball hits the zapper), the user can press space to respawn the ball without wasting a life. However, the user can only do this if the ball is above the paddle, which means they cannot prevent themselves from losing a life last minute.
+
+The Powerups include the following: Extra Paddle, Faster Paddle, Bigger Paddle, More Block Damage.
