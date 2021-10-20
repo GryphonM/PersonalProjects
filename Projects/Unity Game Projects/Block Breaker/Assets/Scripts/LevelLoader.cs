@@ -1,3 +1,14 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	LevelLoader.cs
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	GAM 5.1.2 Assignment - Cage and Breaker Challenges
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +24,14 @@ public class LevelLoader : MonoBehaviour
         CountAllBricks();
     }
 
+    // Updates class level variable to determine how many bricks there are
     private void CountAllBricks()
     {
         Bricks[] allBricksInLevel = FindObjectsOfType<Bricks>();
         brickCount = allBricksInLevel.Length;
     }
 
+    // Removes a brick from the count, letting us know when we've broken all of them
     public void DeductBrick()
     {
         brickCount--;
@@ -27,6 +40,7 @@ public class LevelLoader : MonoBehaviour
             LoadNextLevel();
     }
 
+    // Loads the next level in the build index
     private void LoadNextLevel()
     {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;

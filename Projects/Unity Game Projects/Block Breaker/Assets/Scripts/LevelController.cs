@@ -1,3 +1,14 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	LevelController.cs
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	GAM 5.1.2 Assignment - Cage and Breaker Challenges
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +17,19 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
+    // Score Variables
     int score = 0;
-    [SerializeField] int lives = 3;
     [SerializeField] Text scoreText;
+
+    // Lives Variables
+    [SerializeField] int lives = 3;
     [SerializeField] Text livesText;
+
+    // Powerup Variables
     [SerializeField] Text powerupText;
-    [SerializeField] GameObject ballPrefab;
     Color defaultTextColor = Color.white;
+
+    [SerializeField] GameObject ballPrefab;
     
     // Start is called before the first frame update
     void Start()
@@ -31,6 +48,7 @@ public class LevelController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // Manages the player losing a life (i.e. they drop the ball)
     public void DecreaseLives()
     {
         lives--;
@@ -46,18 +64,22 @@ public class LevelController : MonoBehaviour
         }
     }
 
+    // Replaces the player at the starting position
     public void RespawnPlayer()
     {
         Vector3 respawnPos = new Vector3(0, -2, 0);
         Instantiate(ballPrefab, respawnPos, Quaternion.identity);
     }
 
+    // Increases the score variable and updates the text
     public void IncreaseScore()
     {
         score++;
         scoreText.text = score.ToString();
     }
 
+    // Changes teh powerup text to display the current powerup
+    // as well as a color cooresponding to the powerup
     public void updatePowerupText(Color color, int state = -1)
     {
         switch(state)
