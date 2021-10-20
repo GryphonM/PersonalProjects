@@ -2845,7 +2845,7 @@ MonoBehaviour:
   upperRightSpawnArea: {x: 5, y: 1}
   minTimerLength: 15
   maxTimerLength: 20
-  PowerupObject: {fileID: 8379492852363547583, guid: 099ec5187c498bb4f9d4b158aa191071, type: 3}
+  powerupObject: {fileID: 8379492852363547583, guid: 099ec5187c498bb4f9d4b158aa191071, type: 3}
   powerupColors:
   - {r: 0.07609467, g: 0.7880044, b: 0.8490566, a: 1}
   - {r: 0.14491871, g: 0.3773585, b: 0.0729797, a: 1}
@@ -5560,8 +5560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b848cf74ca77b4e4b9c0e5f36b078185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 10
   scoreText: {fileID: 1408340459}
+  lives: 10
   livesText: {fileID: 1945248406}
   powerupText: {fileID: 1183718878}
   ballPrefab: {fileID: 7590958831555569614, guid: 98505407ad533a1449123a4a700d8281, type: 3}
