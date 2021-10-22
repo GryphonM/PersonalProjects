@@ -29,7 +29,14 @@ public class PlayerController : MonoBehaviour
     bool grounded = false;
 
     [SerializeField] GameObject sword;
-    [SerializeField] float attakTime;
+    [Tooltip("Time the Attack is visible")]
+    [SerializeField] float attackTime;
+    float attackTimer;
+    [Tooltip("Time player must wait after attack finishes to attack again")]
+    [SerializeField] float attackSeparation;
+    float attackHold;
+    bool attacking = false;
+    bool canAttack = true;
 
     Rigidbody2D myRB;
     
@@ -38,6 +45,8 @@ public class PlayerController : MonoBehaviour
     {
         myRB = GetComponent<Rigidbody2D>();
         heightIncrease = heightIncreaseTimer;
+        attackTimer = attackTime;
+        attackHold = attackSeparation;
     }
 
     // Update is called once per frame
@@ -79,14 +88,46 @@ public class PlayerController : MonoBehaviour
         }
 
         // Attacking
-        if (Input.GetKeyDown(attack))
+        if (Input.GetKeyDown(attack) && !attacking && canAttack)
         {
             sword.SetActive(true);
+            attacking = true;
+            canAttack = false;
         }
 
-        if (Input.GetKeyUp(attack))
+        if (attacking)
         {
-            sword.SetActive(false);
+            if (attackTimer <= 0)
+            {
+                attacking = false;
+                sword.SetActive(false);
+                attackTimer = attackTime;
+            }
+            else
+                attackTimer -= Time.deltaTime;
+        }
+
+        if (!attacking && !canAttack)
+        {
+            if (attackHold <= 0)
+            {
+                canAttack = true;
+                sword.GetComponent<Sword>().canDamage = true;
+                attackHold = attackSeparation;
+            }
+            else
+                attackHold -= Time.deltaTime;
+        }
+
+        // Flip Sword
+        if (Input.GetKeyDown(moveLeft) && sword.transform.localPosition.x > 0)
+        {
+            sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
+        }
+
+        if (Input.GetKeyDown(moveRight) && sword.transform.localPosition.x < 0)
+        {
+            sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
         }
     }
 
