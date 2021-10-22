@@ -386,7 +386,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -501,8 +501,10 @@ MonoBehaviour:
   jump: 32
   attack: 324
   walkSpeed: 7.5
+  skidSpeed: 2.5
+  closeEnough: 0.1
   jumpSpeed: 5
-  heightIncreaseTimer: 0.5
+  heightIncreaseTimer: 0.3
   sword: {fileID: 1062141520}
   attackTime: 0.25
   attackSeparation: 0.1

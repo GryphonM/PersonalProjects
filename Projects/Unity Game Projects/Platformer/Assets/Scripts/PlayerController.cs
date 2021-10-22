@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] KeyCode attack = KeyCode.Mouse1;
 
     [SerializeField] float walkSpeed = 5;
+    [Tooltip("The speed the player will slow down if both buttons are pressed at the same time")]
+    [SerializeField] float skidSpeed = 2.5f;
+    [Tooltip("How close to 0 the velocity must be to fully stop")]
+    [SerializeField] float closeEnough = 0.1f;
 
     [SerializeField] float jumpSpeed = 5;
     [Tooltip("How long the user can hold the jump button before they stop gaining height")]
@@ -53,29 +57,43 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Movement
-        if (Input.GetKey(moveLeft))
+        if (Input.GetKey(moveRight) && Input.GetKey(moveLeft))
         {
-            Vector3 newPos = new Vector2(walkSpeed * Time.deltaTime, 0);
-            transform.position -= newPos;
+            Vector3 newVel = myRB.velocity;
+            if (myRB.velocity.x <= closeEnough && myRB.velocity.x >= -closeEnough)
+                newVel.x = 0;
+            else if (myRB.velocity.x > 0)
+                newVel.x -= skidSpeed * Time.deltaTime;
+            else if (myRB.velocity.x < 0)
+                newVel.x -= -skidSpeed * Time.deltaTime;
+
+            myRB.velocity = newVel;
         }
-        
-        if (Input.GetKey(moveRight))
+        else if (Input.GetKey(moveLeft))
         {
-            Vector3 newPos = new Vector2(walkSpeed * Time.deltaTime, 0);
-            transform.position += newPos;
+            Vector3 newVel = new Vector2(-walkSpeed, myRB.velocity.y);
+            myRB.velocity = newVel;
         }
+        else if (Input.GetKey(moveRight))
+        {
+            Vector3 newVel = new Vector2(walkSpeed, myRB.velocity.y);
+            myRB.velocity = newVel;
+        }
+
+        // TODO: Forgiveness timer for letting go of both buttons when pressed at same time
+        // TODO: Add slower skid speed for simply letting go of both buttons
 
         // Jumping
         if (Input.GetKey(jump))
         {
             if (grounded)
             {
-                Vector2 jumpVel = new Vector2(0, jumpSpeed);
+                Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
                 myRB.velocity = jumpVel;
             }
             else if (heightIncrease > 0)
             {
-                Vector2 jumpVel = new Vector2(0, jumpSpeed);
+                Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
                 myRB.velocity = jumpVel;
                 heightIncrease -= Time.deltaTime;
             }
