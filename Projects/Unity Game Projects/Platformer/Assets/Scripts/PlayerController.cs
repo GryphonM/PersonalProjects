@@ -48,11 +48,17 @@ public class PlayerController : MonoBehaviour
     bool canAttack = true;
 
     Rigidbody2D myRB;
+    Animator myAnim;
+    SpriteRenderer mySR;
+    bool facingRight = true;
     
     // Start is called before the first frame update
     void Start()
     {
         myRB = GetComponent<Rigidbody2D>();
+        myAnim = GetComponent<Animator>();
+        mySR = GetComponent<SpriteRenderer>();
+
         heightIncrease = heightIncreaseTimer;
         attackTimer = attackTime;
         attackHold = attackSeparation;
@@ -68,16 +74,31 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 newVel = new Vector2(0, myRB.velocity.y);
             myRB.velocity = newVel;
+            myAnim.SetBool("Walking", false);
         }
         else if (Input.GetKey(moveLeft))
         {
             Vector2 newVel = new Vector2(-walkSpeed, myRB.velocity.y);
             myRB.velocity = newVel;
+
+            myAnim.SetBool("Walking", true);
+            if (!facingRight)
+            {
+                facingRight = !facingRight;
+            }
+            mySR.flipX = facingRight;
         }
         else if (Input.GetKey(moveRight))
         {
             Vector2 newVel = new Vector2(walkSpeed, myRB.velocity.y);
             myRB.velocity = newVel;
+
+            myAnim.SetBool("Walking", true);
+            if (facingRight)
+            {
+                facingRight = !facingRight;
+            }
+            mySR.flipX = facingRight;
         }
 
         // Jumping
@@ -158,8 +179,9 @@ public class PlayerController : MonoBehaviour
     public void SetGrounded(bool groundedState)
     {
         grounded = groundedState;
+        myAnim.SetBool("Grounded", grounded);
 
-        if (groundedState)
+        if (grounded)
         {
             heightIncrease = heightIncreaseTimer;
             jumpsLeft = extraJumps;
