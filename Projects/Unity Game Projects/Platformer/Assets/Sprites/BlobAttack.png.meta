@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: a4c32e901274ae140a2e2aba0d17c7d4
+guid: 820b18a6d7ec30741aeefd74121fd0b3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -308937717699191465
-    second: BlobArmWalk_0
+      213: -6810981703508328263
+    second: BlobAttack_0
   - first:
-      213: 8434417944617562069
-    second: BlobArmWalk_1
+      213: 214447587162616059
+    second: BlobAttack_1
   - first:
-      213: 2357981074417950446
-    second: BlobArmWalk_2
+      213: 7987162782666545066
+    second: BlobAttack_2
+  - first:
+      213: -3863951254056398903
+    second: BlobAttack_3
+  - first:
+      213: -1574340121584381389
+    second: BlobAttack_4
+  - first:
+      213: 5325279410576138074
+    second: BlobAttack_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -148,64 +157,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlobArmWalk_0
+      name: BlobAttack_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
+        x: 7
+        y: 64
+        width: 20
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75dd1d658ce66bbf0800000000000000
-      internalID: -308937717699191465
+      spriteID: 9b083be0a388a71a0800000000000000
+      internalID: -6810981703508328263
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlobArmWalk_1
+      name: BlobAttack_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
+        x: 39
+        y: 64
+        width: 20
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5df2c14ee621d0570800000000000000
-      internalID: 8434417944617562069
+      spriteID: bf074cfb1fed9f200800000000000000
+      internalID: 214447587162616059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BlobArmWalk_2
+      name: BlobAttack_2
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
+        y: 32
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa75f08ab3a18de60800000000000000
+      internalID: 7987162782666545066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlobAttack_3
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 32
+        width: 22
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cf0b887ecc706ac0800000000000000
+      internalID: -3863951254056398903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlobAttack_4
+      rect:
+        serializedVersion: 2
+        x: 7
         y: 0
-        width: 32
+        width: 20
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eee96c74b4b39b020800000000000000
-      internalID: 2357981074417950446
+      spriteID: 33251592002d62ae0800000000000000
+      internalID: -1574340121584381389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BlobAttack_5
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 0
+        width: 22
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5f971dc86137e940800000000000000
+      internalID: 5325279410576138074
       vertices: []
       indices: 
       edges: []
