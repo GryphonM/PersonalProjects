@@ -20,16 +20,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] KeyCode jump = KeyCode.Space;
     [SerializeField] KeyCode attack = KeyCode.Mouse1;
 
+    [Space(15)]
+
     [SerializeField] float walkSpeed = 5;
+
+    [Space(15)]
 
     [SerializeField] float jumpSpeed = 5;
     [Tooltip("How long the user can hold the jump button before they stop gaining height")]
     [SerializeField] float heightIncreaseTimer;
+    [SerializeField] int extraJumps;
+    [SerializeField] float doubleJumpSpeed = 10;
+    int jumpsLeft;
     float heightIncrease;
     bool grounded = false;
 
+    [Space(15)]
+
     [SerializeField] GameObject sword;
-    [Tooltip("Time the Attack is visible")]
+    [Tooltip("Time the Attack is active")]
     [SerializeField] float attackTime;
     float attackTimer;
     [Tooltip("Time player must wait after attack finishes to attack again")]
@@ -47,6 +56,7 @@ public class PlayerController : MonoBehaviour
         heightIncrease = heightIncreaseTimer;
         attackTimer = attackTime;
         attackHold = attackSeparation;
+        jumpsLeft = extraJumps;
     }
 
     // Update is called once per frame
@@ -71,25 +81,34 @@ public class PlayerController : MonoBehaviour
         }
 
         // Jumping
-        if (Input.GetKey(jump))
         {
-            if (grounded)
-            {
-                Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
-                myRB.velocity = jumpVel;
-            }
-            else if (heightIncrease > 0)
-            {
-                Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
-                myRB.velocity = jumpVel;
-                heightIncrease -= Time.deltaTime;
-            }
-        }
+            Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
 
-        if (Input.GetKeyUp(jump))
-        {
-            if (heightIncrease > 0)
-                heightIncrease = 0;
+            if (Input.GetKey(jump))
+            {
+                if (grounded)
+                {
+                    myRB.velocity = jumpVel;
+                }
+                else if (heightIncrease > 0)
+                {
+                    myRB.velocity = jumpVel;
+                    heightIncrease -= Time.deltaTime;
+                }
+            }
+
+            if (Input.GetKeyUp(jump))
+            {
+                if (heightIncrease > 0)
+                    heightIncrease = 0;
+            }
+
+            if (Input.GetKeyDown(jump) && !grounded && jumpsLeft > 0)
+            {
+                jumpVel.y = doubleJumpSpeed;
+                myRB.velocity = jumpVel;
+                jumpsLeft--;
+            }
         }
 
         // Attacking
@@ -141,6 +160,9 @@ public class PlayerController : MonoBehaviour
         grounded = groundedState;
 
         if (groundedState)
+        {
             heightIncrease = heightIncreaseTimer;
+            jumpsLeft = extraJumps;
+        }
     }
 }

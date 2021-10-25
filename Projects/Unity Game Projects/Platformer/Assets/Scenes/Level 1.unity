@@ -504,6 +504,8 @@ MonoBehaviour:
   walkSpeed: 7.5
   jumpSpeed: 5
   heightIncreaseTimer: 0.3
+  extraJumps: 1
+  doubleJumpSpeed: 8
   sword: {fileID: 1062141520}
   attackTime: 0.25
   attackSeparation: 0.1
