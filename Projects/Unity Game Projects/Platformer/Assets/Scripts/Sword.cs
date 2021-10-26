@@ -31,5 +31,9 @@ public class Sword : MonoBehaviour
                 myPC.PushBack(pushBack);
             }
         }
+        else if (collision.CompareTag("Wall"))
+        {
+            myPC.PushBack(pushBack);
+        }
     }
 }
