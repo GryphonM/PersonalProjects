@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(attack) && !attacking && canAttack)
         {
             sword.SetActive(true);
+            myAnim.SetBool("Attacking", true);
             attacking = true;
             canAttack = false;
         }
@@ -146,6 +147,7 @@ public class PlayerController : MonoBehaviour
             {
                 attacking = false;
                 sword.SetActive(false);
+                myAnim.SetBool("Attacking", false);
                 attackTimer = attackTime;
             }
             else
