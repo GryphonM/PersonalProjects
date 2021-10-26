@@ -14,7 +14,7 @@ public class FloorCheck : MonoBehaviour
     {
         myPC = transform.parent.gameObject.GetComponent<PlayerController>();
 
-        if (!GetComponent<CapsuleCollider2D>().IsTouchingLayers(-1))
+        if (!GetComponent<CapsuleCollider2D>().IsTouchingLayers())
             myPC.SetGrounded(false);
     }
 
