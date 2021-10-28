@@ -15,13 +15,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] KeyCode moveLeft = KeyCode.A;
-    [SerializeField] KeyCode moveRight = KeyCode.D;
-    [SerializeField] KeyCode jump = KeyCode.Space;
-    [SerializeField] KeyCode attack = KeyCode.Mouse1;
-
-    [Space(15)]
-
     [SerializeField] float walkSpeed = 5;
 
     [Space(15)]
@@ -73,14 +66,14 @@ public class PlayerController : MonoBehaviour
         {
             if (!pushedBack)
             {
-                if ((Input.GetKey(moveRight) && Input.GetKey(moveLeft)) ||
-                    (Input.GetKeyUp(moveRight) || Input.GetKeyUp(moveLeft)))
+                if ((Input.GetKey(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)) ||
+                    (Input.GetKeyUp(GameManager.Controls.MoveRight) || Input.GetKeyUp(GameManager.Controls.MoveLeft)))
                 {
                     Vector2 newVel = new Vector2(0, myRB.velocity.y);
                     myRB.velocity = newVel;
                     myAnim.SetBool("Walking", false);
                 }
-                else if (Input.GetKey(moveLeft))
+                else if (Input.GetKey(GameManager.Controls.MoveLeft))
                 {
                     Vector2 newVel = new Vector2(-walkSpeed, myRB.velocity.y);
                     myRB.velocity = newVel;
@@ -92,7 +85,7 @@ public class PlayerController : MonoBehaviour
                     }
                     mySR.flipX = facingRight;
                 }
-                else if (Input.GetKey(moveRight))
+                else if (Input.GetKey(GameManager.Controls.MoveRight))
                 {
                     Vector2 newVel = new Vector2(walkSpeed, myRB.velocity.y);
                     myRB.velocity = newVel;
@@ -111,7 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
 
-            if (Input.GetKey(jump))
+            if (Input.GetKey(GameManager.Controls.Jump))
             {
                 if (grounded)
                 {
@@ -124,13 +117,13 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyUp(jump))
+            if (Input.GetKeyUp(GameManager.Controls.Jump))
             {
                 if (heightIncrease > 0)
                     heightIncrease = 0;
             }
 
-            if (Input.GetKeyDown(jump) && !grounded && jumpsLeft > 0)
+            if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
             {
                 jumpVel.y = doubleJumpSpeed;
                 myRB.velocity = jumpVel;
@@ -140,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
         // Attacking
         {
-            if (Input.GetKeyDown(attack) && !attacking && canAttack)
+            if (Input.GetKeyDown(GameManager.Controls.Attack) && !attacking && canAttack)
             {
                 sword.SetActive(true);
                 myAnim.SetBool("Attacking", true);
@@ -177,12 +170,12 @@ public class PlayerController : MonoBehaviour
 
         // Flip Sword
         {
-            if (Input.GetKeyDown(moveLeft) && sword.transform.localPosition.x > 0)
+            if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
             {
                 sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
             }
 
-            if (Input.GetKeyDown(moveRight) && sword.transform.localPosition.x < 0)
+            if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
             {
                 sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
             }
