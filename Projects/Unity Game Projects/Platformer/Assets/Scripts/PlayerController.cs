@@ -173,11 +173,13 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
             {
                 sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
+                sword.GetComponent<SpriteRenderer>().flipX = facingRight;
             }
 
             if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
             {
                 sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
+                sword.GetComponent<SpriteRenderer>().flipX = facingRight;
             }
         }
     }
