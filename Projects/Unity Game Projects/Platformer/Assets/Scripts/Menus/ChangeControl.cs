@@ -14,6 +14,7 @@ public class ChangeControl : MonoBehaviour
 
     TMP_Text buttonText;
     Button button;
+    Button[] settingsButtons;
     
     // Start is called before the first frame update
     void Start()
@@ -21,13 +22,20 @@ public class ChangeControl : MonoBehaviour
         buttonText = transform.GetComponentInChildren<TMP_Text>();
         button = GetComponent<Button>();
         keys = (KeyCode[]) System.Enum.GetValues(typeof(KeyCode));
+
+        settingsButtons = transform.parent.parent.parent.GetComponentsInChildren<Button>();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!checkForKey && !button.interactable && Input.GetKeyUp(KeyCode.Mouse0))
+        {
             button.interactable = true;
+
+            foreach (Button otherButton in settingsButtons)
+                otherButton.interactable = true;
+        }
 
         if (checkForKey && Input.anyKey)
         {
@@ -37,127 +45,7 @@ public class ChangeControl : MonoBehaviour
                 {
                     SetKey(key);
 
-                    switch (key)
-                    {
-                        case KeyCode.Keypad0:
-                        case KeyCode.Alpha0:
-                            buttonText.text = "0";
-                            break;
-                        case KeyCode.Keypad1:
-                        case KeyCode.Alpha1:
-                            buttonText.text = "1";
-                            break;
-                        case KeyCode.Keypad2:
-                        case KeyCode.Alpha2:
-                            buttonText.text = "2";
-                            break;
-                        case KeyCode.Keypad3:
-                        case KeyCode.Alpha3:
-                            buttonText.text = "3";
-                            break;
-                        case KeyCode.Keypad4:
-                        case KeyCode.Alpha4:
-                            buttonText.text = "4";
-                            break;
-                        case KeyCode.Keypad5:
-                        case KeyCode.Alpha5:
-                            buttonText.text = "5";
-                            break;
-                        case KeyCode.Keypad6:
-                        case KeyCode.Alpha6:
-                            buttonText.text = "6";
-                            break;
-                        case KeyCode.Keypad7:
-                        case KeyCode.Alpha7:
-                            buttonText.text = "7";
-                            break;
-                        case KeyCode.Keypad8:
-                        case KeyCode.Alpha8:
-                            buttonText.text = "8";
-                            break;
-                        case KeyCode.Keypad9:
-                        case KeyCode.Alpha9:
-                            buttonText.text = "9";
-                            break;
-                        case KeyCode.KeypadPeriod:
-                            buttonText.text = ".";
-                            break;
-                        case KeyCode.KeypadDivide:
-                            buttonText.text = "/";
-                            break;
-                        case KeyCode.KeypadMultiply:
-                        case KeyCode.Asterisk:
-                            buttonText.text = "*";
-                            break;
-                        case KeyCode.KeypadMinus:
-                        case KeyCode.Minus:
-                            buttonText.text = "-";
-                            break;
-                        case KeyCode.KeypadPlus:
-                        case KeyCode.Plus:
-                            buttonText.text = "+";
-                            break;
-                        case KeyCode.KeypadEnter:
-                            buttonText.text = "Return";
-                            break;
-                        case KeyCode.KeypadEquals:
-                            buttonText.text = "=";
-                            break;
-                        case KeyCode.UpArrow:
-                            buttonText.text = "Up Arrow";
-                            break;
-                        case KeyCode.DownArrow:
-                            buttonText.text = "Down Arrow";
-                            break;
-                        case KeyCode.RightArrow:
-                            buttonText.text = "Right Arrow";
-                            break;
-                        case KeyCode.LeftArrow:
-                            buttonText.text = "Left Arrow";
-                            break;
-                        case KeyCode.PageUp:
-                            buttonText.text = "Page Up";
-                            break;
-                        case KeyCode.PageDown:
-                            buttonText.text = "Page Down";
-                            break;
-                        case KeyCode.Exclaim:
-                            buttonText.text = "!";
-                            break;
-                        case KeyCode.DoubleQuote:
-                            buttonText.text = "\"";
-                            break;
-                        case KeyCode.Hash:
-                            buttonText.text = "#";
-                            break;
-                        case KeyCode.Dollar:
-                            buttonText.text = "$";
-                            break;
-                        case KeyCode.Percent:
-                            buttonText.text = "%";
-                            break;
-                        case KeyCode.Ampersand:
-                            buttonText.text = "&";
-                            break;
-                        case KeyCode.Quote:
-                            buttonText.text = "'";
-                            break;
-                        case KeyCode.LeftParen:
-                            buttonText.text = "(";
-                            break;
-                        case KeyCode.RightParen:
-                            buttonText.text = ")";
-                            break;
-                        case KeyCode.Comma:
-                            buttonText.text = ",";
-                            break;
-                    }
-                    if (key == KeyCode.Mouse0)
-                        buttonText.text = "Left Mouse Button";
-                    else if (key == KeyCode.Mouse1)
-                        buttonText.text = "Right Mouse Button";
-                    else
-                        buttonText.text = key.ToString();
+                    buttonText.text = ConvertToString(key);
 
                     checkForKey = false;
                 }
@@ -170,6 +58,9 @@ public class ChangeControl : MonoBehaviour
         checkForKey = true;
         buttonText.text = waitingString;
         button.interactable = false;
+
+        foreach (Button otherButton in settingsButtons)
+            otherButton.interactable = false;
     }
 
     void SetKey(KeyCode key)
@@ -188,6 +79,151 @@ public class ChangeControl : MonoBehaviour
             case ControlType.attack:
                 GameManager.Controls.Attack = key;
                 break;
+        }
+    }
+
+    string ConvertToString(KeyCode key)
+    {
+        switch (key)
+        {
+            case KeyCode.Keypad0:
+            case KeyCode.Alpha0:
+                return "0";
+            case KeyCode.Keypad1:
+            case KeyCode.Alpha1:
+                return "1";
+            case KeyCode.Keypad2:
+            case KeyCode.Alpha2:
+                return "2";
+            case KeyCode.Keypad3:
+            case KeyCode.Alpha3:
+                return "3";
+            case KeyCode.Keypad4:
+            case KeyCode.Alpha4:
+                return "4";
+            case KeyCode.Keypad5:
+            case KeyCode.Alpha5:
+                return "5";
+            case KeyCode.Keypad6:
+            case KeyCode.Alpha6:
+                return "6";
+            case KeyCode.Keypad7:
+            case KeyCode.Alpha7:
+                return "7";
+            case KeyCode.Keypad8:
+            case KeyCode.Alpha8:
+                return "8";
+            case KeyCode.Keypad9:
+            case KeyCode.Alpha9:
+                return "9";
+            case KeyCode.KeypadPeriod:
+            case KeyCode.Period:
+                return ".";
+            case KeyCode.KeypadDivide:
+            case KeyCode.Slash:
+                return "/";
+            case KeyCode.KeypadMultiply:
+            case KeyCode.Asterisk:
+                return "*";
+            case KeyCode.KeypadMinus:
+            case KeyCode.Minus:
+                return "-";
+            case KeyCode.KeypadPlus:
+            case KeyCode.Plus:
+                return "+";
+            case KeyCode.KeypadEnter:
+                return "Return";
+            case KeyCode.KeypadEquals:
+            case KeyCode.Equals:
+                return "=";
+            case KeyCode.UpArrow:
+                return "Up Arrow";
+            case KeyCode.DownArrow:
+                return "Down Arrow";
+            case KeyCode.RightArrow:
+                return "Right Arrow";
+            case KeyCode.LeftArrow:
+                return "Left Arrow";
+            case KeyCode.PageUp:
+                return "Page Up";
+            case KeyCode.PageDown:
+                return "Page Down";
+            case KeyCode.Exclaim:
+                return "!";
+            case KeyCode.DoubleQuote:
+                return "\"";
+            case KeyCode.Hash:
+                return "#";
+            case KeyCode.Dollar:
+                return "$";
+            case KeyCode.Percent:
+                return "%";
+            case KeyCode.Ampersand:
+                return "&";
+            case KeyCode.Quote:
+                return "'";
+            case KeyCode.LeftParen:
+                return "(";
+            case KeyCode.RightParen:
+                return ")";
+            case KeyCode.Comma:
+                return ",";
+            case KeyCode.Colon:
+                return ":";
+            case KeyCode.Semicolon:
+                return ";";
+            case KeyCode.Less:
+                return "<";
+            case KeyCode.Greater:
+                return ">";
+            case KeyCode.Question:
+                return "?";
+            case KeyCode.At:
+                return "@";
+            case KeyCode.LeftBracket:
+                return "[";
+            case KeyCode.Backslash:
+                return "\\";
+            case KeyCode.RightBracket:
+                return "]";
+            case KeyCode.Caret:
+                return "^";
+            case KeyCode.Underscore:
+                return "_";
+            case KeyCode.BackQuote:
+                return "`";
+            case KeyCode.LeftCurlyBracket:
+                return "{";
+            case KeyCode.Pipe:
+                return "|";
+            case KeyCode.RightCurlyBracket:
+                return "}";
+            case KeyCode.Tilde:
+                return "~";
+            case KeyCode.RightShift:
+                return "Right Shift";
+            case KeyCode.LeftShift:
+                return "Left Shift";
+            case KeyCode.RightControl:
+                return "Right Control";
+            case KeyCode.LeftControl:
+                return "Left Control";
+            case KeyCode.RightAlt:
+                return "Right Alt";
+            case KeyCode.LeftAlt:
+                return "Left Alt";
+            case KeyCode.LeftCommand:
+                return "Left Command";
+            case KeyCode.RightCommand:
+                return "Right Command";
+            case KeyCode.Mouse0:
+                return "Left Mouse Button";
+            case KeyCode.Mouse1:
+                return "Right Mouse button";
+            case KeyCode.Mouse2:
+                return "Middle Mouse Button";
+            default:
+                return key.ToString();
         }
     }
 }
