@@ -170,19 +170,13 @@ public class PlayerController : MonoBehaviour
 
         // Flip Sword
         {
-            if (Input.GetKeyDown(GameManager.Controls.MoveLeft) &&
-                sword.transform.localPosition.x > 0 &&
-                facingRight ||
-                (Input.GetKeyUp(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)))
+            if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
             {
                 sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
                 sword.GetComponent<SpriteRenderer>().flipX = facingRight;
             }
 
-            if (Input.GetKeyDown(GameManager.Controls.MoveRight) && 
-                sword.transform.localPosition.x < 0 && 
-                !facingRight ||
-                (Input.GetKeyUp(GameManager.Controls.MoveLeft) && Input.GetKey(GameManager.Controls.MoveRight)))
+            if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
             {
                 sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
                 sword.GetComponent<SpriteRenderer>().flipX = facingRight;
