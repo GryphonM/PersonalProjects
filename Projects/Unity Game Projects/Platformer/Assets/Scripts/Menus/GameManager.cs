@@ -20,17 +20,5 @@ public class GameManager : MonoBehaviour
         public KeyCode Attack;
     }
 
-    public static Keys Controls = new Keys(KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.Mouse1); 
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static Keys Controls = new Keys(KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.Mouse1);
 }
