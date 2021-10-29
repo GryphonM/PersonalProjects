@@ -6,18 +6,6 @@ public class Settings : MonoBehaviour
 {
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject mainMenu;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ActivateMenu(GameObject menu)
     {
