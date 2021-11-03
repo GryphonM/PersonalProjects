@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.Paused)
         {
-
             // Movement
             {
                 if (!pushedBack)
