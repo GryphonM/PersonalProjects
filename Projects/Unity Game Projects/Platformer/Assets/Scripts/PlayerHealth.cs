@@ -16,12 +16,6 @@ public class PlayerHealth : MonoBehaviour
         blobHealth = maxBlobHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void DamageObject(int damage)
     {
         if (PlayerManager.CurrentState == PlayerManager.State.Structure)

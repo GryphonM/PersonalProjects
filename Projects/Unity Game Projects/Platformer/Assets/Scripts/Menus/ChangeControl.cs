@@ -1,3 +1,14 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	ChangeControl.cs
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	GAM 5.1.3 CHALLENGE: Platformer
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +17,21 @@ using UnityEngine.UI;
 
 public class ChangeControl : MonoBehaviour
 {
+    // Determine What Control is Being Changed
     enum ControlType { moveLeft, moveRight, jump, attack, pause};
     [SerializeField] ControlType type;
+
+    // Message to let user know to change the key
     [SerializeField] string waitingString = "Press Any Key";
+
+    // Determine if this button or another button is checking for a new key
     [HideInInspector] public bool otherIsChecking = false;
     bool checkForKey = false;
+
+    // Store all keys in array
     KeyCode[] keys;
 
+    // Objects to change
     TMP_Text buttonText;
     Button button;
     Button[] settingsButtons;
@@ -20,12 +39,14 @@ public class ChangeControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Set Default Values
         buttonText = transform.GetComponentInChildren<TMP_Text>();
         button = GetComponent<Button>();
         keys = (KeyCode[]) System.Enum.GetValues(typeof(KeyCode));
 
         settingsButtons = transform.parent.parent.parent.GetComponentsInChildren<Button>();
 
+        // Set Text to current control scheme
         switch (type)
         {
             case ControlType.moveLeft:
@@ -49,7 +70,12 @@ public class ChangeControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!checkForKey && !button.interactable && Input.GetKeyUp(KeyCode.Mouse0) && !otherIsChecking)
+        // Turn buttons back on if
+        // This button is not checking for a new key,
+        // Other buttons are not checking for a new key,
+        // This button is not on,
+        // and the user let go of the primary mouse button
+        if (!checkForKey && !otherIsChecking && !button.interactable && Input.GetKeyUp(KeyCode.Mouse0))
         {
             button.interactable = true;
 
@@ -57,6 +83,7 @@ public class ChangeControl : MonoBehaviour
                 otherButton.interactable = true;
         }
 
+        // If we need to look for a key and the user has input a key, then reassign the key
         if (checkForKey && Input.anyKey)
         {
             foreach(KeyCode key in keys)
