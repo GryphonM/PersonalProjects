@@ -1105,6 +1105,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2082560405}
     m_Modifications:
+    - target: {fileID: 5652715166182007614, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
+      propertyPath: waitingString
+      value: Press Any Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652715166652500856, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
+      propertyPath: waitingString
+      value: Press Any Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652715166687616935, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
+      propertyPath: waitingString
+      value: Press Any Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652715167210984029, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
+      propertyPath: waitingString
+      value: Press Any Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652715167211669729, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762684066236709012, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
+      propertyPath: waitingString
+      value: Press Any Key
+      objectReference: {fileID: 0}
     - target: {fileID: 8474912704231903122, guid: bf0b47c5a5383bd4fb1d6189e5456dcb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

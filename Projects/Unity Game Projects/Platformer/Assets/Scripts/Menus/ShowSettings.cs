@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShowSettings : MonoBehaviour
 {
-    [SerializeField] KeyCode settingsKey = KeyCode.Escape;
     [SerializeField] bool freezeOnPause = true;
 
     GameObject settingsMenu;
@@ -21,7 +20,7 @@ public class ShowSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(settingsKey) && !settingsMenu.activeSelf)
+        if (Input.GetKeyDown(GameManager.Controls.Pause) && !settingsMenu.activeSelf)
         {
             settingsMenu.SetActive(true);
             GameManager.Paused = true;
