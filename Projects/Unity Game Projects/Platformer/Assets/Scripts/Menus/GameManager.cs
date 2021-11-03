@@ -21,4 +21,6 @@ public class GameManager : MonoBehaviour
     }
 
     public static Keys Controls = new Keys(KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.Mouse1);
+
+    public static bool Paused = false;
 }

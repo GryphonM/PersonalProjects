@@ -62,124 +62,128 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Movement
+        if (!GameManager.Paused)
         {
-            if (!pushedBack)
-            {
-                if ((Input.GetKey(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)) ||
-                    (Input.GetKeyUp(GameManager.Controls.MoveRight) || Input.GetKeyUp(GameManager.Controls.MoveLeft)))
-                {
-                    Vector2 newVel = new Vector2(0, myRB.velocity.y);
-                    myRB.velocity = newVel;
-                    myAnim.SetBool("Walking", false);
-                }
-                else if (Input.GetKey(GameManager.Controls.MoveLeft))
-                {
-                    Vector2 newVel = new Vector2(-walkSpeed, myRB.velocity.y);
-                    myRB.velocity = newVel;
 
-                    myAnim.SetBool("Walking", true);
-                    if (!facingRight)
+            // Movement
+            {
+                if (!pushedBack)
+                {
+                    if ((Input.GetKey(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)) ||
+                        (Input.GetKeyUp(GameManager.Controls.MoveRight) || Input.GetKeyUp(GameManager.Controls.MoveLeft)))
                     {
-                        facingRight = !facingRight;
+                        Vector2 newVel = new Vector2(0, myRB.velocity.y);
+                        myRB.velocity = newVel;
+                        myAnim.SetBool("Walking", false);
                     }
-                    mySR.flipX = facingRight;
-                }
-                else if (Input.GetKey(GameManager.Controls.MoveRight))
-                {
-                    Vector2 newVel = new Vector2(walkSpeed, myRB.velocity.y);
-                    myRB.velocity = newVel;
-
-                    myAnim.SetBool("Walking", true);
-                    if (facingRight)
+                    else if (Input.GetKey(GameManager.Controls.MoveLeft))
                     {
-                        facingRight = !facingRight;
+                        Vector2 newVel = new Vector2(-walkSpeed, myRB.velocity.y);
+                        myRB.velocity = newVel;
+
+                        myAnim.SetBool("Walking", true);
+                        if (!facingRight)
+                        {
+                            facingRight = !facingRight;
+                        }
+                        mySR.flipX = facingRight;
                     }
-                    mySR.flipX = facingRight;
+                    else if (Input.GetKey(GameManager.Controls.MoveRight))
+                    {
+                        Vector2 newVel = new Vector2(walkSpeed, myRB.velocity.y);
+                        myRB.velocity = newVel;
+
+                        myAnim.SetBool("Walking", true);
+                        if (facingRight)
+                        {
+                            facingRight = !facingRight;
+                        }
+                        mySR.flipX = facingRight;
+                    }
                 }
             }
-        }
 
-        // Jumping
-        {
-            Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
-
-            if (Input.GetKey(GameManager.Controls.Jump))
+            // Jumping
             {
-                if (grounded)
+                Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
+
+                if (Input.GetKey(GameManager.Controls.Jump))
                 {
+                    if (grounded)
+                    {
+                        myRB.velocity = jumpVel;
+                    }
+                    else if (heightIncrease > 0)
+                    {
+                        myRB.velocity = jumpVel;
+                        heightIncrease -= Time.deltaTime;
+                    }
+                }
+
+                if (Input.GetKeyUp(GameManager.Controls.Jump))
+                {
+                    if (heightIncrease > 0)
+                        heightIncrease = 0;
+                }
+
+                if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
+                {
+                    jumpVel.y = doubleJumpSpeed;
                     myRB.velocity = jumpVel;
+                    jumpsLeft--;
                 }
-                else if (heightIncrease > 0)
+            }
+
+            // Attacking
+            {
+                if (Input.GetKeyDown(GameManager.Controls.Attack) && !attacking && canAttack)
                 {
-                    myRB.velocity = jumpVel;
-                    heightIncrease -= Time.deltaTime;
+                    sword.SetActive(true);
+                    myAnim.SetBool("Attacking", true);
+                    attacking = true;
+                    canAttack = false;
                 }
-            }
 
-            if (Input.GetKeyUp(GameManager.Controls.Jump))
-            {
-                if (heightIncrease > 0)
-                    heightIncrease = 0;
-            }
-
-            if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
-            {
-                jumpVel.y = doubleJumpSpeed;
-                myRB.velocity = jumpVel;
-                jumpsLeft--;
-            }
-        }
-
-        // Attacking
-        {
-            if (Input.GetKeyDown(GameManager.Controls.Attack) && !attacking && canAttack)
-            {
-                sword.SetActive(true);
-                myAnim.SetBool("Attacking", true);
-                attacking = true;
-                canAttack = false;
-            }
-
-            if (attacking)
-            {
-                if (attackTimer <= 0)
+                if (attacking)
                 {
-                    attacking = false;
-                    sword.SetActive(false);
-                    myAnim.SetBool("Attacking", false);
-                    attackTimer = attackTime;
-                    pushedBack = false;
+                    if (attackTimer <= 0)
+                    {
+                        attacking = false;
+                        sword.SetActive(false);
+                        myAnim.SetBool("Attacking", false);
+                        attackTimer = attackTime;
+                        pushedBack = false;
+                    }
+                    else
+                        attackTimer -= Time.deltaTime;
                 }
-                else
-                    attackTimer -= Time.deltaTime;
-            }
 
-            if (!attacking && !canAttack)
-            {
-                if (attackHold <= 0)
+                if (!attacking && !canAttack)
                 {
-                    canAttack = true;
-                    sword.GetComponent<Sword>().canDamage = true;
-                    attackHold = attackSeparation;
+                    if (attackHold <= 0)
+                    {
+                        canAttack = true;
+                        sword.GetComponent<Sword>().canDamage = true;
+                        attackHold = attackSeparation;
+                    }
+                    else
+                        attackHold -= Time.deltaTime;
                 }
-                else
-                    attackHold -= Time.deltaTime;
-            }
-        }
-
-        // Flip Sword
-        {
-            if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
-            {
-                sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
-                sword.GetComponent<SpriteRenderer>().flipX = facingRight;
             }
 
-            if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
+            // Flip Sword
             {
-                sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
-                sword.GetComponent<SpriteRenderer>().flipX = facingRight;
+                if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
+                {
+                    sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
+                    sword.GetComponent<SpriteRenderer>().flipX = facingRight;
+                }
+
+                if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
+                {
+                    sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
+                    sword.GetComponent<SpriteRenderer>().flipX = facingRight;
+                }
             }
         }
     }
