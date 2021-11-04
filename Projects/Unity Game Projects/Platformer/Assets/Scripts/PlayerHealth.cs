@@ -18,13 +18,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void DamageObject(int damage)
     {
-        if (PlayerManager.CurrentState == PlayerManager.State.Structure)
+        if (PlayerManager.CurrentState == PlayerManager.State.Solid)
             structureHealth -= damage;
-        else if (PlayerManager.CurrentState == PlayerManager.State.Blob)
+        else if (PlayerManager.CurrentState == PlayerManager.State.Ooze)
             blobHealth -= damage;
 
         if (structureHealth <= 0)
-            PlayerManager.ChangeState(PlayerManager.State.Blob);
+            PlayerManager.SetState(PlayerManager.State.Ooze);
         else if (blobHealth <= 0)
             PlayerManager.GameOver(gameObject);
     }

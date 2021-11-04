@@ -8,7 +8,7 @@ public class CameraTrigger : MonoBehaviour
     [SerializeField] bool changeSize;
     [SerializeField] float newSize;
     [SerializeField] GameObject cameraObject;
-    [SerializeField] Camera camera;
+    [SerializeField] Camera gameCamera;
 
     Vector3 newCamLoc;
 
@@ -23,6 +23,6 @@ public class CameraTrigger : MonoBehaviour
         cameraObject.transform.position = newCamLoc;
 
         if (changeSize)
-            camera.orthographicSize = newSize;
+            gameCamera.orthographicSize = newSize;
     }
 }

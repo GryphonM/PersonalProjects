@@ -15,36 +15,76 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float walkSpeed = 5;
+    public PlayerManager.State currState;
+    [Space(5)]
+    [SerializeField] float oozeWalkSpeed;
+    [SerializeField] float solidWalkSpeed;
+    float walkSpeed;
 
-    [Space(15)]
+    [Space(20)]
 
-    [SerializeField] float jumpSpeed = 5;
-    [Tooltip("How long the user can hold the jump button before they stop gaining height")]
-    [SerializeField] float heightIncreaseTimer;
-    [SerializeField] int extraJumps;
-    [SerializeField] float doubleJumpSpeed = 10;
+    [SerializeField] float oozeJumpSpeed;
+    [SerializeField] float solidJumpSpeed;
+    float jumpSpeed;
+    [Space(5)]
+    [Tooltip("While in ooze form, how long the user can hold the jump button before they stop gaining height")]
+    [SerializeField] float oozeHeightIncreaseTimer;
+    [Tooltip("While in solid form, how long the user can hold the jump button before they stop gaining height")]
+    [SerializeField] float solidHeightIncreaseTimer;
+    float heightIncreaseTimer;
+    [Space(5)]
+    [SerializeField] int oozeExtraJumps;
+    [SerializeField] int solidExtraJumps;
+    int extraJumps;
+    [Space(5)]
+    [SerializeField] float oozeExtraJumpSpeed;
+    [SerializeField] float solidExtraJumpSpeed;
+    float extraJumpSpeed = 10;
+
     int jumpsLeft;
     float heightIncrease;
     bool grounded = false;
 
-    [Space(15)]
+    [Space(20)]
 
     [SerializeField] GameObject sword;
-    [Tooltip("Time the Attack is active")]
-    [SerializeField] float attackTime;
+    [Space(5)]
+    [Tooltip("Time the Ooze Attack is active")]
+    [SerializeField] float oozeAttackTime;
+    [Tooltip("Time the Solid Attack is active")]
+    [SerializeField] float solidAttackTime;
+    float attackTime;
     float attackTimer;
-    [Tooltip("Time player must wait after attack finishes to attack again")]
-    [SerializeField] float attackSeparation;
+    [Space(5)]
+    [Tooltip("Time player must wait after attack finishes to attack again when they are in ooze form")]
+    [SerializeField] float oozeAttackSeperation;
+    [Tooltip("Time player must wait after attack finishes to attack again when they are in solid form")]
+    [SerializeField] float solidAttackSeperation;
+    float attackSeparation;
     float attackHold;
+    [Space(5)]
+    [SerializeField] int oozeDamage;
+    [SerializeField] int solidDamage;
+
     bool attacking = false;
     bool canAttack = true;
     bool pushedBack = false;
 
+    [SerializeField] GameObject wallCheck;
+    [SerializeField] float climbSpeed;
+    [SerializeField] Vector2 climbJumpSpeed;
+    [Tooltip("If You climb to bottom of wall, how far are you pushed away from the wall?")]
+    [SerializeField] float wallReleaseSpeed = 0.3f;
+    bool touchingWall;
+    bool climbing;
+    bool climbJumping;
+
+    
     Rigidbody2D myRB;
     Animator myAnim;
     SpriteRenderer mySR;
     bool facingRight = true;
+    float ogGravity;
     
     // Start is called before the first frame update
     void Start()
@@ -53,10 +93,13 @@ public class PlayerController : MonoBehaviour
         myAnim = GetComponent<Animator>();
         mySR = GetComponent<SpriteRenderer>();
 
+        SetState(PlayerManager.State.Solid);
+
         heightIncrease = heightIncreaseTimer;
         attackTimer = attackTime;
         attackHold = attackSeparation;
         jumpsLeft = extraJumps;
+        ogGravity = myRB.gravityScale;
     }
 
     // Update is called once per frame
@@ -66,7 +109,7 @@ public class PlayerController : MonoBehaviour
         {
             // Movement
             {
-                if (!pushedBack)
+                if (!pushedBack && !climbing)
                 {
                     if ((Input.GetKey(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)) ||
                         (Input.GetKeyUp(GameManager.Controls.MoveRight) || Input.GetKeyUp(GameManager.Controls.MoveLeft)))
@@ -81,11 +124,11 @@ public class PlayerController : MonoBehaviour
                         myRB.velocity = newVel;
 
                         myAnim.SetBool("Walking", true);
-                        if (!facingRight)
+                        if (facingRight)
                         {
                             facingRight = !facingRight;
                         }
-                        mySR.flipX = facingRight;
+                        mySR.flipX = !facingRight;
                     }
                     else if (Input.GetKey(GameManager.Controls.MoveRight))
                     {
@@ -93,43 +136,57 @@ public class PlayerController : MonoBehaviour
                         myRB.velocity = newVel;
 
                         myAnim.SetBool("Walking", true);
-                        if (facingRight)
+                        if (!facingRight)
                         {
                             facingRight = !facingRight;
                         }
-                        mySR.flipX = facingRight;
+                        mySR.flipX = !facingRight;
                     }
                 }
             }
 
             // Jumping
             {
-                Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
-
-                if (Input.GetKey(GameManager.Controls.Jump))
+                if (climbing && Input.GetKeyDown(GameManager.Controls.Jump))
                 {
-                    if (grounded)
-                    {
-                        myRB.velocity = jumpVel;
-                    }
-                    else if (heightIncrease > 0)
-                    {
-                        myRB.velocity = jumpVel;
-                        heightIncrease -= Time.deltaTime;
-                    }
-                }
+                    climbing = false;
+                    climbJumping = true;
+                    myRB.gravityScale = ogGravity;
 
-                if (Input.GetKeyUp(GameManager.Controls.Jump))
-                {
-                    if (heightIncrease > 0)
-                        heightIncrease = 0;
-                }
-
-                if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
-                {
-                    jumpVel.y = doubleJumpSpeed;
+                    Vector2 jumpVel = climbJumpSpeed;
+                    if (facingRight)
+                        jumpVel.x = -jumpVel.x;
                     myRB.velocity = jumpVel;
-                    jumpsLeft--;
+                }
+                else
+                {
+                    Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
+
+                    if (Input.GetKey(GameManager.Controls.Jump))
+                    {
+                        if (grounded)
+                        {
+                            myRB.velocity = jumpVel;
+                        }
+                        else if (heightIncrease > 0)
+                        {
+                            myRB.velocity = jumpVel;
+                            heightIncrease -= Time.deltaTime;
+                        }
+                    }
+
+                    if (Input.GetKeyUp(GameManager.Controls.Jump))
+                    {
+                        if (heightIncrease > 0)
+                            heightIncrease = 0;
+                    }
+
+                    if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
+                    {
+                        jumpVel.y = extraJumpSpeed;
+                        myRB.velocity = jumpVel;
+                        jumpsLeft--;
+                    }
                 }
             }
 
@@ -170,18 +227,90 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            // Flip Sword
+            // Flip Sword and Wall Check
             {
                 if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
                 {
                     sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
-                    sword.GetComponent<SpriteRenderer>().flipX = facingRight;
+                    sword.GetComponent<SpriteRenderer>().flipX = !facingRight;
+                    wallCheck.transform.localPosition = new Vector2(-wallCheck.transform.localPosition.x, wallCheck.transform.localPosition.y);
                 }
 
                 if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
                 {
                     sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
-                    sword.GetComponent<SpriteRenderer>().flipX = facingRight;
+                    sword.GetComponent<SpriteRenderer>().flipX = !facingRight;
+                    wallCheck.transform.localPosition = new Vector2(-wallCheck.transform.localPosition.x, wallCheck.transform.localPosition.y);
+                }
+            }
+
+            // Swap State
+            {
+                if (grounded && Input.GetKeyDown(GameManager.Controls.ToOoze))
+                {
+                    SetState(PlayerManager.State.Ooze);
+                    heightIncrease = heightIncreaseTimer;
+                    attackTimer = attackTime;
+                    attackHold = attackSeparation;
+                    jumpsLeft = extraJumps;
+                }
+                else if (grounded && Input.GetKeyDown(GameManager.Controls.ToSolid))
+                {
+                    SetState(PlayerManager.State.Solid);
+                    heightIncrease = heightIncreaseTimer;
+                    attackTimer = attackTime;
+                    attackHold = attackSeparation;
+                    jumpsLeft = extraJumps;
+                }
+            }
+
+            // Wall Climb
+            {
+                if (climbJumping)
+                {
+                    climbJumping = false;
+                }
+                else if (touchingWall && PlayerManager.CurrentState == PlayerManager.State.Ooze)
+                {
+                    climbing = true;
+                    myRB.gravityScale = 0;
+                    myRB.velocity = Vector2.zero;
+
+                    Vector2 newVel = myRB.velocity;
+                    if (Input.GetKeyUp(GameManager.Controls.ClimbDown) || Input.GetKeyUp(GameManager.Controls.ClimbUp) ||
+                        (Input.GetKeyDown(GameManager.Controls.ClimbUp) && Input.GetKeyDown(GameManager.Controls.ClimbDown)))
+                    {
+                        newVel = Vector2.zero;
+                    }
+                    else if (Input.GetKey(GameManager.Controls.ClimbUp))
+                    {
+                        newVel.x = 0;
+                        newVel.y = climbSpeed;
+                    }
+                    else if (Input.GetKey(GameManager.Controls.ClimbDown))
+                    {
+                        if (grounded)
+                        {
+                            if (facingRight)
+                                newVel.x = -wallReleaseSpeed;
+                            else
+                                newVel.x = wallReleaseSpeed;
+
+                            newVel.y = 0;
+                            climbing = false;
+                        }
+                        else
+                        {
+                            newVel.x = 0;
+                            newVel.y = -climbSpeed;
+                        }
+                    }
+                    myRB.velocity = newVel;
+                }
+
+                if (!climbing && Input.GetKeyUp(GameManager.Controls.ClimbDown))
+                {
+                    // TO DO: Add timer for length of time to be pushed away from wall
                 }
             }
         }
@@ -199,16 +328,55 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetTouchingWall(bool touchingState)
+    {
+        touchingWall = touchingState;
+    }
+
     public void PushBack(float force)
     {
         pushedBack = true;
         Vector2 pushVel = myRB.velocity;
 
         if (facingRight)
-            pushVel.x = force;
-        else
             pushVel.x = -force;
+        else
+            pushVel.x = force;
 
         myRB.velocity = pushVel;
+    }
+
+    void SetState(PlayerManager.State newState)
+    {
+        switch (newState)
+        {
+            case PlayerManager.State.Ooze:
+                PlayerManager.SetState(PlayerManager.State.Ooze);
+                currState = PlayerManager.State.Ooze;
+                walkSpeed = oozeWalkSpeed;
+                jumpSpeed = oozeJumpSpeed;
+                heightIncreaseTimer = oozeHeightIncreaseTimer;
+                extraJumps = oozeExtraJumps;
+                extraJumpSpeed = oozeExtraJumpSpeed;
+                attackTime = oozeAttackTime;
+                attackSeparation = oozeAttackSeperation;
+                sword.GetComponent<Sword>().damage = oozeDamage;
+                wallCheck.SetActive(true);
+                break;
+            case PlayerManager.State.Solid:
+                PlayerManager.SetState(PlayerManager.State.Solid);
+                currState = PlayerManager.State.Solid;
+                walkSpeed = solidWalkSpeed;
+                jumpSpeed = solidJumpSpeed;
+                heightIncreaseTimer = solidHeightIncreaseTimer;
+                extraJumps = solidExtraJumps;
+                extraJumpSpeed = solidExtraJumpSpeed;
+                attackTime = solidAttackTime;
+                attackSeparation = solidAttackSeperation;
+                sword.GetComponent<Sword>().damage = solidDamage;
+                touchingWall = false;
+                wallCheck.SetActive(false);
+                break;
+        }
     }
 }

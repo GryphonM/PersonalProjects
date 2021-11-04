@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public enum State { Structure, Blob};
+    public enum State { Solid, Ooze};
     
-    private static State currentState = State.Structure;
+    static State currentState = State.Solid;
 
     public static State CurrentState
     {
         get { return currentState; }
     }
 
-    public static void ChangeState(State newState)
+    public static void SetState(State newState)
     {
         currentState = newState;
     }

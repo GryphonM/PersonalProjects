@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    [SerializeField] int damage = 1;
+    public int damage = 1;
     [Tooltip("How much the player is pushed back when it hits something.")]
     [SerializeField] float pushBack = 2.5f;
 

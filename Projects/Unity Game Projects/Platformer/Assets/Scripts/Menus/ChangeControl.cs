@@ -18,7 +18,7 @@ using UnityEngine.UI;
 public class ChangeControl : MonoBehaviour
 {
     // Determine What Control is Being Changed
-    enum ControlType { moveLeft, moveRight, jump, attack, pause};
+    enum ControlType { moveLeft, moveRight, jump, attack, pause, toBlob, toStructure};
     [SerializeField] ControlType type;
 
     // Message to let user know to change the key
@@ -63,6 +63,12 @@ public class ChangeControl : MonoBehaviour
                 break;
             case ControlType.pause:
                 buttonText.text = ConvertToString(GameManager.Controls.Pause);
+                break;
+            case ControlType.toBlob:
+                buttonText.text = ConvertToString(GameManager.Controls.ToOoze);
+                break;
+            case ControlType.toStructure:
+                buttonText.text = ConvertToString(GameManager.Controls.ToSolid);
                 break;
         }
     }
@@ -140,6 +146,12 @@ public class ChangeControl : MonoBehaviour
                 break;
             case ControlType.pause:
                 GameManager.Controls.Pause = key;
+                break;
+            case ControlType.toBlob:
+                GameManager.Controls.ToOoze = key;
+                break;
+            case ControlType.toStructure:
+                GameManager.Controls.ToSolid = key;
                 break;
         }
     }
