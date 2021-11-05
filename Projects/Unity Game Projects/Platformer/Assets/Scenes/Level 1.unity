@@ -585,7 +585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oozeWalkSpeed: 7.5
   solidWalkSpeed: 5
-  oozeJumpSpeed: 3
+  oozeJumpSpeed: 5
   solidJumpSpeed: 7
   oozeHeightIncreaseTimer: 0.2
   solidHeightIncreaseTimer: 0.3
