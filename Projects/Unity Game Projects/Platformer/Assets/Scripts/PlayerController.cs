@@ -15,8 +15,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerManager.State currState;
-    [Space(5)]
     [SerializeField] float oozeWalkSpeed;
     [SerializeField] float solidWalkSpeed;
     float walkSpeed;
@@ -381,7 +379,6 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerManager.State.Ooze:
                 PlayerManager.SetState(PlayerManager.State.Ooze);
-                currState = PlayerManager.State.Ooze;
                 walkSpeed = oozeWalkSpeed;
                 jumpSpeed = oozeJumpSpeed;
                 heightIncreaseTimer = oozeHeightIncreaseTimer;
@@ -395,7 +392,6 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerManager.State.Solid:
                 PlayerManager.SetState(PlayerManager.State.Solid);
-                currState = PlayerManager.State.Solid;
                 walkSpeed = solidWalkSpeed;
                 jumpSpeed = solidJumpSpeed;
                 heightIncreaseTimer = solidHeightIncreaseTimer;

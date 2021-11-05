@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &374308636
 Transform:
   m_ObjectHideFlags: 0
@@ -583,13 +583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a011e4b9b392914baa58b25db96037d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currState: 1
   oozeWalkSpeed: 7.5
   solidWalkSpeed: 5
-  oozeJumpSpeed: 5
+  oozeJumpSpeed: 3
   solidJumpSpeed: 7
   oozeHeightIncreaseTimer: 0.2
-  solidHeightIncreaseTimer: 0.45
+  solidHeightIncreaseTimer: 0.3
   oozeExtraJumps: 0
   solidExtraJumps: 0
   oozeExtraJumpSpeed: 5
@@ -604,7 +603,8 @@ MonoBehaviour:
   wallCheck: {fileID: 374308635}
   climbSpeed: 5
   climbJumpSpeed: {x: 4, y: 8}
-  wallReleaseSpeed: 5
+  wallReleaseSpeed: 7.5
+  wallReleaseLength: 0.3
 --- !u!95 &930270385
 Animator:
   serializedVersion: 3
