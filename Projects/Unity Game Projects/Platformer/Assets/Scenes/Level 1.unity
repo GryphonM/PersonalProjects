@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 374308638}
   - component: {fileID: 374308637}
   m_Layer: 0
-  m_Name: WallCheck
+  m_Name: OozeWallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -567,6 +567,7 @@ Transform:
   - {fileID: 1062141522}
   - {fileID: 1589346005}
   - {fileID: 374308636}
+  - {fileID: 1397350911}
   - {fileID: 1731024076}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -600,7 +601,8 @@ MonoBehaviour:
   solidAttackSeperation: 0.3
   oozeDamage: 1
   solidDamage: 3
-  wallCheck: {fileID: 374308635}
+  oozeWallCheck: {fileID: 374308635}
+  solidWallCheck: {fileID: 1397350910}
   climbSpeed: 5
   climbJumpSpeed: {x: 4, y: 8}
   wallReleaseSpeed: 7.5
@@ -906,6 +908,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1397350910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1397350911}
+  - component: {fileID: 1397350913}
+  - component: {fileID: 1397350912}
+  m_Layer: 0
+  m_Name: SolidWallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1397350911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397350910}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 930270383}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1397350912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397350910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462ee61fc1d654644863298e130b3f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tags:
+  - Wall
+--- !u!70 &1397350913
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397350910}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.03, y: 1.52}
+  m_Direction: 0
 --- !u!1 &1589346004
 GameObject:
   m_ObjectHideFlags: 0
@@ -998,7 +1062,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930270383}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1731024077
 SpriteRenderer:

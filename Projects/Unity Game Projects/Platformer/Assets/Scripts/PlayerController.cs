@@ -70,7 +70,8 @@ public class PlayerController : MonoBehaviour
 
     [Space(20)]
 
-    [SerializeField] GameObject wallCheck;
+    [SerializeField] GameObject oozeWallCheck;
+    [SerializeField] GameObject solidWallCheck;
     [Space(5)]
     [SerializeField] float climbSpeed;
     [SerializeField] Vector2 climbJumpSpeed;
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
         {
             // Movement
             {
-                if (!pushedBack && !climbing && !wallRelease)
+                if (!pushedBack && !climbing && !wallRelease && (!touchingWall || grounded))
                 {
                     if ((Input.GetKey(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)) ||
                         (Input.GetKeyUp(GameManager.Controls.MoveRight) || Input.GetKeyUp(GameManager.Controls.MoveLeft)))
@@ -246,14 +247,14 @@ public class PlayerController : MonoBehaviour
                 {
                     sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
                     sword.GetComponent<SpriteRenderer>().flipX = !facingRight;
-                    wallCheck.transform.localPosition = new Vector2(-wallCheck.transform.localPosition.x, wallCheck.transform.localPosition.y);
+                    oozeWallCheck.transform.localPosition = new Vector2(-oozeWallCheck.transform.localPosition.x, oozeWallCheck.transform.localPosition.y);
                 }
 
                 if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
                 {
                     sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
                     sword.GetComponent<SpriteRenderer>().flipX = !facingRight;
-                    wallCheck.transform.localPosition = new Vector2(-wallCheck.transform.localPosition.x, wallCheck.transform.localPosition.y);
+                    oozeWallCheck.transform.localPosition = new Vector2(-oozeWallCheck.transform.localPosition.x, oozeWallCheck.transform.localPosition.y);
                 }
             }
 
@@ -387,7 +388,8 @@ public class PlayerController : MonoBehaviour
                 attackTime = oozeAttackTime;
                 attackSeparation = oozeAttackSeperation;
                 sword.GetComponent<Sword>().damage = oozeDamage;
-                wallCheck.SetActive(true);
+                oozeWallCheck.SetActive(true);
+                solidWallCheck.SetActive(false);
                 myAnim.SetBool("IsSolid", false);
                 break;
             case PlayerManager.State.Solid:
@@ -401,7 +403,8 @@ public class PlayerController : MonoBehaviour
                 attackSeparation = solidAttackSeperation;
                 sword.GetComponent<Sword>().damage = solidDamage;
                 touchingWall = false;
-                wallCheck.SetActive(false);
+                oozeWallCheck.SetActive(false);
+                solidWallCheck.SetActive(true);
                 myAnim.SetBool("IsSolid", true);
                 break;
         }
