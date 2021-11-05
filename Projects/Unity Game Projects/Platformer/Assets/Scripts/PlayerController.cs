@@ -70,11 +70,19 @@ public class PlayerController : MonoBehaviour
     bool canAttack = true;
     bool pushedBack = false;
 
+    [Space(20)]
+
     [SerializeField] GameObject wallCheck;
+    [Space(5)]
     [SerializeField] float climbSpeed;
     [SerializeField] Vector2 climbJumpSpeed;
-    [Tooltip("If You climb to bottom of wall, how far are you pushed away from the wall?")]
+    [Space(5)]
+    [Tooltip("If You climb to bottom of wall, how much you are pushed away from the wall")]
     [SerializeField] float wallReleaseSpeed = 0.3f;
+    [Tooltip("How long you are pushed away from the wall if you climb to the bottom")]
+    [SerializeField] float wallReleaseLength = 0.2f;
+    float wallReleaseTimer;
+    bool wallRelease;
     bool touchingWall;
     bool climbing;
     bool climbJumping;
@@ -98,6 +106,7 @@ public class PlayerController : MonoBehaviour
         heightIncrease = heightIncreaseTimer;
         attackTimer = attackTime;
         attackHold = attackSeparation;
+        wallReleaseTimer = wallReleaseLength;
         jumpsLeft = extraJumps;
         ogGravity = myRB.gravityScale;
     }
@@ -109,7 +118,7 @@ public class PlayerController : MonoBehaviour
         {
             // Movement
             {
-                if (!pushedBack && !climbing)
+                if (!pushedBack && !climbing && !wallRelease)
                 {
                     if ((Input.GetKey(GameManager.Controls.MoveRight) && Input.GetKey(GameManager.Controls.MoveLeft)) ||
                         (Input.GetKeyUp(GameManager.Controls.MoveRight) || Input.GetKeyUp(GameManager.Controls.MoveLeft)))
@@ -147,83 +156,89 @@ public class PlayerController : MonoBehaviour
 
             // Jumping
             {
-                if (climbing && Input.GetKeyDown(GameManager.Controls.Jump))
+                if (!wallRelease)
                 {
-                    climbing = false;
-                    climbJumping = true;
-                    myRB.gravityScale = ogGravity;
-
-                    Vector2 jumpVel = climbJumpSpeed;
-                    if (facingRight)
-                        jumpVel.x = -jumpVel.x;
-                    myRB.velocity = jumpVel;
-                }
-                else
-                {
-                    Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
-
-                    if (Input.GetKey(GameManager.Controls.Jump))
+                    if (climbing && Input.GetKeyDown(GameManager.Controls.Jump))
                     {
-                        if (grounded)
-                        {
-                            myRB.velocity = jumpVel;
-                        }
-                        else if (heightIncrease > 0)
-                        {
-                            myRB.velocity = jumpVel;
-                            heightIncrease -= Time.deltaTime;
-                        }
-                    }
+                        climbing = false;
+                        climbJumping = true;
+                        myRB.gravityScale = ogGravity;
 
-                    if (Input.GetKeyUp(GameManager.Controls.Jump))
-                    {
-                        if (heightIncrease > 0)
-                            heightIncrease = 0;
-                    }
-
-                    if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
-                    {
-                        jumpVel.y = extraJumpSpeed;
+                        Vector2 jumpVel = climbJumpSpeed;
+                        if (facingRight)
+                            jumpVel.x = -jumpVel.x;
                         myRB.velocity = jumpVel;
-                        jumpsLeft--;
+                    }
+                    else
+                    {
+                        Vector2 jumpVel = new Vector2(myRB.velocity.x, jumpSpeed);
+
+                        if (Input.GetKey(GameManager.Controls.Jump))
+                        {
+                            if (grounded)
+                            {
+                                myRB.velocity = jumpVel;
+                            }
+                            else if (heightIncrease > 0)
+                            {
+                                myRB.velocity = jumpVel;
+                                heightIncrease -= Time.deltaTime;
+                            }
+                        }
+
+                        if (Input.GetKeyUp(GameManager.Controls.Jump))
+                        {
+                            if (heightIncrease > 0)
+                                heightIncrease = 0;
+                        }
+
+                        if (Input.GetKeyDown(GameManager.Controls.Jump) && !grounded && jumpsLeft > 0)
+                        {
+                            jumpVel.y = extraJumpSpeed;
+                            myRB.velocity = jumpVel;
+                            jumpsLeft--;
+                        }
                     }
                 }
             }
 
             // Attacking
             {
-                if (Input.GetKeyDown(GameManager.Controls.Attack) && !attacking && canAttack)
+                if (!wallRelease)
                 {
-                    sword.SetActive(true);
-                    myAnim.SetBool("Attacking", true);
-                    attacking = true;
-                    canAttack = false;
-                }
-
-                if (attacking)
-                {
-                    if (attackTimer <= 0)
+                    if (Input.GetKeyDown(GameManager.Controls.Attack) && !attacking && canAttack)
                     {
-                        attacking = false;
-                        sword.SetActive(false);
-                        myAnim.SetBool("Attacking", false);
-                        attackTimer = attackTime;
-                        pushedBack = false;
+                        sword.SetActive(true);
+                        myAnim.SetBool("Attacking", true);
+                        attacking = true;
+                        canAttack = false;
                     }
-                    else
-                        attackTimer -= Time.deltaTime;
-                }
 
-                if (!attacking && !canAttack)
-                {
-                    if (attackHold <= 0)
+                    if (attacking)
                     {
-                        canAttack = true;
-                        sword.GetComponent<Sword>().canDamage = true;
-                        attackHold = attackSeparation;
+                        if (attackTimer <= 0)
+                        {
+                            attacking = false;
+                            sword.SetActive(false);
+                            myAnim.SetBool("Attacking", false);
+                            attackTimer = attackTime;
+                            pushedBack = false;
+                        }
+                        else
+                            attackTimer -= Time.deltaTime;
                     }
-                    else
-                        attackHold -= Time.deltaTime;
+
+                    if (!attacking && !canAttack)
+                    {
+                        if (attackHold <= 0)
+                        {
+                            canAttack = true;
+                            sword.GetComponent<Sword>().canDamage = true;
+                            attackHold = attackSeparation;
+                        }
+                        else
+                            attackHold -= Time.deltaTime;
+                    }
                 }
             }
 
@@ -246,21 +261,24 @@ public class PlayerController : MonoBehaviour
 
             // Swap State
             {
-                if (grounded && Input.GetKeyDown(GameManager.Controls.ToOoze))
+                if (!wallRelease && grounded)
                 {
-                    SetState(PlayerManager.State.Ooze);
-                    heightIncrease = heightIncreaseTimer;
-                    attackTimer = attackTime;
-                    attackHold = attackSeparation;
-                    jumpsLeft = extraJumps;
-                }
-                else if (grounded && Input.GetKeyDown(GameManager.Controls.ToSolid))
-                {
-                    SetState(PlayerManager.State.Solid);
-                    heightIncrease = heightIncreaseTimer;
-                    attackTimer = attackTime;
-                    attackHold = attackSeparation;
-                    jumpsLeft = extraJumps;
+                    if (Input.GetKeyDown(GameManager.Controls.ToOoze))
+                    {
+                        SetState(PlayerManager.State.Ooze);
+                        heightIncrease = heightIncreaseTimer;
+                        attackTimer = attackTime;
+                        attackHold = attackSeparation;
+                        jumpsLeft = extraJumps;
+                    }
+                    else if (Input.GetKeyDown(GameManager.Controls.ToSolid))
+                    {
+                        SetState(PlayerManager.State.Solid);
+                        heightIncrease = heightIncreaseTimer;
+                        attackTimer = attackTime;
+                        attackHold = attackSeparation;
+                        jumpsLeft = extraJumps;
+                    }
                 }
             }
 
@@ -298,6 +316,7 @@ public class PlayerController : MonoBehaviour
 
                             newVel.y = 0;
                             climbing = false;
+                            wallRelease = true;
                         }
                         else
                         {
@@ -308,9 +327,19 @@ public class PlayerController : MonoBehaviour
                     myRB.velocity = newVel;
                 }
 
-                if (!climbing && Input.GetKeyUp(GameManager.Controls.ClimbDown))
+                if (wallRelease)
                 {
-                    // TO DO: Add timer for length of time to be pushed away from wall
+                    if (wallReleaseTimer <= 0 || myRB.velocity.x <= 0)
+                    {
+                        myRB.velocity = Vector2.zero;
+                        wallReleaseTimer = wallReleaseLength;
+                        wallRelease = false;
+                    }
+                    else
+                    {
+                        wallReleaseTimer -= Time.deltaTime;
+                        myRB.velocity = new Vector2(Mathf.Lerp(myRB.velocity.x, 0, Time.deltaTime * wallReleaseSpeed), myRB.velocity.y);
+                    }
                 }
             }
         }
