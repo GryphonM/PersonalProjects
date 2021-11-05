@@ -362,6 +362,7 @@ public class PlayerController : MonoBehaviour
                 attackSeparation = oozeAttackSeperation;
                 sword.GetComponent<Sword>().damage = oozeDamage;
                 wallCheck.SetActive(true);
+                myAnim.SetBool("IsSolid", false);
                 break;
             case PlayerManager.State.Solid:
                 PlayerManager.SetState(PlayerManager.State.Solid);
@@ -376,6 +377,7 @@ public class PlayerController : MonoBehaviour
                 sword.GetComponent<Sword>().damage = solidDamage;
                 touchingWall = false;
                 wallCheck.SetActive(false);
+                myAnim.SetBool("IsSolid", true);
                 break;
         }
     }
