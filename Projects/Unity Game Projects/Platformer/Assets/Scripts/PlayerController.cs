@@ -241,13 +241,14 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            // Flip Sword and Wall Check
+            // Flip Sword and Wall Checks
             {
                 if (Input.GetKeyDown(GameManager.Controls.MoveLeft) && sword.transform.localPosition.x > 0)
                 {
                     sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
                     sword.GetComponent<SpriteRenderer>().flipX = !facingRight;
                     oozeWallCheck.transform.localPosition = new Vector2(-oozeWallCheck.transform.localPosition.x, oozeWallCheck.transform.localPosition.y);
+                    solidWallCheck.transform.localPosition = oozeWallCheck.transform.localPosition;
                 }
 
                 if (Input.GetKeyDown(GameManager.Controls.MoveRight) && sword.transform.localPosition.x < 0)
@@ -255,6 +256,7 @@ public class PlayerController : MonoBehaviour
                     sword.transform.localPosition = new Vector2(-sword.transform.localPosition.x, sword.transform.localPosition.y);
                     sword.GetComponent<SpriteRenderer>().flipX = !facingRight;
                     oozeWallCheck.transform.localPosition = new Vector2(-oozeWallCheck.transform.localPosition.x, oozeWallCheck.transform.localPosition.y);
+                    solidWallCheck.transform.localPosition = oozeWallCheck.transform.localPosition;
                 }
             }
 
