@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] int maxStructureHealth = 8;
-    [SerializeField] int maxBlobHealth = 4;
-    int structureHealth;
-    int blobHealth;
+    [SerializeField] int maxStructureShield = 6;
+    [SerializeField] int maxBlobHealth = 3;
+    int shield;
+    int health;
 
     // Start is called before the first frame update
     void Start()
     {
-        structureHealth = maxStructureHealth;
-        blobHealth = maxBlobHealth;
+        shield = maxStructureShield;
+        health = maxBlobHealth;
     }
 
     public void DamageObject(int damage)
     {
         if (PlayerManager.CurrentState == PlayerManager.State.Solid)
-            structureHealth -= damage;
+            shield -= damage;
         else if (PlayerManager.CurrentState == PlayerManager.State.Ooze)
-            blobHealth -= damage;
+            health -= damage;
 
-        if (structureHealth <= 0)
+        if (shield <= 0)
             PlayerManager.SetState(PlayerManager.State.Ooze);
-        else if (blobHealth <= 0)
+        else if (health <= 0)
             PlayerManager.GameOver(gameObject);
     }
 }
