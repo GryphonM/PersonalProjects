@@ -18,7 +18,7 @@ using UnityEngine.UI;
 public class ChangeControl : MonoBehaviour
 {
     // Determine What Control is Being Changed
-    enum ControlType { moveLeft, moveRight, jump, attack, pause, toBlob, toStructure};
+    enum ControlType { moveLeft, moveRight, jump, attack, pause, toOoze, toSolid, climbUp, climbDown};
     [SerializeField] ControlType type;
 
     // Message to let user know to change the key
@@ -64,11 +64,17 @@ public class ChangeControl : MonoBehaviour
             case ControlType.pause:
                 buttonText.text = ConvertToString(GameManager.Controls.Pause);
                 break;
-            case ControlType.toBlob:
+            case ControlType.toOoze:
                 buttonText.text = ConvertToString(GameManager.Controls.ToOoze);
                 break;
-            case ControlType.toStructure:
+            case ControlType.toSolid:
                 buttonText.text = ConvertToString(GameManager.Controls.ToSolid);
+                break;
+            case ControlType.climbUp:
+                buttonText.text = ConvertToString(GameManager.Controls.ClimbUp);
+                break;
+            case ControlType.climbDown:
+                buttonText.text = ConvertToString(GameManager.Controls.ClimbDown);
                 break;
         }
     }
@@ -147,10 +153,16 @@ public class ChangeControl : MonoBehaviour
             case ControlType.pause:
                 GameManager.Controls.Pause = key;
                 break;
-            case ControlType.toBlob:
+            case ControlType.toOoze:
                 GameManager.Controls.ToOoze = key;
                 break;
-            case ControlType.toStructure:
+            case ControlType.toSolid:
+                GameManager.Controls.ToSolid = key;
+                break;
+            case ControlType.climbUp:
+                GameManager.Controls.ToSolid = key;
+                break;
+            case ControlType.climbDown:
                 GameManager.Controls.ToSolid = key;
                 break;
         }
