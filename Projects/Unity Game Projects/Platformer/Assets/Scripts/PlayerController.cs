@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float wallReleaseSpeed = 0.3f;
     [Tooltip("How long you are pushed away from the wall if you climb to the bottom")]
     [SerializeField] float wallReleaseLength = 0.2f;
+    [Tooltip("How high are you pushed when you climb to the top")]
+    [SerializeField] float wallPopUpForce = 2.5f;
     float wallReleaseTimer;
     bool wallRelease;
     bool touchingWall;
@@ -318,6 +320,7 @@ public class PlayerController : MonoBehaviour
                             newVel.y = 0;
                             climbing = false;
                             wallRelease = true;
+                            myRB.gravityScale = ogGravity;
                         }
                         else
                         {
@@ -326,6 +329,12 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                     myRB.velocity = newVel;
+                }
+                else if (!touchingWall && climbing && PlayerManager.CurrentState == PlayerManager.State.Ooze)
+                {
+                    climbing = false;
+                    myRB.velocity = new Vector2(0, wallPopUpForce);
+                    myRB.gravityScale = ogGravity;
                 }
 
                 if (wallRelease)

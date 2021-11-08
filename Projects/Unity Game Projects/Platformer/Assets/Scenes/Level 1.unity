@@ -607,6 +607,7 @@ MonoBehaviour:
   climbJumpSpeed: {x: 4, y: 8}
   wallReleaseSpeed: 7.5
   wallReleaseLength: 0.3
+  wallPopUpForce: 5
 --- !u!95 &930270385
 Animator:
   serializedVersion: 3
