@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
         health = maxBlobHealth;
     }
 
-    public void DamageObject(int damage)
+    public void DamagePlayer(int damage)
     {
         if (PlayerManager.CurrentState == PlayerManager.State.Solid)
             shield -= damage;
