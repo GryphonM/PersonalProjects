@@ -385,7 +385,7 @@ public class PlayerController : MonoBehaviour
         myRB.velocity = pushVel;
     }
 
-    void SetState(PlayerManager.State newState)
+    public void SetState(PlayerManager.State newState)
     {
         switch (newState)
         {

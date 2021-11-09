@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     [Tooltip("The speed the enemy stops lunging at")]
     [SerializeField] float lungeEndSpeed = .5f;
     [SerializeField] Vector2 lungeKnockBack;
+    [SerializeField] float knockBackTime = 0.5f;
     [SerializeField] float timeBetweenLunges;
 
     bool facingRight = true;
@@ -34,11 +35,13 @@ public class Enemy : MonoBehaviour
     int maxPatrolPoints;
     Rigidbody2D myRB;
 
-    bool waitingToLunge = false;
-    bool lunging = false;
-    bool canLunge = true;
-    float lungePauseTimer;
-    float lungeWaitTimer;
+    public bool waitingToLunge = false;
+    public bool lunging = false;
+    public bool canLunge = true;
+    public bool knockBack = false;
+    public float lungePauseTimer;
+    public float lungeWaitTimer;
+    public float knockBackTimer;
     
     // Start is called before the first frame update
     void Start()
@@ -48,6 +51,7 @@ public class Enemy : MonoBehaviour
         myRB = GetComponent<Rigidbody2D>();
         lungePauseTimer = lungePause;
         lungeWaitTimer = timeBetweenLunges;
+        knockBackTimer = knockBackTime;
     }
 
     // Update is called once per frame
@@ -60,7 +64,7 @@ public class Enemy : MonoBehaviour
             ((facingRight && target.transform.position.x > transform.position.x) || 
             (!facingRight && target.transform.position.x < transform.position.x));
         
-        if (!targetClose && !waitingToLunge && !lunging)
+        if (!targetClose && !waitingToLunge && !lunging && !knockBack)
         {
             if ((transform.position.x <= patrolPoints[nextPatrolPoint].x + patrolCloseEnough && 
                 transform.position.x >= patrolPoints[nextPatrolPoint].x - patrolCloseEnough) &&
@@ -153,7 +157,9 @@ public class Enemy : MonoBehaviour
 
             if (lunging && canLunge)
             {
-                if (myRB.velocity.x > lungeEndSpeed || (canFly && myRB.velocity.y > lungeEndSpeed))
+                if ((myRB.velocity.x > 0 && myRB.velocity.x > lungeEndSpeed) || 
+                    (myRB.velocity.x < 0 && myRB.velocity.x < lungeEndSpeed) || 
+                    (canFly && myRB.velocity.y > lungeEndSpeed))
                 {
                     if (canFly)
                     {
@@ -171,12 +177,12 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     canLunge = false;
-                    lunging = true;
+                    lunging = false;
                     myRB.velocity = Vector2.zero;
                 }
             }
 
-            if (!canLunge)
+            if (!canLunge && !knockBack)
             {
                 if (lungeWaitTimer <= 0)
                 {
@@ -185,6 +191,17 @@ public class Enemy : MonoBehaviour
                 }
                 else
                     lungeWaitTimer -= Time.deltaTime;
+            }
+
+            if (knockBack)
+            {
+                if (knockBackTimer <= 0)
+                {
+                    knockBack = false;
+                    knockBackTimer = knockBackTime;
+                }
+                else
+                    knockBackTimer -= Time.deltaTime;
             }
         }
     }
@@ -203,12 +220,16 @@ public class Enemy : MonoBehaviour
                 else if (colPlayHealth != null)
                     colPlayHealth.DamagePlayer(damage);
 
-                if (lunging)
+                if (lunging && !waitingToLunge)
                 {
                     if (facingRight)
                         myRB.velocity = -lungeKnockBack;
                     else
                         myRB.velocity = lungeKnockBack;
+
+                    lunging = false;
+                    canLunge = false;
+                    knockBack = true;
                 }
             }
         }

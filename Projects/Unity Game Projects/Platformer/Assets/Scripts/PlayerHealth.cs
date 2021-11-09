@@ -9,11 +9,15 @@ public class PlayerHealth : MonoBehaviour
     int shield;
     int health;
 
+    PlayerController myPC;
+
     // Start is called before the first frame update
     void Start()
     {
         shield = maxStructureShield;
         health = maxBlobHealth;
+
+        myPC = GetComponent<PlayerController>();
     }
 
     public void DamagePlayer(int damage)
@@ -24,8 +28,9 @@ public class PlayerHealth : MonoBehaviour
             health -= damage;
 
         if (shield <= 0)
-            PlayerManager.SetState(PlayerManager.State.Ooze);
-        else if (health <= 0)
+            myPC.SetState(PlayerManager.State.Ooze);
+        
+        if (health <= 0)
             PlayerManager.GameOver(gameObject);
     }
 }

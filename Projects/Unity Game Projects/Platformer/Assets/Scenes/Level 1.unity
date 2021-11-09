@@ -461,7 +461,15 @@ MonoBehaviour:
   damage: 1
   lungeEndSpeed: 0.5
   lungeKnockBack: {x: 3, y: 5}
-  timeBetweenLunges: 3
+  knockBackTime: 1
+  timeBetweenLunges: 0.5
+  waitingToLunge: 0
+  lunging: 0
+  canLunge: 1
+  knockBack: 0
+  lungePauseTimer: 0
+  lungeWaitTimer: 0
+  knockBackTimer: 0
 --- !u!1 &930270379
 GameObject:
   m_ObjectHideFlags: 0
