@@ -36,10 +36,9 @@ Lab1::Lab1()
 // Initialize the Lab1 level.
 void Lab1::Initialize()
 {
-	// TO DO: Print "Lab1: Initialize" to the console
+	std::cout << "Lab1: Initialize" << std::endl;
 
-	// TO DO: Set Beta’s background color to white.
-	//EngineGetModule(Beta::GraphicsEngine)->SetBackgroundColor(Beta::Colors:: );
+	EngineGetModule(Beta::GraphicsEngine)->SetBackgroundColor(Colors::White);
 }
 
 // Update the Lab1 level.
@@ -47,19 +46,38 @@ void Lab1::Initialize()
 //	 dt = Change in time (in seconds) since the last game loop.
 void Lab1::Update(float dt)
 {
-	// Tell the compiler that the 'dt' variable is unused.
-	// TO DO: Remove this line if/when you actually start using 'dt'.
-	UNREFERENCED_PARAMETER(dt);
+	// Variable Declarations	
+	DebugDraw& draw = *EngineGetModule(DebugDraw);
+	Vector2D secondsLineEnd;
+	Vector2D minutesLineEnd;
+	Vector2D hourLineEnd;
 
-	// TO DO: Create variable declarations for points/vectors (Beta::Vector2D) and floats as needed.
+	// Draw the circle
+	draw.AddCircle(origin, lineLength, Colors::Black);
 
-	// TO DO: Draw a circle (see assignment page for link to example code)
+	// Define ends of lines
+	angle1 += dt * rotationalVelocity * 60;
+	angle2 += dt * rotationalVelocity;
+	angle3 += dt * rotationalVelocity / 60;
 
-	// TO DO: Draw lines (see assignment page for link to example code)
+	secondsLineEnd.x = lineLength * sin(angle1);
+	secondsLineEnd.y = lineLength * cos(angle1);
+
+	minutesLineEnd.x = (lineLength - 0.2) * sin(angle2);
+	minutesLineEnd.y = (lineLength - 0.2) * cos(angle2);
+	
+	hourLineEnd.x = (lineLength - 0.4) * sin(angle3);
+	hourLineEnd.y = (lineLength - 0.4) * cos(angle3);
+
+	// Draw Lines
+	draw.AddLineToList(origin, secondsLineEnd, Colors::Red);
+	draw.AddLineToList(origin, minutesLineEnd, Colors::Green);
+	draw.AddLineToList(origin, hourLineEnd, Colors::Blue);
+	draw.EndLineList();
 }
 
 // Shut down the Lab1 level.
 void Lab1::Shutdown()
 {
-	// TO DO: Print "Lab1: Shutdown" to the console
+	std::cout << "Lab1: Shutdown" << std::endl;
 }

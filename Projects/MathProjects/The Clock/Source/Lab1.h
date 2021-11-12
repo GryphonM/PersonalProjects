@@ -64,7 +64,4 @@ private:
 
 	// Points
 	Beta::Vector2D p, q, r;
-
-	// TO DO: Add other variables here as needed.
-
 };
