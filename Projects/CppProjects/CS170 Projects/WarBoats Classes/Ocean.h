@@ -15,7 +15,9 @@ namespace CS175
         
           Ocean(int num_boats_, int x_quadrants_, int y_quadrants_);
           ~Ocean(void);
-          BoatPlacement PlaceBoat(void);
+          BoatPlacement PlaceBoat(const Boat& boat);
+          ShotResult TakeShot(const Point& coordinate_); 
+          const ShotStats& GetShotStats(void) const;
         
            // Provided
         const int **GetGrid(void) const;
@@ -26,6 +28,7 @@ namespace CS175
         int* boats;       // How many hits each boat has taken
         int x_quadrants;  // Ocean size along x-axis
         int y_quadrants;  // Ocean size along y-axis
+        ShotStats stats;  // Keep track of game stats
         
         /*
          * Other private data

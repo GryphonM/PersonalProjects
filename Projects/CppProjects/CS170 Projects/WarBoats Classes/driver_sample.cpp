@@ -15,7 +15,7 @@ void Dump(const CS175::WarBoats::Ocean &ocean, int field_width = 4, bool extrali
   {
     for (int x = 0; x < width; x++)
     {
-      int value = ocean.GetGrid()[y * width + x];
+      int value = ocean.GetGrid()[x][y];
 	  if ((value > 0) && (value < CS175::WarBoats::HIT_OFFSET) && (showboats == false))
 	  {
         value = 0;
