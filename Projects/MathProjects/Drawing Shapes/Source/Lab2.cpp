@@ -229,33 +229,78 @@ void Lab2::CreateFace()
 
 void Lab2::CreateHexagon()
 {
-	// Helper Points
+	// Helper Variables
 	Vector2D pointPV = pointP + vectorV;
 	Vector2D pointPU = pointP + vectorU;
+	Vector2D vectorPVPU = pointPU - pointPV;
 
 	// Determine Points
-	Vector2D midpointP_PV1 = pointP + (0.25 * vectorV);
-	Vector2D midpointP_PV2 = pointP + (0.75 * vectorV);
+	Vector2D midpointPV1 = pointP + ((1 / 3.f) * vectorV);
+	Vector2D midpointPV2 = pointP + ((2 / 3.f) * vectorV);
 
-	Vector2D midpointP_PU1 = pointP + (0.25 * vectorU);
-	Vector2D midpointP_PU2 = pointP + (0.75 * vectorU);
+	Vector2D midpointPU1 = pointP + ((1 / 3.f) * vectorU);
+	Vector2D midpointPU2 = pointP + ((2 / 3.f) * vectorU);
 
-	Vector2D midpointPV_PU1 = 0.5 * (pointPV + (0.5 * (pointPV + pointPU)));
-	Vector2D midpointPV_PU2 = 0.5 * (pointPU + (0.5 * (pointPV + pointPU)));
+	Vector2D midpointPV_PU1 = pointPV + ((1 / 3.f) * vectorPVPU);
+	Vector2D midpointPV_PU2 = pointPV + ((2 / 3.f) * vectorPVPU);
 
 	// Draw Lines
-	EngineGetModule(DebugDraw)->AddLineToList(pointP, pointPV, Colors::Orange);
-	DrawLine(midpointP_PV1, midpointP_PV2);
-	DrawLine(midpointP_PV2, midpointPV_PU1);
-	EngineGetModule(DebugDraw)->AddLineToList(pointPV, pointPU, Colors::Orange);
+	DrawLine(midpointPV1, midpointPV2);
+	DrawLine(midpointPV2, midpointPV_PU1);
 	DrawLine(midpointPV_PU1, midpointPV_PU2);
-	DrawLine(midpointPV_PU2, midpointP_PU2);
-	EngineGetModule(DebugDraw)->AddLineToList(pointP, pointPU, Colors::Orange);
-	DrawLine(midpointP_PU2, midpointP_PU1);
-	DrawLine(midpointP_PU1, midpointP_PV1);
+	DrawLine(midpointPV_PU2, midpointPU2);
+	DrawLine(midpointPU2, midpointPU1);
+	DrawLine(midpointPU1, midpointPV1);
 }
 
 void Lab2::CreateDiamondCut()
 {
+	// Helper Variables
+	Vector2D pointPV = pointP + vectorV;
+	Vector2D pointPU = pointP + vectorU;
+	Vector2D vectorPVPU = pointPU - pointPV;
 
+	// Inner Hexagon
+	// Determine Points
+	Vector2D midpointPV1 = pointP + ((1 / 3.f) * vectorV);
+	Vector2D midpointPV2 = pointP + ((2 / 3.f) * vectorV);
+
+	Vector2D midpointPU1 = pointP + ((1 / 3.f) * vectorU);
+	Vector2D midpointPU2 = pointP + ((2 / 3.f) * vectorU);
+
+	Vector2D midpointPV_PU1 = pointPV + ((1 / 3.f) * vectorPVPU);
+	Vector2D midpointPV_PU2 = pointPV + ((2 / 3.f) * vectorPVPU);
+
+	// Draw Lines
+	DrawLine(midpointPV1, midpointPV2);
+	DrawLine(midpointPV2, midpointPV_PU1);
+	DrawLine(midpointPV_PU1, midpointPV_PU2);
+	DrawLine(midpointPV_PU2, midpointPU2);
+	DrawLine(midpointPU2, midpointPU1);
+	DrawLine(midpointPU1, midpointPV1);
+
+	// Outer Hexagon
+	// Determine Points
+	Vector2D endpointPV1 = pointPV - ((1 / 3.f) * vectorU);
+	Vector2D endpointPV2 = pointPV + ((1 / 3.f) * vectorU);
+	Vector2D endpointPU1 = pointPU - ((1 / 3.f) * vectorV);
+	Vector2D endpointPU2 = pointPU + ((1 / 3.f) * vectorV);
+	Vector2D endpointP1 = pointP + ((1 / 3.f) * vectorPVPU);
+	Vector2D endpointP2 = pointP - ((1 / 3.f) * vectorPVPU);
+
+	// Draw Lines
+	DrawLine(endpointP1, endpointP2);
+	DrawLine(endpointP2, endpointPV1);
+	DrawLine(endpointPV1, endpointPV2);
+	DrawLine(endpointPV2, endpointPU2);
+	DrawLine(endpointPU2, endpointPU1);
+	DrawLine(endpointPU1, endpointP1);
+
+	// Connecting Lines
+	DrawLine(midpointPV1, endpointP2);
+	DrawLine(midpointPV2, endpointPV1);
+	DrawLine(midpointPU1, endpointP1);
+	DrawLine(midpointPU2, endpointPU1);
+	DrawLine(midpointPV_PU1, endpointPV2);
+	DrawLine(midpointPV_PU2, endpointPU2);
 }
