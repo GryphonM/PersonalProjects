@@ -40,16 +40,14 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	using namespace Beta;
 	EngineCore& engine = EngineCore::GetInstance();
 
-	// TO DO: Uncomment the following line to add the 
-	// Space object to the engine as a module. The engine 
+	// Add the space object to the engine as a module. The engine 
 	// will automatically call the Space's Initialize, Update,
 	// and Shutdown  functions when the engine is starting, 
 	// updating, and shutting down respectively.
-	// 
-	//Space* space = engine.AddModule<Space>();
+	Space* space = engine.AddModule<Space>();
 
-	// TO DO: Uncomment to set initial level to the first level.
-	//space->SetLevel(new Levels::Level1());
+	// Set initial level to the first level.
+	space->SetLevel(new Levels::Level1());
 
 	// Game engine goes!
 	StartupSettings settings;
@@ -57,15 +55,15 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	settings.windowHeight = 600;
 	settings.framerateCap = 200;
 
-	// TO DO: Uncomment to redirect std::cout to file
-	//std::streambuf* coutBuff = std::cout.rdbuf();
-	//std::ofstream fileOutput("trace.txt");
-	//std::cout.rdbuf(fileOutput.rdbuf());
+	// Redirect std::cout to file
+	std::streambuf* coutBuff = std::cout.rdbuf();
+	std::ofstream fileOutput("trace.txt");
+	std::cout.rdbuf(fileOutput.rdbuf());
 
 	engine.Start(settings);
 
-	// TO DO: Uncomment to redirect std::cout to file
-	//std::cout.rdbuf(coutBuff);
+	// Redirect std::cout to console
+	std::cout.rdbuf(coutBuff);
 
 	return 0;
 }

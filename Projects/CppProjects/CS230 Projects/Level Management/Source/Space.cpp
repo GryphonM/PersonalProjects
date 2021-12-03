@@ -57,10 +57,12 @@ void Space::Shutdown()
 	{
 		currentLevel->Shutdown();
 		currentLevel->Unload();
+	}
+
+	if (nextLevel != nullptr)
+	{
 		nextLevel->Shutdown();
 		nextLevel->Unload();
-		delete currentLevel;
-		delete nextLevel;
 	}
 }
 
@@ -84,20 +86,39 @@ void Space::SetPaused(bool value)
 
 void Space::SetLevel(Level* level)
 {
-	level->SetOwner(this);
-
-	// TO DO: Set next level to given param
-
+	nextLevel = level;
 }
 
 // Restarts the current level (next level = current)
 void Space::RestartLevel()
 {
-
+	nextLevel = currentLevel;
 }
 
 // Game State Update
 void Space::ChangeLevel()
 {
+	std::cout << "Space::ChangeLevel" << std::endl;
 
+	if (currentLevel == nullptr)
+	{
+		currentLevel = nextLevel;
+		currentLevel->Load();
+	}
+	else
+	{
+		currentLevel->Shutdown();
+
+		if (currentLevel != nextLevel)
+		{
+			currentLevel->Unload();
+			Level* previousLevel = currentLevel;
+			currentLevel = nextLevel;
+			delete previousLevel;
+			currentLevel->Load();
+		}
+	}
+
+	nextLevel = nullptr;
+	currentLevel->Initialize();
 }
