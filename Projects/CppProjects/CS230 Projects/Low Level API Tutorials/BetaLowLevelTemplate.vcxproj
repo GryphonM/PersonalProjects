@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Level1.cpp" />
     <ClCompile Include="Source\Level2.cpp" />
+    <ClCompile Include="Source\Level3.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -22,6 +23,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Level1.h" />
     <ClInclude Include="Source\Level2.h" />
+    <ClInclude Include="Source\Level3.h" />
     <ClInclude Include="Source\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

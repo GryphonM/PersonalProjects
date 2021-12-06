@@ -19,6 +19,9 @@
     <ClCompile Include="Source\Level2.cpp">
       <Filter>Levels</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Level3.cpp">
+      <Filter>Levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">
@@ -28,6 +31,9 @@
       <Filter>Levels</Filter>
     </ClInclude>
     <ClInclude Include="Source\Level2.h">
+      <Filter>Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level3.h">
       <Filter>Levels</Filter>
     </ClInclude>
   </ItemGroup>

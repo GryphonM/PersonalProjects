@@ -16,6 +16,7 @@
 #include "stdafx.h"
 #include "Level1.h"
 #include "Level2.h"
+#include "Level3.h"
 
 // BetaFramework Engine
 #include <BetaLow.h>
@@ -48,7 +49,7 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance,
 
 	// Game engine goes!
 	EngineCore& engine = EngineCore::GetInstance();
-	engine.AddModule<Level2>();
+	engine.AddModule<Level3>();
 	engine.Start(settings);
 
 	return 0;
