@@ -43,7 +43,6 @@ Space::~Space()
 // Updates the state manager and object manager.
 void Space::Update(float dt)
 {
-	std::cout << "Space::Update" << std::endl;
 	if (nextLevel != nullptr)
 		Space::ChangeLevel();
 	if (currentLevel != nullptr && !paused)
@@ -98,8 +97,6 @@ void Space::RestartLevel()
 // Game State Update
 void Space::ChangeLevel()
 {
-	std::cout << "Space::ChangeLevel" << std::endl;
-
 	if (currentLevel == nullptr)
 	{
 		currentLevel = nextLevel;
