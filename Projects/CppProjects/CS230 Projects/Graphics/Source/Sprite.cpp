@@ -26,7 +26,7 @@ using namespace Beta;
 //------------------------------------------------------------------------------
 
 // Create a new sprite object.
-Sprite::Sprite(Mesh* mesh_, const SpriteSource* spriteSource_ = nullptr)
+Sprite::Sprite(Mesh* mesh_, const SpriteSource* spriteSource_)
 	: frameIndex(0), flipX(false), flipY(false), color(Colors::Black),
 	mesh(mesh_), spriteSource(spriteSource_)
 {
@@ -43,7 +43,9 @@ void Sprite::Draw()
 	graphics.GetSpriteShader().Use();
 
 	if (spriteSource != nullptr)
-		spriteSource->UseTexture(frameIndex, flipX, flipY);
+	{
+		//spriteSource->UseTexture(frameIndex, flipX, flipY);
+	}
 	else
 		graphics.GetDefaultTexture().Use();
 
@@ -68,12 +70,12 @@ float Sprite::GetAlpha() const
 // Set the sprite's current frame.
 // Params:
 //   frameIndex = New frame index for the sprite (0 .. frame count).
-void Sprite::SetFrame(unsigned int frameIndex)
+void Sprite::SetFrame(unsigned int frameIndex_)
 {
-	std::cout << "Sprite::SetFrame(" << frameIndex << ")" << std::endl;
+	std::cout << "Sprite::SetFrame(" << frameIndex_ << ")" << std::endl;
 
-	if (frameIndex < spriteSource->GetFrameCount())
-		this->frameIndex = frameIndex;
+	/*if (frameIndex_ < spriteSource->GetFrameCount())
+		frameIndex = frameIndex_;*/
 }
 
 // Set the sprite's mesh.
@@ -81,31 +83,33 @@ void Sprite::SetFrame(unsigned int frameIndex)
 // (NOTE: This mesh may contain any number of triangles.)
 // Params:
 //   mesh = Pointer to a mesh created using the Beta Framework.
-void Sprite::SetMesh(Beta::Mesh* mesh)
+void Sprite::SetMesh(Beta::Mesh* mesh_)
 {
-	this->mesh = mesh;
+	mesh = mesh_;
 }
 
 // Set a new SpriteSource for the specified sprite.
 // Params:
 //	 spriteSource = A new sprite source for the sprite.
-void Sprite::SetSpriteSource(const SpriteSource* spriteSource)
+void Sprite::SetSpriteSource(const SpriteSource* spriteSource_)
 {
-	this->spriteSource = spriteSource;
+	UNREFERENCED_PARAMETER(spriteSource_);
+	//spriteSource = spriteSource_;
 }
 
 // Returns the current sprite source being used by the sprite.
 const SpriteSource* Sprite::GetSpriteSource()
 {
-	return spriteSource;
+	//return spriteSource;
+	return nullptr;
 }
 
 // Set the blend color for the specified sprite.
 // Params:
 //	 color = A new color for the sprite.
-void Sprite::SetColor(Color color)
+void Sprite::SetColor(Color color_)
 {
-	this->color = color;
+	color = color_;
 }
 
 // Retrieves the blend color for the sprite.
@@ -115,13 +119,13 @@ const Color& Sprite::GetColor() const
 }
 
 // Set whether to flip the sprite horizontally when drawing
-void Sprite::SetFlipX(bool flipX)
+void Sprite::SetFlipX(bool flipX_)
 {
-	this->flipX = flipX;
+	flipX = flipX_;
 }
 
 // Set whether to flip the sprite vertically when drawing
-void Sprite::SetFlipY(bool flipY)
+void Sprite::SetFlipY(bool flipY_)
 {
-	this->flipY = flipY;
+	flipY = flipY_;
 }

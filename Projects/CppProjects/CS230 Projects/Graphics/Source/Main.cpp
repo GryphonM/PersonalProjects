@@ -43,20 +43,25 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	// TO-DO: Add additional modules to engine
 	using namespace Beta;
 	EngineCore& engine = EngineCore::GetInstance();
+	Space* space = engine.AddModule<Space>();
 
-	// TO-DO: Set initial level to the first level
+	space->SetLevel(new Levels::Level1());
 
 	StartupSettings settings;
 	settings.windowWidth = 800;
 	settings.windowHeight = 600;
 	//settings.framerateCap = 200;
 
-	// TO DO: Redirect std::cout to file
+	// Redirect std::cout to file
+	std::streambuf* coutBuff = std::cout.rdbuf();
+	std::ofstream fileOutput("trace.txt");
+	std::cout.rdbuf(fileOutput.rdbuf());
 
 	// Game engine goes!
 	engine.Start(settings);
 
-	// TO-DO: Restore std::cout to console
+	// Restore std::cout to console
+	std::cout.rdbuf(coutBuff);
 
 	return 0;
 }

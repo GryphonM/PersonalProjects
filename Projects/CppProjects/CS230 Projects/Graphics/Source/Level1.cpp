@@ -47,7 +47,7 @@ namespace Levels
 	{
 		std::cout << "Level1::Load" << std::endl;
 
-		// TO DO: Create a mesh with 1 triangle using CreateTriangleMesh
+		mesh = CreateTriangleMesh(Colors::Red, Colors::Green, Colors::Blue);
 	}
 
 	// Initialize the memory associated with Level 1.
@@ -55,7 +55,7 @@ namespace Levels
 	{
 		std::cout << "Level1::Initialize" << std::endl;
 
-		// TO DO: Create a new sprite
+		sprite = new Sprite(mesh);
 	}
 
 	// Update Level 1.
@@ -66,11 +66,14 @@ namespace Levels
 		UNREFERENCED_PARAMETER(dt);
 
 		// TO DO:
-		// Draw the sprite
+		sprite->Draw();
 
-		// Decrease lives counter by 1
-
-		// If lives reaches 0, change state to Level2
+		lives--;
+		if (lives <= 0)
+		{
+			Level2* level = new Level2;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
 	}
 
 	// Shutdown any memory associated with Level 1.
@@ -78,7 +81,7 @@ namespace Levels
 	{
 		std::cout << "Level1::Shutdown" << std::endl;
 
-		// TO DO: Delete the sprite
+		delete sprite;
 	}
 
 	// Unload the resources associated with Level 1.
@@ -86,6 +89,6 @@ namespace Levels
 	{
 		std::cout << "Level1::Unload" << std::endl;
 
-		// TO DO: Delete the mesh
+		delete mesh;
 	}
 }

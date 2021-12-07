@@ -61,19 +61,19 @@ public:
 	// Set the sprite's current frame.
 	// Params:
 	//   frameIndex = New frame index for the sprite (0 .. frame count).
-	void SetFrame(unsigned int frameIndex);
+	void SetFrame(unsigned int frameIndex_);
 
 	// Set the sprite's mesh.
 	// (NOTE: This mesh may be textured or untextured.)
 	// (NOTE: This mesh may contain any number of triangles.)
 	// Params:
 	//   mesh = Pointer to a mesh created using the Beta Framework.
-	void SetMesh(Beta::Mesh* mesh);
+	void SetMesh(Beta::Mesh* mesh_);
 
 	// Set a new SpriteSource for the specified sprite.
 	// Params:
 	//	 spriteSource = A new sprite source for the sprite.
-	void SetSpriteSource(const SpriteSource* spriteSource);
+	void SetSpriteSource(const SpriteSource* spriteSource_);
 
 	// Returns the current sprite source being used by the sprite.
 	const SpriteSource* GetSpriteSource();
@@ -81,16 +81,16 @@ public:
 	// Set the blend color for the specified sprite.
 	// Params:
 	//	 color = A new color for the sprite.
-	void SetColor(Beta::Color color);
+	void SetColor(Beta::Color color_);
 
 	// Retrieves the blend color for the sprite.
 	const Beta::Color& GetColor() const;
 
 	// Set whether to flip the sprite horizontally when drawing
-	void SetFlipX(bool flipX);
+	void SetFlipX(bool flipX_);
 
 	// Set whether to flip the sprite vertically when drawing
-	void SetFlipY(bool flipY);
+	void SetFlipY(bool flipY_);
 
 private:
 	//------------------------------------------------------------------------------
