@@ -10,11 +10,13 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-// Include Files:
+// Include Files and Using Declarations:
 //------------------------------------------------------------------------------
 
 #include "stdafx.h"
 #include "MeshHelper.h"
+
+using namespace Beta;
 
 //------------------------------------------------------------------------------
 
@@ -29,10 +31,15 @@
 //   color2 = The color of vertex 2.
 // Returns:
 //	 A pointer to the newly created mesh.
-Beta::Mesh* CreateTriangleMesh(const Beta::Color& color0, const Beta::Color& color1,
-	const Beta::Color& color2)
+Mesh* CreateTriangleMesh(const Color& color0, const Color& color1,
+	const Color& color2)
 {
-	
+	Vertex rightPoint = Vertex(Vector2D(0.5f, 0.0f), color0);
+	Vertex leftTopPoint = Vertex(Vector2D(-0.5f, 0.5f), color1);
+	Vertex leftBottomPoint = Vertex(Vector2D(-0.5f, -0.5f), color2);
+
+	EngineGetModule(MeshFactory)->AddTriangle(rightPoint, leftTopPoint, leftBottomPoint);
+	return EngineGetModule(MeshFactory)->EndCreate();
 }
 
 // Create a textured quad mesh using the Beta Framework.
@@ -41,9 +48,16 @@ Beta::Mesh* CreateTriangleMesh(const Beta::Color& color0, const Beta::Color& col
 //	 extents	 = The XY distance of the vertices from the origin.
 // Returns:
 //	 A pointer to the newly created mesh.
-Beta::Mesh* CreateQuadMesh(const Beta::Vector2D& textureSize, const Beta::Vector2D& extents)
+Mesh* CreateQuadMesh(const Vector2D& textureSize, const Vector2D& extents)
 {
+	Vertex topRight = Vertex(Vector2D(0.5f + extents.x, 0.5f + extents.y), textureSize);
+	Vertex topLeft = Vertex(Vector2D(-0.5f + extents.x, 0.5f + extents.y), textureSize);
+	Vertex bottomRight = Vertex(Vector2D(0.5f + extents.x, -0.5f + extents.y), textureSize);
+	Vertex bottomLeft = Vertex(Vector2D(-0.5f + extents.x, -0.5f + extents.y), textureSize);
 
+	EngineGetModule(MeshFactory)->AddTriangle(topRight, topLeft, bottomLeft);
+	EngineGetModule(MeshFactory)->AddTriangle(bottomLeft, bottomRight, topLeft);
+	return EngineGetModule(MeshFactory)->EndCreate();
 }
 
 //------------------------------------------------------------------------------
