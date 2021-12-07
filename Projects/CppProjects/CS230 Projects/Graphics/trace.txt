@@ -20,10 +20,6 @@ Compiling shader program 9 fragment shader...
 Shader compiled successfully.
 Shader program 7: spriteShader.vert, fontShader.frag
 Shaders linked successfully.
-Level1::Load
-Level1::Initialize
-Level1::Shutdown
-Level1::Unload
 Level2::Load
 Level2::Initialize
 Level2::Shutdown

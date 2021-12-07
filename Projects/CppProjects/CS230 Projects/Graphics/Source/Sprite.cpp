@@ -39,13 +39,10 @@ void Sprite::Draw()
 		return;
 
 	GraphicsEngine& graphics = *EngineGetModule(GraphicsEngine);
-	graphics.SetBackgroundColor(Colors::White);
 	graphics.GetSpriteShader().Use();
 
 	if (spriteSource != nullptr)
-	{
-		//spriteSource->UseTexture(frameIndex, flipX, flipY);
-	}
+		spriteSource->UseTexture(frameIndex, flipX, flipY);
 	else
 		graphics.GetDefaultTexture().Use();
 
@@ -74,8 +71,8 @@ void Sprite::SetFrame(unsigned int frameIndex_)
 {
 	std::cout << "Sprite::SetFrame(" << frameIndex_ << ")" << std::endl;
 
-	/*if (frameIndex_ < spriteSource->GetFrameCount())
-		frameIndex = frameIndex_;*/
+	if (frameIndex_ < spriteSource->GetFrameCount())
+		frameIndex = frameIndex_;
 }
 
 // Set the sprite's mesh.
@@ -93,15 +90,13 @@ void Sprite::SetMesh(Beta::Mesh* mesh_)
 //	 spriteSource = A new sprite source for the sprite.
 void Sprite::SetSpriteSource(const SpriteSource* spriteSource_)
 {
-	UNREFERENCED_PARAMETER(spriteSource_);
-	//spriteSource = spriteSource_;
+	spriteSource = spriteSource_;
 }
 
 // Returns the current sprite source being used by the sprite.
 const SpriteSource* Sprite::GetSpriteSource()
 {
-	//return spriteSource;
-	return nullptr;
+	return spriteSource;
 }
 
 // Set the blend color for the specified sprite.

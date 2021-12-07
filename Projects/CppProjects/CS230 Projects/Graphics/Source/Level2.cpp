@@ -54,12 +54,15 @@ namespace Levels
 		
 		// TO DO:
 		// Create a texture from the Monkey.png file using Texture::CreateTextureFromFile
+		texture = Texture::CreateTextureFromFile("Monkey.png");
 
 		// Create a new sprite sources for monkey
+		spriteSource = new SpriteSource(texture);
 
 		// Create a new animation for the monkey walk cycle
 
 		// Create a textured mesh with 2 triangles using CreateQuadMesh
+		mesh = CreateQuadMesh(Vector2D(1.f / columns, 1.f / rows), Vector2D(0.5f, 0.5f));
 	}
 
 	// Initialize the memory associated with Level 2.
@@ -69,6 +72,7 @@ namespace Levels
 		
 		// TO DO:
 		// Create a new sprite
+		sprite = new Sprite(mesh, spriteSource);
 
 		// Create a new animator
 
@@ -87,6 +91,7 @@ namespace Levels
 		// TO DO: Update the animation component
 		
 		// TO DO: Draw the sprite
+		sprite->Draw();
 
 		// If the animation is done
 		/*if (animator->IsDone())
@@ -119,6 +124,7 @@ namespace Levels
 		std::cout << "Level2::Shutdown" << std::endl;
 		
 		// TO DO: Delete the animator and sprite
+		delete sprite;
 	}
 
 	// Unload the resources associated with Level 2.
@@ -127,5 +133,8 @@ namespace Levels
 		std::cout << "Level2::Unload" << std::endl;
 		
 		// TO DO: Delete the animation, sprite source, texture, mesh
+		delete spriteSource;
+		delete mesh;
+		delete texture;
 	}
 }

@@ -50,13 +50,13 @@ Mesh* CreateTriangleMesh(const Color& color0, const Color& color1,
 //	 A pointer to the newly created mesh.
 Mesh* CreateQuadMesh(const Vector2D& textureSize, const Vector2D& extents)
 {
-	Vertex topRight = Vertex(Vector2D(0.5f + extents.x, 0.5f + extents.y), textureSize);
-	Vertex topLeft = Vertex(Vector2D(-0.5f + extents.x, 0.5f + extents.y), textureSize);
-	Vertex bottomRight = Vertex(Vector2D(0.5f + extents.x, -0.5f + extents.y), textureSize);
-	Vertex bottomLeft = Vertex(Vector2D(-0.5f + extents.x, -0.5f + extents.y), textureSize);
+	Vertex topRight = Vertex(extents, Vector2D(textureSize.x, 0));
+	Vertex topLeft = Vertex(Vector2D(-extents.x, extents.y), Vector2D(0, 0));
+	Vertex bottomRight = Vertex(Vector2D(extents.x, -extents.y), textureSize);
+	Vertex bottomLeft = Vertex(-extents, Vector2D(0, textureSize.y));
 
 	EngineGetModule(MeshFactory)->AddTriangle(topRight, topLeft, bottomLeft);
-	EngineGetModule(MeshFactory)->AddTriangle(bottomLeft, bottomRight, topLeft);
+	EngineGetModule(MeshFactory)->AddTriangle(bottomLeft, bottomRight, topRight);
 	return EngineGetModule(MeshFactory)->EndCreate();
 }
 
