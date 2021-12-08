@@ -44,7 +44,7 @@ Space::~Space()
 void Space::Update(float dt)
 {
 	if (nextLevel != nullptr)
-		Space::ChangeLevel();
+		ChangeLevel();
 	if (currentLevel != nullptr && !paused)
 		currentLevel->Update(dt);
 }
@@ -86,6 +86,7 @@ void Space::SetPaused(bool value)
 void Space::SetLevel(Level* level)
 {
 	nextLevel = level;
+	nextLevel->SetOwner(this);
 }
 
 // Restarts the current level (next level = current)

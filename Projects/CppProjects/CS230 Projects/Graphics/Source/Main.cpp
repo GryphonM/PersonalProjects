@@ -46,7 +46,7 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	EngineCore& engine = EngineCore::GetInstance();
 	Space* space = engine.AddModule<Space>();
 
-	space->SetLevel(new Levels::Level2());
+	space->SetLevel(new Levels::Level1());
 
 	StartupSettings settings;
 	settings.windowWidth = 800;

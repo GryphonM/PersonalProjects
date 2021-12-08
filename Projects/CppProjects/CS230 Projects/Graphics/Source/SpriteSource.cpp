@@ -68,6 +68,7 @@ const Vector2D SpriteSource::GetTextureDimensions() const
 //------------------------------------------------------------------------------
 // Private Functions:
 //------------------------------------------------------------------------------
+
 // Returns the UV coordinates of the specified frame in a sprite sheet.
 	// Params:
 	//	 frameIndex = A frame index within a sprite sheet.

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\Level1.cpp" />

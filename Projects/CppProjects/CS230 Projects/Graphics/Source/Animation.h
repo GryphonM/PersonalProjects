@@ -47,9 +47,9 @@ public:
 	// Return the total number of frames in the animation
 	unsigned GetFrameCount() const;
 
-	// Return the frame index in the sprite source based on the current animation index.
-	// (Animator only tracks position in animation relative to animation start, 
-	// not the actual frame index in the sprite source)
+	// Return the frame index that a sprite should use. This is based on the
+	// sprite's current frame (given as a parameter), the animation's start frame, 
+	// and the animation's frame count.
 	// Params:
 	//   frameIndex = The current frame in he animation, zero-based.
 	// Returns:
