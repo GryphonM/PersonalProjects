@@ -51,16 +51,15 @@ void Animator::Update(float dt)
 
 	if (timer >= currentFrameDuration)
 	{
-		sprite->SetFrame(animationList[animationIndex]->GetActualFrameIndex(++currentFrameIndex));
+		sprite->SetFrame(animationList[animationIndex]->GetActualFrameIndex(currentFrameIndex++));
 		if (currentFrameIndex == animationList[animationIndex]->GetFrameCount())
 		{
-			if (isLooping)
-				currentFrameIndex = 0;
-			else
+			if (!isLooping)
 				isRunning = false;
 
 			isDone = true;
 			timer = 0;
+			currentFrameIndex = 0;
 		}
 		else
 			isDone = false;
@@ -86,14 +85,13 @@ void Animator::Play(size_t animationIndex_, float playbackSpeed_, bool loop)
 	animationIndex = animationIndex_;
 	playbackSpeed = playbackSpeed_;
 	isLooping = loop;
-	isDone = false;
 	isRunning = true;
 
 	const Animation* currentAnim = animationList[animationIndex_];
 
 	if (currentAnim->GetSpriteSource() != nullptr)
 		sprite->SetSpriteSource(currentAnim->GetSpriteSource());
-	sprite->SetFrame(currentAnim->GetActualFrameIndex(0));
+	sprite->SetFrame(currentAnim->GetActualFrameIndex(currentFrameIndex++));
 	currentFrameDuration = currentAnim->GetActualFrameDuration(0);
 }
 
