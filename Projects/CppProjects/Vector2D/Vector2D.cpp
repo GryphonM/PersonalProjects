@@ -251,8 +251,7 @@ Vector2D Vector2D::operator-() const
 //   the stream with the value to be printed
 std::ostream& operator<<(std::ostream& os, const Vector2D& out)
 {
-    os << "(" << out.X() << ", ";
-    os << out.Y() << ")" << std::endl;
+    os << "(" << out.X() << ", " << out.Y() << ")";
     
     return os;
 }
