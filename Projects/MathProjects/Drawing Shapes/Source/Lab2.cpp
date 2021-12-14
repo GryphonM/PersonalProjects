@@ -169,9 +169,9 @@ void Lab2::CreateTriforce()
 
 	// Inner Triangle
 	// Determine Points
-	Vector2D midpointP_PV = pointP + (0.5 * vectorV);
-	Vector2D midpointP_PU = pointP + (0.5 * vectorU);
-	Vector2D midpointPV_PU = 0.5 * (pointP_V + pointP_U);
+	Vector2D midpointP_PV = pointP + (0.5f * vectorV);
+	Vector2D midpointP_PU = pointP + (0.5f * vectorU);
+	Vector2D midpointPV_PU = 0.5f * (pointP_V + pointP_U);
 
 	// Draw Lines
 	DrawLine(midpointP_PV, midpointP_PU);
@@ -189,12 +189,12 @@ void Lab2::CreateFace()
 	
 	// Eye Outlines
 	// Determine Points
-	Vector2D midpointP_V = pointP + (0.5 * vectorV);
-	Vector2D midpointP_U = pointP + (0.5 * vectorU);
-	Vector2D midpointPV_PU = 0.5 * (pointP_V + pointP_U);
-	Vector2D backMidpointP_V = pointP - (0.5 * vectorV);
-	Vector2D backMidpointP_U = pointP - (0.5 * vectorU);
-	Vector2D backMidpointPV_PU = 0.5 * (backPointP_V + backPointP_U);
+	Vector2D midpointP_V = pointP + (0.5f * vectorV);
+	Vector2D midpointP_U = pointP + (0.5f * vectorU);
+	Vector2D midpointPV_PU = 0.5f * (pointP_V + pointP_U);
+	Vector2D backMidpointP_V = pointP - (0.5f * vectorV);
+	Vector2D backMidpointP_U = pointP - (0.5f * vectorU);
+	Vector2D backMidpointPV_PU = 0.5f * (backPointP_V + backPointP_U);
 
 	// Draw Lines
 	DrawLine(pointP, midpointP_V);
@@ -208,18 +208,18 @@ void Lab2::CreateFace()
 
 	// Pupils
 	// Determine Origin
-	Vector2D midpointMMPU_MPV = 0.5 * (midpointP_U + midpointP_V);
-	Vector2D backMidpointMMPU_MPV = 0.5 * (backMidpointP_U + backMidpointP_V);
+	Vector2D midpointMMPU_MPV = 0.5f * (midpointP_U + midpointP_V);
+	Vector2D backMidpointMMPU_MPV = 0.5f * (backMidpointP_U + backMidpointP_V);
 
 	// Draw Circles
-	EngineGetModule(DebugDraw)->AddCircle(midpointMMPU_MPV, 0.1, Colors::Red);
-	EngineGetModule(DebugDraw)->AddCircle(backMidpointMMPU_MPV, 0.1, Colors::Red);
+	EngineGetModule(DebugDraw)->AddCircle(midpointMMPU_MPV, 0.1f, Colors::Red);
+	EngineGetModule(DebugDraw)->AddCircle(backMidpointMMPU_MPV, 0.1f, Colors::Red);
 
 	// Mouth
 	// Determine points
 	Vector2D pointU_MPVPU = backMidpointPV_PU + vectorU;
-	Vector2D midpointUMPVU_BMPV = 0.5 * (pointU_MPVPU + backMidpointP_V);
-	Vector2D midpointUMPVU_MPU = 0.5 * (pointU_MPVPU + midpointP_U);
+	Vector2D midpointUMPVU_BMPV = 0.5f * (pointU_MPVPU + backMidpointP_V);
+	Vector2D midpointUMPVU_MPU = 0.5f * (pointU_MPVPU + midpointP_U);
 
 	// Draw Lins
 	DrawLine(pointU_MPVPU, midpointUMPVU_BMPV);

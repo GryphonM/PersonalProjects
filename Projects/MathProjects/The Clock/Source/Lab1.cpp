@@ -63,11 +63,11 @@ void Lab1::Update(float dt)
 	secondsLineEnd.x = lineLength * sin(angle1);
 	secondsLineEnd.y = lineLength * cos(angle1);
 
-	minutesLineEnd.x = (lineLength - 0.2) * sin(angle2);
-	minutesLineEnd.y = (lineLength - 0.2) * cos(angle2);
+	minutesLineEnd.x = (lineLength - 0.2f) * sin(angle2);
+	minutesLineEnd.y = (lineLength - 0.2f) * cos(angle2);
 	
-	hourLineEnd.x = (lineLength - 0.4) * sin(angle3);
-	hourLineEnd.y = (lineLength - 0.4) * cos(angle3);
+	hourLineEnd.x = (lineLength - 0.4f) * sin(angle3);
+	hourLineEnd.y = (lineLength - 0.4f) * cos(angle3);
 
 	// Draw Lines
 	draw.AddLineToList(origin, secondsLineEnd, Colors::Red);
