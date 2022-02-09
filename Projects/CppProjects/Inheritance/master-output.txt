@@ -1,0 +1,102 @@
+
+=== Accounts===========================================
+[Account: Unnamed Account: 0.00]
+[Account: Larry: 0.00]
+[Account: Moe: 2000.00]
+[Account: Curly: 5000.00]
+
+=== Depositing to Accounts =================================
+Deposited 1000.00 to [Account: Unnamed Account: 1000.00]
+Deposited 1000.00 to [Account: Larry: 1000.00]
+Deposited 1000.00 to [Account: Moe: 3000.00]
+Deposited 1000.00 to [Account: Curly: 6000.00]
+
+=== Withdrawing from Accounts ==============================
+Failed Withdrawal of 2000.00 from [Account: Unnamed Account: 1000.00]
+Failed Withdrawal of 2000.00 from [Account: Larry: 1000.00]
+Withdrew 2000.00 from [Account: Moe: 1000.00]
+Withdrew 2000.00 from [Account: Curly: 4000.00]
+
+=== Savings Accounts=====================================
+[Savings_Account: Unnamed Savings Account: 0.00, 0.00]
+[Savings_Account: Superman: 0.00, 0.00]
+[Savings_Account: Batman: 2000.00, 0.00]
+[Savings_Account: Wonderwoman: 5000.00, 5.00]
+
+=== Depositing to Savings Accounts===========================
+Deposited 1000.00 to [Savings_Account: Unnamed Savings Account: 1000.00, 0.00]
+Deposited 1000.00 to [Savings_Account: Superman: 1000.00, 0.00]
+Deposited 1000.00 to [Savings_Account: Batman: 3000.00, 0.00]
+Deposited 1000.00 to [Savings_Account: Wonderwoman: 6050.00, 5.00]
+
+=== Withdrawing from Savings Accounts=======================
+Failed Withdrawal of 2000.00 from [Savings_Account: Unnamed Savings Account: 1000.00, 0.00]
+Failed Withdrawal of 2000.00 from [Savings_Account: Superman: 1000.00, 0.00]
+Withdrew 2000.00 from [Savings_Account: Batman: 1000.00, 0.00]
+Withdrew 2000.00 from [Savings_Account: Wonderwoman: 4050.00, 5.00]
+
+=== Checking Accounts=====================================
+[Checking_Account: Unnamed Checking Account: 0.00]
+[Checking_Account: Kirk: 0.00]
+[Checking_Account: Spock: 2000.00]
+[Checking_Account: Bones: 5000.00]
+
+=== Depositing to Checking Accounts===========================
+Deposited 1000.00 to [Checking_Account: Unnamed Checking Account: 1000.00]
+Deposited 1000.00 to [Checking_Account: Kirk: 1000.00]
+Deposited 1000.00 to [Checking_Account: Spock: 3000.00]
+Deposited 1000.00 to [Checking_Account: Bones: 6000.00]
+
+=== Withdrawing from Checking Accounts=======================
+Failed Withdrawal of 2000.00 from [Checking_Account: Unnamed Checking Account: 1000.00]
+Failed Withdrawal of 2000.00 from [Checking_Account: Kirk: 1000.00]
+Withdrew 2000.00 from [Checking_Account: Spock: 998.50]
+Withdrew 2000.00 from [Checking_Account: Bones: 3998.50]
+
+=== Trust Accounts=====================================
+[Trust Account: Unnamed Trust Account: 0.00, 0.00%, withdrawals: 0]
+[Trust Account: Athos: 10000.00, 5.00%, withdrawals: 0]
+[Trust Account: Porthos: 20000.00, 4.00%, withdrawals: 0]
+[Trust Account: Aramis: 30000.00, 0.00%, withdrawals: 0]
+
+=== Depositing to Trust Accounts===========================
+Deposited 1000.00 to [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Deposited 1000.00 to [Trust Account: Athos: 11050.00, 5.00%, withdrawals: 0]
+Deposited 1000.00 to [Trust Account: Porthos: 21040.00, 4.00%, withdrawals: 0]
+Deposited 1000.00 to [Trust Account: Aramis: 31000.00, 0.00%, withdrawals: 0]
+
+=== Withdrawing from Trust Accounts=======================
+Failed Withdrawal of 3000.00 from [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Failed Withdrawal of 3000.00 from [Trust Account: Athos: 11050.00, 5.00%, withdrawals: 0]
+Withdrew 3000.00 from [Trust Account: Porthos: 18040.00, 4.00%, withdrawals: 1]
+Withdrew 3000.00 from [Trust Account: Aramis: 28000.00, 0.00%, withdrawals: 1]
+
+=== Withdrawing from Trust Accounts=======================
+Failed Withdrawal of 1000.00 from [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Withdrew 1000.00 from [Trust Account: Athos: 10050.00, 5.00%, withdrawals: 1]
+Withdrew 1000.00 from [Trust Account: Porthos: 17040.00, 4.00%, withdrawals: 2]
+Withdrew 1000.00 from [Trust Account: Aramis: 27000.00, 0.00%, withdrawals: 2]
+
+=== Withdrawing from Trust Accounts=======================
+Failed Withdrawal of 1000.00 from [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Withdrew 1000.00 from [Trust Account: Athos: 9050.00, 5.00%, withdrawals: 2]
+Withdrew 1000.00 from [Trust Account: Porthos: 16040.00, 4.00%, withdrawals: 3]
+Withdrew 1000.00 from [Trust Account: Aramis: 26000.00, 0.00%, withdrawals: 3]
+
+=== Withdrawing from Trust Accounts=======================
+Failed Withdrawal of 1000.00 from [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Withdrew 1000.00 from [Trust Account: Athos: 8050.00, 5.00%, withdrawals: 3]
+Failed Withdrawal of 1000.00 from [Trust Account: Porthos: 16040.00, 4.00%, withdrawals: 3]
+Failed Withdrawal of 1000.00 from [Trust Account: Aramis: 26000.00, 0.00%, withdrawals: 3]
+
+=== Withdrawing from Trust Accounts=======================
+Failed Withdrawal of 1000.00 from [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Failed Withdrawal of 1000.00 from [Trust Account: Athos: 8050.00, 5.00%, withdrawals: 3]
+Failed Withdrawal of 1000.00 from [Trust Account: Porthos: 16040.00, 4.00%, withdrawals: 3]
+Failed Withdrawal of 1000.00 from [Trust Account: Aramis: 26000.00, 0.00%, withdrawals: 3]
+
+=== Withdrawing from Trust Accounts=======================
+Failed Withdrawal of 1000.00 from [Trust Account: Unnamed Trust Account: 1000.00, 0.00%, withdrawals: 0]
+Failed Withdrawal of 1000.00 from [Trust Account: Athos: 8050.00, 5.00%, withdrawals: 3]
+Failed Withdrawal of 1000.00 from [Trust Account: Porthos: 16040.00, 4.00%, withdrawals: 3]
+Failed Withdrawal of 1000.00 from [Trust Account: Aramis: 26000.00, 0.00%, withdrawals: 3]

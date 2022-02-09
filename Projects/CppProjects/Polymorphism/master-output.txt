@@ -1,0 +1,22 @@
+[Checking_Account: Frank: 5000.00]
+[Trust Account: James: 0.00, 0.00%, withdrawals: 0]
+
+=== Accounts===========================================
+[Checking_Account: Larry: 10000.00]
+[Savings_Account: Moe: 1000.00, 0.00]
+[Trust Account: Curly: 0.00, 0.00%, withdrawals: 0]
+
+=== Depositing to Accounts =================================
+Deposited 1000.00 to [Checking_Account: Larry: 11000.00]
+Deposited 1000.00 to [Savings_Account: Moe: 2000.00, 0.00]
+Deposited 1000.00 to [Trust Account: Curly: 1000.00, 0.00%, withdrawals: 0]
+
+=== Withdrawing from Accounts ==============================
+Withdrew 2000.00 from [Checking_Account: Larry: 8998.50]
+Withdrew 2000.00 from [Savings_Account: Moe: 0.00, 0.00]
+Failed Withdrawal of 2000.00 from [Trust Account: Curly: 1000.00, 0.00%, withdrawals: 0]
+
+=== Accounts===========================================
+[Checking_Account: Larry: 8998.50]
+[Savings_Account: Moe: 0.00, 0.00]
+[Trust Account: Curly: 1000.00, 0.00%, withdrawals: 0]
