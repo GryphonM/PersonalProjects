@@ -1,3 +1,13 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	Trust_Account.cpp
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	PRG 7.2.9 Practice - Account Class with Polymorphism
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
 #include "Trust_Account.h"
 
 Trust_Account::Trust_Account(std::string name, double balance, double int_rate)
@@ -5,14 +15,22 @@ Trust_Account::Trust_Account(std::string name, double balance, double int_rate)
         
 }
 
-// Deposit additional $50 bonus when amount >= $5000
+// Deposits given amount bonus if amount is above threshold
+// Params:
+//   amount = amount to deposit
+// Return:
+//   Deposit Success
 bool Trust_Account::deposit(double amount) {
     if (amount >= bonus_threshold)
         amount += bonus_amount;
     return Savings_Account::deposit(amount);
 }
-    
-// Only allowed 3 withdrawals, each can be up to a maximum of 20% of the account's value
+
+// Withdraws given amount, restricted to amount of times and max percent to be taken out
+// Params:
+//   amount = amount to withdraw
+// Return:
+//   Withdrawal Success    
 bool Trust_Account::withdraw(double amount) {
     if (num_withdrawals >= max_withdrawals || (amount > balance * max_withdraw_percent))
         return false;
@@ -22,6 +40,9 @@ bool Trust_Account::withdraw(double amount) {
     }
 }
 
+// Prints trust account data
+// Params:
+//   os = stream to output to
 void Trust_Account::print(std::ostream &os) const {
     os << "[Trust Account: " << name << ": " << balance << ", " << int_rate 
         << "%, withdrawals: " << num_withdrawals <<  "]";
