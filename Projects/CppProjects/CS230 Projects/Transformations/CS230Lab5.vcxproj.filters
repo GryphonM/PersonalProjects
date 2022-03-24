@@ -58,6 +58,9 @@
     <ClCompile Include="Source\Space.cpp">
       <Filter>High-Level API\Spaces</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Matrix2DStudent.cpp">
+      <Filter>High-Level API\Transform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">
