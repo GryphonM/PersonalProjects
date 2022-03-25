@@ -1,3 +1,13 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	Shape_With_Vertices.cpp
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	PRG 7.2.11 Assignment: Inheritance with Shapes
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
 #include "Shape_With_Vertices.h"
 
 Shape_With_Vertices::Shape_With_Vertices(Point center_, unsigned int vertices_)

@@ -1,3 +1,13 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	Rectangle.cpp
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	PRG 7.2.11 Assignment: Inheritance with Shapes
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
 #include "Rectangle.h"
 
 Rectangle::Rectangle(Point center_, unsigned int width_, unsigned int height_)
