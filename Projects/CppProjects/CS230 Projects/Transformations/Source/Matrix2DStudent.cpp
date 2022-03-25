@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-// File Name:	Matrix2DStudnet.cpp
+// File Name:	Matrix2DStudent.cpp
 // Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
 // Project:	CS230 7.0.7 Assignment: Transformations
 // Course:	WANIC VGP2
@@ -65,7 +65,7 @@ namespace CS230
 	// This function creates a translation matrix from x & y and returns it.
 	Matrix2D Matrix2D::TranslationMatrix(float x, float y)
 	{
-		Matrix2D T;
+		Matrix2D T = IdentityMatrix();
 		T.m[0][2] = x;
 		T.m[1][2] = y;
 		T.m[2][2] = 1;
@@ -75,7 +75,7 @@ namespace CS230
 	// This function creates a scaling matrix from x & y and returns it.
 	Matrix2D Matrix2D::ScalingMatrix(float x, float y)
 	{
-		Matrix2D S;
+		Matrix2D S = IdentityMatrix();
 		S.m[0][0] = x;
 		S.m[1][1] = y; 
 		S.m[2][2] = 1;
@@ -86,7 +86,7 @@ namespace CS230
 	// Return the resulting matrix.
 	Matrix2D Matrix2D::RotationMatrixRadians(float angle)
 	{
-		Matrix2D R;
+		Matrix2D R = IdentityMatrix();
 		R.m[0][0] = cos(angle);
 		R.m[0][1] = -sin(angle);
 		R.m[1][0] = sin(angle);
@@ -100,7 +100,7 @@ namespace CS230
 	//	 radians = (angle * M_PI) / 180.0f
 	Matrix2D Matrix2D::RotationMatrixDegrees(float angle)
 	{
-		return RotationMatrixRadians((angle * M_PI) / 180.0f);
+		return RotationMatrixRadians((angle * static_cast<float>(M_PI)) / 180.0f);
 	}
 
 	// This function multiplies the current matrix with another and returns the result as a new matrix.
@@ -138,7 +138,10 @@ namespace CS230
 	// Result = Mtx * Vec.
 	Beta::Vector2D Matrix2D::operator*(const Beta::Vector2D& vec) const
 	{
-		
+		Beta::Vector2D result;
+		result.x = m[0][0] * vec.x + m[0][1] * vec.y + m[0][2];
+		result.y = m[1][0] * vec.x + m[1][1] * vec.y + m[1][2];
+		return result;
 	}
 
 	//------------------------------------------------------------------------------

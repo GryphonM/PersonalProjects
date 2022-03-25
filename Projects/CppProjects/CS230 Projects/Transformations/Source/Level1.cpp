@@ -22,6 +22,7 @@
 
 // Components
 #include "Sprite.h"
+#include "Transform.h"
 
 // Levels
 #include "Level2.h"
@@ -55,7 +56,8 @@ namespace Levels
 	{
 		std::cout << "Level1::Initialize" << std::endl;
 
-		sprite = new Sprite(nullptr, mesh);
+		transform = new Transform(Beta::Vector2D(0.5, 0.5), Beta::Vector2D(2, 2), 90);
+		sprite = new Sprite(transform, mesh);
 	}
 
 	// Update Level 1.
@@ -67,6 +69,14 @@ namespace Levels
 
 		// TO DO:
 		sprite->Draw();
+
+		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
+			GetSpace()->RestartLevel();
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
+		{
+			Level2* level = new Level2;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
 	}
 
 	// Shutdown any memory associated with Level 1.
@@ -75,6 +85,7 @@ namespace Levels
 		std::cout << "Level1::Shutdown" << std::endl;
 
 		delete sprite;
+		delete transform;
 	}
 
 	// Unload the resources associated with Level 1.

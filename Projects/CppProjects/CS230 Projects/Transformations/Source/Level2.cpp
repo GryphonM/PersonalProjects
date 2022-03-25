@@ -27,6 +27,10 @@
 // Components
 #include "Sprite.h"
 #include "Animator.h"
+#include "Transform.h"
+
+// Levels
+#include "Level1.h"
 
 //------------------------------------------------------------------------------
 
@@ -42,7 +46,7 @@ namespace Levels
 	Level2::Level2()
 		: Level("Level2"), mesh(nullptr), texture(nullptr),spriteSource(nullptr), 
 		columns(3), rows(5), sprite(nullptr), animator(nullptr), animation(nullptr), 
-		animFrameStart(0), animFrameCount(8), animFrameDuration(0.0f)
+		animFrameStart(0), animFrameCount(8), animFrameDuration(0.2f)
 	{
 	}
 
@@ -71,8 +75,11 @@ namespace Levels
 		std::cout << "Level2::Initialize" << std::endl;
 		
 		// TO DO:
+		// Create a Transform
+		transform = new Transform(Beta::Vector2D(1, 1), Beta::Vector2D(1, 1), 45);
+
 		// Create a new sprite
-		sprite = new Sprite(nullptr, mesh, spriteSource);
+		sprite = new Sprite(transform, mesh, spriteSource);
 
 		// Create a new animator
 		animator = new Animator(sprite);
@@ -93,29 +100,13 @@ namespace Levels
 		// TO DO: Draw the sprite
 		sprite->Draw();
 
-		// If the animation is done
-		//if (animator->IsDone())
-		//{
-		//	// Decrease health value by 1
-		//	--currentHealth;
-
-		//	// If health reaches 0, decrease lives value by 1
-		//	if (currentHealth <= 0)
-		//	{
-		//		--lives;
-
-		//		// If lives reaches 0, quit the game (stop the Engine)
-		//		if (lives <= 0)
-		//		{
-		//			EngineCore::GetInstance().Stop();
-		//		}
-		//		// Otherwise, restart the level
-		//		else
-		//		{
-		//			GetSpace()->RestartLevel();
-		//		}
-		//	}
-		//}
+		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
+		{
+			Level1* level = new Level1;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
+			GetSpace()->RestartLevel();
 	}
 
 	// Shutdown any memory associated with Level 2.
@@ -123,9 +114,10 @@ namespace Levels
 	{
 		std::cout << "Level2::Shutdown" << std::endl;
 		
-		// TO DO: Delete the animator and sprite
+		// TO DO: Delete components
 		delete animator;
 		delete sprite;
+		delete transform;
 	}
 
 	// Unload the resources associated with Level 2.

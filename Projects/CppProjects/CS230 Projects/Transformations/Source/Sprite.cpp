@@ -16,6 +16,7 @@
 #include "stdafx.h"
 #include "Sprite.h"
 #include "SpriteSource.h"
+#include "Transform.h"
 
 using namespace Beta;
 
@@ -35,7 +36,7 @@ Sprite::Sprite(const Transform* transform_, Mesh* mesh_, const SpriteSource* spr
 // Draw a sprite (Sprite can be textured or untextured).
 void Sprite::Draw()
 {
-	if (mesh == nullptr)
+	if (mesh == nullptr || transform == nullptr)
 		return;
 
 	GraphicsEngine& graphics = *EngineGetModule(GraphicsEngine);
@@ -46,7 +47,7 @@ void Sprite::Draw()
 	else
 		graphics.GetDefaultTexture().Use();
 
-	graphics.SetTransform(Vector2D(0, 0), Vector2D(1, 1), 0);
+	graphics.SetTransform(reinterpret_cast<const Matrix2D&>(transform->GetMatrix()));
 	mesh->Draw();
 }
 
