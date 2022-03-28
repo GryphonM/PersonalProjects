@@ -47,12 +47,12 @@ void RigidBody::Update(float dt)
 //	 dt = Change in time (in seconds) since the last fixed update.
 void RigidBody::FixedUpdate(float dt)
 {
-	UNREFERENCED_PARAMETER(dt);
+	//UNREFERENCED_PARAMETER(dt);
 	
-	velocity += acceleration/* * dt*/;
+	velocity += acceleration;
 	oldTranslation = transform->GetTranslation();
-	transform->SetTranslation(oldTranslation + velocity);
-	transform->SetRotation(transform->GetRotation() + angularVelocity);
+	transform->SetTranslation(oldTranslation + (velocity * dt));
+	transform->SetRotation(transform->GetRotation() + (angularVelocity * dt));
 }
 
 // Set the velocity of a rigid body.
@@ -74,9 +74,9 @@ const Beta::Vector2D& RigidBody::GetVelocity() const
 // Set the angular velocity of a rigid body.
 // Params:
 //	 velocity = New value for the rotational velocity.
-void RigidBody::SetAngularVelocity(float velocity)
+void RigidBody::SetAngularVelocity(float velocity_)
 {
-	angularVelocity = velocity;
+	angularVelocity = velocity_;
 }
 
 // Get the angular velocity of a rigid body.

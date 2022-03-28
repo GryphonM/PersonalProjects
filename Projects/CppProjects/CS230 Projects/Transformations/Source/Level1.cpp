@@ -19,10 +19,12 @@
 // Systems
 #include "Space.h"
 #include "MeshHelper.h"
+#include "Behaviors.h"
 
 // Components
 #include "Sprite.h"
 #include "Transform.h"
+#include "RigidBody.h"
 
 // Levels
 #include "Level2.h"
@@ -56,7 +58,8 @@ namespace Levels
 	{
 		std::cout << "Level1::Initialize" << std::endl;
 
-		transform = new Transform(Beta::Vector2D(0.5, 0.5), Beta::Vector2D(2, 2), 90);
+		transform = new Transform(Beta::Vector2D(0, 0), Beta::Vector2D(0.5, 0.5), 0);
+		rigidBody = new RigidBody(transform);
 		sprite = new Sprite(transform, mesh);
 	}
 
@@ -69,6 +72,9 @@ namespace Levels
 
 		// TO DO:
 		sprite->Draw();
+		Behaviors::UpdateShip(transform, rigidBody);
+		rigidBody->Update(dt);
+		rigidBody->FixedUpdate(dt);
 
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 			GetSpace()->RestartLevel();
@@ -86,6 +92,7 @@ namespace Levels
 
 		delete sprite;
 		delete transform;
+		delete rigidBody;
 	}
 
 	// Unload the resources associated with Level 1.

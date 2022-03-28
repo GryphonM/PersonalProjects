@@ -49,7 +49,7 @@ const CS230::Matrix2D& Transform::GetMatrix() const
 		CS230::Matrix2D Scale = CS230::Matrix2D::ScalingMatrix(scale.x, scale.y);
 		CS230::Matrix2D Rotation = CS230::Matrix2D::RotationMatrixDegrees(rotation);
 
-		matrix = Scale * Rotation * Translation;
+		matrix = Translation * Rotation * Scale;
 		isDirty = false;
 	}
 	return matrix;
@@ -60,7 +60,7 @@ const CS230::Matrix2D& Transform::GetMatrix() const
 //	 translation = Reference to a translation vector.
 void Transform::SetTranslation(const Beta::Vector2D& translation_)
 {
-	if (!(translation_.x == translation.x && translation_.y == translation.y))
+	if (!Beta::AlmostEqual(translation, translation_))
 	{
 		translation.x = translation_.x;
 		translation.y = translation_.y;
@@ -81,7 +81,7 @@ const Beta::Vector2D& Transform::GetTranslation() const
 //	 rotation = The rotation value (in radians).
 void Transform::SetRotation(float rotation_)
 {
-	if (rotation != rotation_)
+	if (!Beta::AlmostEqual(rotation, rotation_))
 	{
 		rotation = rotation_;
 		isDirty = true;
@@ -101,7 +101,7 @@ float Transform::GetRotation() const
 //	 translation = Reference to a scale vector.
 void Transform::SetScale(const Beta::Vector2D& scale_)
 {
-	if (!(scale_.x == scale.x && scale_.y == scale.y))
+	if (!Beta::AlmostEqual(scale, scale_))
 	{
 		scale.x = scale_.x;
 		scale.y = scale_.y;
