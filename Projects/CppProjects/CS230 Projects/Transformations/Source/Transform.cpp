@@ -47,7 +47,7 @@ const CS230::Matrix2D& Transform::GetMatrix() const
 	{
 		CS230::Matrix2D Translation = CS230::Matrix2D::TranslationMatrix(translation.x, translation.y);
 		CS230::Matrix2D Scale = CS230::Matrix2D::ScalingMatrix(scale.x, scale.y);
-		CS230::Matrix2D Rotation = CS230::Matrix2D::RotationMatrixDegrees(rotation);
+		CS230::Matrix2D Rotation = CS230::Matrix2D::RotationMatrixRadians(rotation);
 
 		matrix = Translation * Rotation * Scale;
 		isDirty = false;

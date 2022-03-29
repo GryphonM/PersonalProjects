@@ -38,7 +38,7 @@ void RigidBody::Update(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 	
-	acceleration = forcesSum / inverseMass;
+	acceleration = forcesSum * inverseMass;
 	forcesSum = 0;
 }
 
@@ -49,7 +49,7 @@ void RigidBody::FixedUpdate(float dt)
 {
 	//UNREFERENCED_PARAMETER(dt);
 	
-	velocity += acceleration;
+	velocity += acceleration * dt;
 	oldTranslation = transform->GetTranslation();
 	transform->SetTranslation(oldTranslation + (velocity * dt));
 	transform->SetRotation(transform->GetRotation() + (angularVelocity * dt));

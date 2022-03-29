@@ -28,6 +28,8 @@
 #include "Sprite.h"
 #include "Animator.h"
 #include "Transform.h"
+#include "RigidBody.h"
+#include "Behaviors.h"
 
 // Levels
 #include "Level1.h"
@@ -76,7 +78,11 @@ namespace Levels
 		
 		// TO DO:
 		// Create a Transform
-		transform = new Transform(Beta::Vector2D(1, 1), Beta::Vector2D(1, 1), 45);
+		BoundingRectangle screen = EngineCore::GetInstance().GetModule<GraphicsEngine>()->GetDefaultCamera().GetScreenWorldDimensions();
+		transform = new Transform(Beta::Vector2D(screen.center.x, screen.bottom + 0.5f), Beta::Vector2D(1, 1), 0);
+
+		// Create a RigidBody
+		rigidBody = new RigidBody(transform);
 
 		// Create a new sprite
 		sprite = new Sprite(transform, mesh, spriteSource);
@@ -100,6 +106,11 @@ namespace Levels
 		// TO DO: Draw the sprite
 		sprite->Draw();
 
+		// Update objects
+		Behaviors::UpdateMonkey(transform, rigidBody);
+		rigidBody->Update(dt);
+		rigidBody->FixedUpdate(dt);
+
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 		{
 			Level1* level = new Level1;
@@ -118,6 +129,7 @@ namespace Levels
 		delete animator;
 		delete sprite;
 		delete transform;
+		delete rigidBody;
 	}
 
 	// Unload the resources associated with Level 2.
