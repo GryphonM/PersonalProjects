@@ -17,6 +17,7 @@
 #include "Sprite.h"
 #include "SpriteSource.h"
 #include "Transform.h"
+#include "GameObject.h"
 
 using namespace Beta;
 
@@ -27,10 +28,26 @@ using namespace Beta;
 //------------------------------------------------------------------------------
 
 // Create a new sprite object.
-Sprite::Sprite(const Transform* transform_, Mesh* mesh_, const SpriteSource* spriteSource_)
+Sprite::Sprite(Mesh* mesh_, const SpriteSource* spriteSource_)
 	: frameIndex(0), flipX(false), flipY(false), color(Colors::Black),
-	mesh(mesh_), spriteSource(spriteSource_), transform(transform_)
+	mesh(mesh_), spriteSource(spriteSource_), transform(nullptr), Component("Sprite")
 {
+}
+
+// Clone a component and return a pointer to the cloned component.
+// Returns:
+//   A pointer to a dynamically allocated clone of the component.
+Component* Sprite::Clone() const
+{
+	Sprite* clone = new Sprite(*this);
+	clone->transform = dynamic_cast<Transform*>(transform->Clone());
+	return clone;
+}
+
+// Initialize this component, grab pointers to other components from owner.
+void Sprite::Initialize()
+{
+	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
 }
 
 // Draw a sprite (Sprite can be textured or untextured).

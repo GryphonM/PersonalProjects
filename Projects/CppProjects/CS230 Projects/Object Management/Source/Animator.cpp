@@ -17,6 +17,7 @@
 #include "Animator.h"
 #include "Animation.h"
 #include "Sprite.h"
+#include "GameObject.h"
 
 using namespace Beta;
 
@@ -27,16 +28,28 @@ using namespace Beta;
 //------------------------------------------------------------------------------
 
 // Construct a new animation controller object.
-Animator::Animator(Sprite* sprite_)
+Animator::Animator()
 	: animationIndex(0), playbackSpeed(1.f), 
 	isRunning(false), isLooping(true), isDone(false), 
-	currentFrameIndex(0), currentFrameDuration(0.f), timer(0.f),
-	sprite(sprite_)
+	currentFrameIndex(0), currentFrameDuration(0.f), timer(0.f), 
+	sprite(nullptr), animationList(), Component("Animator")
 {
-	/*for (int i = 0; i < 255; i++)
-	{
-		animationList[i] = new Animation();
-	}*/
+}
+
+// Clone a component and return a pointer to the cloned component.
+// Returns:
+//   A pointer to a dynamically allocated clone of the component.
+Component* Animator::Clone() const
+{
+	Animator* clone = new Animator(*this);
+	clone->sprite = dynamic_cast<Sprite*>(sprite->Clone());
+	return clone;
+}
+
+// Initialize this component, grab pointers to other components from owner.
+void Animator::Initialize() 
+{
+	sprite = dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"));
 }
 
 // Update the animation.
@@ -119,11 +132,11 @@ size_t Animator::GetCurrentAnimationIndex() const
 //   name = The name of the animation for which the index was requested.
 // Returns:
 //   The index of the given animation if it was found, or 0.
-size_t Animator::GetAnimationIndex(const std::string& name) const
+size_t Animator::GetAnimationIndex(const std::string& name_) const
 {
 	for (int i = 0; i < 255; i++)
 	{
-		if (animationList[i]->GetName() == name)
+		if (animationList[i]->GetName() == name_)
 			return i;
 	}
 

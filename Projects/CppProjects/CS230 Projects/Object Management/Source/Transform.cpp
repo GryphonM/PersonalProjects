@@ -24,7 +24,7 @@
 //	 x = Initial world position on the x-axis.
 //	 y = Initial world position on the y-axis.
 Transform::Transform(float x, float y) : 
-	translation(Beta::Vector2D(x, y)), rotation(0), scale(Beta::Vector2D(1,1)), isDirty(true)
+	translation(Beta::Vector2D(x, y)), rotation(0), scale(Beta::Vector2D(1,1)), isDirty(true), Component("Transform")
 {
 }
 
@@ -34,8 +34,17 @@ Transform::Transform(float x, float y) :
 //   scale		 = Width and height of the object.
 //   rotation	 = Rotation of the object about the z-axis.
 Transform::Transform(Beta::Vector2D translation_, Beta::Vector2D scale_, float rotation_) : 
-	translation(translation_), rotation(rotation_), scale(scale_), isDirty(true)
+	translation(translation_), rotation(rotation_), scale(scale_), isDirty(true), Component("Transform")
 {
+}
+
+// Clone a component and return a pointer to the cloned component.
+// Returns:
+//   A pointer to a dynamically allocated clone of the component.
+Component* Transform::Clone() const
+{
+	Transform* clone = new Transform(*this);
+	return clone;
 }
 
 // Get the transform matrix, based upon translation, rotation and scale settings.

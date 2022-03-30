@@ -66,6 +66,8 @@ private:
 
 	// Title
 	std::string windowTitle;
+
+	GameObject* object;
 };
 
 //----------------------------------------------------------------------------

@@ -32,6 +32,7 @@ namespace Beta
 
 class SpriteSource;
 class Animation;
+class GameObject;
 
 //------------------------------------------------------------------------------
 // Public Structures:
@@ -81,6 +82,8 @@ private:
 	unsigned animFrameStart;
 	unsigned animFrameCount;
 	float animFrameDuration;
+
+	GameObject *object;
 };
 
 //----------------------------------------------------------------------------
