@@ -39,9 +39,7 @@ Sprite::Sprite(Mesh* mesh_, const SpriteSource* spriteSource_)
 //   A pointer to a dynamically allocated clone of the component.
 Component* Sprite::Clone() const
 {
-	Sprite* clone = new Sprite(*this);
-	clone->transform = dynamic_cast<Transform*>(transform->Clone());
-	return clone;
+	return new Sprite(*this);
 }
 
 // Initialize this component, grab pointers to other components from owner.

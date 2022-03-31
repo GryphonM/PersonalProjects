@@ -41,9 +41,7 @@ Animator::Animator()
 //   A pointer to a dynamically allocated clone of the component.
 Component* Animator::Clone() const
 {
-	Animator* clone = new Animator(*this);
-	clone->sprite = dynamic_cast<Sprite*>(sprite->Clone());
-	return clone;
+	return new Animator(*this);
 }
 
 // Initialize this component, grab pointers to other components from owner.

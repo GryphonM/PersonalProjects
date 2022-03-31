@@ -43,8 +43,7 @@ Transform::Transform(Beta::Vector2D translation_, Beta::Vector2D scale_, float r
 //   A pointer to a dynamically allocated clone of the component.
 Component* Transform::Clone() const
 {
-	Transform* clone = new Transform(*this);
-	return clone;
+	return new Transform(*this);
 }
 
 // Get the transform matrix, based upon translation, rotation and scale settings.

@@ -46,8 +46,7 @@ using namespace Beta;
 	// Creates an instance of Level 2.
 	Level2::Level2()
 		: Level("Level2"), mesh(nullptr), texture(nullptr),spriteSource(nullptr), 
-		columns(3), rows(5), animation(nullptr), object(nullptr),
-		animFrameStart(0), animFrameCount(8), animFrameDuration(0.2f)
+		columns(3), rows(5), animation(nullptr), animFrameStart(0), animFrameCount(8), animFrameDuration(0.2f)
 	{
 	}
 
@@ -76,9 +75,8 @@ using namespace Beta;
 		std::cout << "Level2::Initialize" << std::endl;
 		
 		// TO DO:
-		object = Archetypes::CreateMonkey(mesh, spriteSource, animation);
-		object->Initialize();
-		dynamic_cast<Animator*>(object->GetComponent("Animator"))->Play(0);
+		GameObject* monkey = Archetypes::CreateMonkey(mesh, spriteSource, animation);
+		GetSpace()->GetObjectManager().AddObject(*monkey);
 	}
 
 	// Update Level 2.
@@ -86,10 +84,7 @@ using namespace Beta;
 	//	 dt = Change in time (in seconds) since the last game loop.
 	void Level2::Update(float dt)
 	{
-		// Update Objects
-		object->Update(dt);
-		object->FixedUpdate(dt);
-		object->Draw();
+		UNREFERENCED_PARAMETER(dt);
 
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 		{

@@ -91,7 +91,7 @@ private:
 	Level* currentLevel;
 	Level* nextLevel;
 
-	//mutable GameObjectManager objectManager;
+	mutable GameObjectManager objectManager;
 };
 
 //------------------------------------------------------------------------------

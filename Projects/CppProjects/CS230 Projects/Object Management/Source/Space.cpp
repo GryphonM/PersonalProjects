@@ -29,7 +29,7 @@
 // Constructor(s)
 Space::Space(const std::string& name)
 	: BetaObject(name), paused(false), 
-	currentLevel(nullptr), nextLevel(nullptr)
+	currentLevel(nullptr), nextLevel(nullptr), objectManager(this)
 {
 }
 
@@ -46,7 +46,10 @@ void Space::Update(float dt)
 	if (nextLevel != nullptr)
 		ChangeLevel();
 	if (currentLevel != nullptr && !paused)
+	{
 		currentLevel->Update(dt);
+		objectManager.Update(dt);
+	}
 }
 
 // Shuts down the object manager
@@ -63,6 +66,9 @@ void Space::Shutdown()
 		nextLevel->Shutdown();
 		nextLevel->Unload();
 	}
+
+	objectManager.Shutdown();
+	objectManager.Unload();
 }
 
 // Accessors
@@ -106,10 +112,12 @@ void Space::ChangeLevel()
 	else
 	{
 		currentLevel->Shutdown();
+		objectManager.Shutdown();
 
 		if (currentLevel != nextLevel)
 		{
 			currentLevel->Unload();
+			objectManager.Unload();
 			Level* previousLevel = currentLevel;
 			currentLevel = nextLevel;
 			delete previousLevel;
@@ -119,4 +127,10 @@ void Space::ChangeLevel()
 
 	nextLevel = nullptr;
 	currentLevel->Initialize();
+}
+
+// Return the object manager.
+GameObjectManager& Space::GetObjectManager() const
+{
+	return objectManager;
 }

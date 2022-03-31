@@ -82,8 +82,6 @@ private:
 	unsigned animFrameStart;
 	unsigned animFrameCount;
 	float animFrameDuration;
-
-	GameObject *object;
 };
 
 //----------------------------------------------------------------------------

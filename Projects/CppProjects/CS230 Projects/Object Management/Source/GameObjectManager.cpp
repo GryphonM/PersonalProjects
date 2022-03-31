@@ -181,16 +181,9 @@ void GameObjectManager::DestroyObjects()
 		if (gameObjectActiveList[i]->IsDestroyed())
 		{
 			delete gameObjectActiveList[i];
-		}
-	}
-
-	for (int i = 0; i < numObjects; i++)
-	{
-		if (gameObjectActiveList[i] == nullptr && (i + 1) < numObjects)
-		{
-			gameObjectActiveList[i] = gameObjectActiveList[i + 1];
-			gameObjectActiveList[i + 1] = nullptr;
-			i--;
+			gameObjectActiveList[i] = gameObjectActiveList[numObjects - 1];
+			gameObjectActiveList[numObjects - 1] = nullptr;
+			numObjects--;
 		}
 	}
 }

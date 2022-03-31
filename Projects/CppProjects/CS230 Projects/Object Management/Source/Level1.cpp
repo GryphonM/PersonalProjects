@@ -39,7 +39,7 @@ using namespace Beta;
 
 	// Creates an instance of Level 1.
 	Level1::Level1()
-		: Level("Level1"), meshShip(nullptr), meshBullet(nullptr), windowTitle(""), object(nullptr)
+		: Level("Level1"), meshShip(nullptr), meshBullet(nullptr), windowTitle("")
 	{
 	}
 
@@ -56,8 +56,8 @@ using namespace Beta;
 	{
 		std::cout << "Level1::Initialize" << std::endl;
 
-		object = Archetypes::CreateShip(meshShip);
-		object->Initialize();
+		GameObject* ship = Archetypes::CreateShip(meshShip);
+		GetSpace()->GetObjectManager().AddObject(*ship);
 	}
 
 	// Update Level 1.
@@ -65,11 +65,8 @@ using namespace Beta;
 	//	 dt = Change in time (in seconds) since the last game loop.
 	void Level1::Update(float dt)
 	{
-		// Updates
-		object->Update(dt);
-		object->FixedUpdate(dt);
-		object->Draw();
-
+		UNREFERENCED_PARAMETER(dt);
+		
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 			GetSpace()->RestartLevel();
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
@@ -86,6 +83,5 @@ using namespace Beta;
 
 		delete meshShip;
 		delete meshBullet;
-		delete object;
 	}
 //}

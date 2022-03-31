@@ -37,9 +37,7 @@ RigidBody::RigidBody() :
 //   A pointer to a dynamically allocated clone of the component.
 Component* RigidBody::Clone() const
 {
-	RigidBody* clone = new RigidBody(*this);
-	clone->transform = dynamic_cast<Transform*>(transform->Clone());
-	return clone;
+	return new RigidBody(*this);
 }
 
 // Initialize this component, grab pointers to other components from owner.
