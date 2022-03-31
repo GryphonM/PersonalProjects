@@ -189,6 +189,7 @@ void GameObjectManager::DestroyObjects()
 		if (gameObjectActiveList[i] == nullptr && (i + 1) < numObjects)
 		{
 			gameObjectActiveList[i] = gameObjectActiveList[i + 1];
+			gameObjectActiveList[i + 1] = nullptr;
 			i--;
 		}
 	}
