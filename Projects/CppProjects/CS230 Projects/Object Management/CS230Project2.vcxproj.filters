@@ -82,6 +82,12 @@
     <ClCompile Include="Source\GameObjectManager.cpp">
       <Filter>High-Level API\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Source\TimedDeath.cpp">
+      <Filter>Game\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerShip.cpp">
+      <Filter>Game\Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">

@@ -22,6 +22,9 @@
 #include "Animation.h"
 #include "Transform.h"
 #include "RigidBody.h"
+#include "TimedDeath.h"
+#include "PlayerShip.h"
+#include "MonkeyMovement.h"
 #include "Component.h"
 
 //------------------------------------------------------------------------------
@@ -45,9 +48,11 @@ namespace Archetypes
 		Transform* t = new Transform(Vector2D(0, 0), Vector2D(0.5f, 0.5f));
 		Sprite* s = new Sprite(mesh);
 		RigidBody* rB = new RigidBody();
+		PlayerShip* pS = new PlayerShip();
 		ship->AddComponent(t);
 		ship->AddComponent(s);
 		ship->AddComponent(rB);
+		ship->AddComponent(pS);
 		return ship;
 	}
 
@@ -62,9 +67,11 @@ namespace Archetypes
 		Transform* t = new Transform(Vector2D(0, 0), Vector2D(0.07f, 0.07f));
 		Sprite* s = new Sprite(mesh);
 		RigidBody* rB = new RigidBody();
+		TimedDeath* tD = new TimedDeath();
 		bullet->AddComponent(t);
 		bullet->AddComponent(s);
 		bullet->AddComponent(rB);
+		bullet->AddComponent(tD);
 		return bullet;
 	}
 
@@ -83,10 +90,12 @@ namespace Archetypes
 		Animator* a = new Animator();
 		a->AddAnimation(animation);
 		RigidBody* rB = new RigidBody();
+		MonkeyMovement* mM = new MonkeyMovement();
 		monkey->AddComponent(t);
 		monkey->AddComponent(s);
 		monkey->AddComponent(a);
 		monkey->AddComponent(rB);
+		monkey->AddComponent(mM);
 		return monkey;
 	}
 }
