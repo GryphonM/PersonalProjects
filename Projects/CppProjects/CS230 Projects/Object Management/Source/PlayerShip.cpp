@@ -52,6 +52,7 @@ Component* PlayerShip::Clone() const
 // Initialize this component (happens at object creation).
 void PlayerShip::Initialize()
 {
+	bulletArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bullet");
 	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
 	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
 }
@@ -106,6 +107,6 @@ void PlayerShip::Shoot() const
 {
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(' '))
 	{
-		
+		//GameObject* bullet = new GameObject(bulletArchetype);
 	}
 }
