@@ -84,8 +84,8 @@ void PlayerShip::Move() const
 	}
 	else
 	{
-		if (rigidBody->GetVelocity().Magnitude() > 0)
-			rigidBody->AddForce(Vector2D(-forwardThrust, 0).Rotate(transform->GetRotation()));
+		if (!AlmostEqual(rigidBody->GetVelocity().Magnitude(), 0, 0.1f))
+			rigidBody->SetVelocity(Vector2D((rigidBody->GetVelocity().Magnitude() - 0.025f * forwardThrust), 0).Rotate(transform->GetRotation()));
 		else
 			rigidBody->SetVelocity(Vector2D(0, 0));
 	}
@@ -107,6 +107,9 @@ void PlayerShip::Shoot() const
 {
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(' '))
 	{
-		//GameObject* bullet = new GameObject(bulletArchetype);
+		GameObject* bullet = new GameObject(*bulletArchetype);
+		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bullet);
+		dynamic_cast<Transform*>(bullet->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
+		dynamic_cast<RigidBody*>(bullet->GetComponent("RigidBody"))->SetVelocity(Vector2D(bulletSpeed, 0).Rotate(transform->GetRotation()));
 	}
 }

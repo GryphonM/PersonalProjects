@@ -49,6 +49,8 @@ using namespace Beta;
 		std::cout << "Level1::Load" << std::endl;
 
 		meshShip = CreateTriangleMesh(Colors::Red, Colors::Green, Colors::Blue);
+		meshBullet = CreateTriangleMesh(Colors::Violet, Colors::Violet, Colors::Violet);
+		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet));
 	}
 
 	// Initialize the memory associated with Level 1.
@@ -66,6 +68,8 @@ using namespace Beta;
 	void Level1::Update(float dt)
 	{
 		UNREFERENCED_PARAMETER(dt);
+		windowTitle = std::to_string(GetSpace()->GetObjectManager().GetObjectCount("Bullet"));
+		EngineCore::GetInstance().GetModule<WindowSystem>()->SetWindowTitle(windowTitle);
 		
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 			GetSpace()->RestartLevel();

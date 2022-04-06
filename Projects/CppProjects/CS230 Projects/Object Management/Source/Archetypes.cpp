@@ -90,12 +90,12 @@ namespace Archetypes
 		Animator* a = new Animator();
 		a->AddAnimation(animation);
 		RigidBody* rB = new RigidBody();
-		MonkeyMovement* mM = new MonkeyMovement();
+		//MonkeyMovement* mM = new MonkeyMovement();
 		monkey->AddComponent(t);
 		monkey->AddComponent(s);
 		monkey->AddComponent(a);
 		monkey->AddComponent(rB);
-		monkey->AddComponent(mM);
+		//monkey->AddComponent(mM);
 		return monkey;
 	}
 }
