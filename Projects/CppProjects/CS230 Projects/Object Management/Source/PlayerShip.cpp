@@ -94,9 +94,9 @@ void PlayerShip::Move() const
 // Rotate when left or right arrow key is pressed
 void PlayerShip::Rotate() const
 {
-	if (EngineCore::GetInstance().GetModule<Input>()->CheckHeld(37))
+	if (EngineCore::GetInstance().GetModule<Input>()->CheckHeld(39))
 		rigidBody->SetAngularVelocity(-rotationSpeed);
-	else if (EngineCore::GetInstance().GetModule<Input>()->CheckHeld(39))
+	else if (EngineCore::GetInstance().GetModule<Input>()->CheckHeld(37))
 		rigidBody->SetAngularVelocity(rotationSpeed);
 	else
 		rigidBody->SetAngularVelocity(0);

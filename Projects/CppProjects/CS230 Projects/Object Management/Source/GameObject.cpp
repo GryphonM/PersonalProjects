@@ -43,6 +43,7 @@ GameObject::GameObject(const GameObject& other) :
 	for (unsigned int i = 0; i < numComponents; i++)
 	{
 		components[i] = other.components[i]->Clone();
+		components[i]->SetOwner(this);
 	}
 }
 

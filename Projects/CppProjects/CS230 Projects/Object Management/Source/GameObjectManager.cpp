@@ -168,8 +168,8 @@ void GameObjectManager::FixedUpdate(float dt)
 		for (int i = 0; i < numObjects; i++)
 		{
 			gameObjectActiveList[i]->FixedUpdate(fixedUpdateDt);
-			timeAccumulator -= fixedUpdateDt;
 		}
+		timeAccumulator -= fixedUpdateDt;
 	}
 }
 
