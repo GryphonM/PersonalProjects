@@ -20,6 +20,22 @@ Vector::Vector(void) : array_(0), size_(0), capacity_(0), allocs_(0)
 {
 }
 
+// Constructor to create a Vector from an array
+Vector::Vector(const int array[], unsigned size) : size_(size), capacity_(size), allocs_(1)
+{
+    array_ = new int[capacity_];
+    for (unsigned i = 0; i < size; i++)
+        array_[i] = array[i];
+}
+
+// Copy constructor
+Vector::Vector(const Vector& rhs) : size_(rhs.size_), capacity_(rhs.size_), allocs_(1)
+{
+    array_ = new int[capacity_];
+    for (unsigned i = 0; i < size_; i++)
+        array_[i] = rhs[i];
+}
+
 // Destructor
 Vector::~Vector()
 {
@@ -43,13 +59,60 @@ void Vector::push_back(int value)
 // shifted over one element to the right.
 void Vector::push_front(int value)
 {
+    insert(value, 0);
+}
+
+// Removes the last element. Does nothing if empty.
+void Vector::pop_back(void)
+{
+    if (array_ != nullptr)
+        size_--;
+}
+
+// Removes the first element. Does nothing if empty.
+void Vector::pop_front(void)
+{
+    if (array_ != nullptr)
+    {
+        size_--;
+        for (unsigned i = 0; i < size_; i++)
+            array_[i] = array_[i + 1];
+    }
+}
+
+// Inserts a new node at the specified position. Causes an
+// abort() if the position is invalid. (Calls check_bounds)
+void Vector::insert(int value, unsigned position)
+{
+    check_bounds(position);
     if (size_ == capacity_)
         grow();
 
-    for (unsigned i = size_; i > 0; i--)
+    for (unsigned i = size_; i > position; i--)
         array_[i] = array_[i - 1];
-    size_++;
-    array_[0] = value;
+
+    array_[position] = value;
+}
+
+// Removes an element with the specified value (first occurrence)
+void Vector::remove(int value)
+{
+    bool foundValue = false;
+    for (unsigned i = 0; i < size_; i++)
+    {
+        if (!foundValue)
+        {
+            if (array_[i] == value)
+            {
+                foundValue = true;
+                size_--;
+                if (i < size_)
+                    array_[i] = array_[i + 1];
+            }
+        }
+        else
+            array_[i] = array_[i + 1];
+    }
 }
 
 // Subscript operators for const and non-const
@@ -78,6 +141,36 @@ void Vector::clear(void)
 bool Vector::empty(void) const
 {
   return size_ == 0;
+}
+
+// Assignment operator
+Vector& Vector::operator=(const Vector& rhs)
+{
+    if (this != &rhs)
+    {
+        size_ = rhs.size_;
+        for (unsigned i = 0; i < size_; i++)
+            array_[i] = rhs.array_[i];
+    }
+
+    return *this;
+}
+
+// Concatenates a vector onto the end of this vector.
+Vector& Vector::operator+=(const Vector& rhs)
+{
+    for (unsigned i = 0; i < rhs.size_; i++)
+        push_back(rhs[i]);
+
+    return *this;
+}
+
+// Concatenates two Vectors.
+Vector Vector::operator+(const Vector& rhs) const
+{
+    Vector sum = *this;
+    sum += rhs;
+    return sum;
 }
 
 // Returns the number of elements in the vector
