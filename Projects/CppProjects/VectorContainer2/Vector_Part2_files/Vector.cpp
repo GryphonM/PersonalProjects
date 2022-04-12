@@ -2,7 +2,7 @@
 //
 // File Name:	Vector.cpp
 // Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
-// Project:	PRG 5.6.8 Assignment - Tic-Tac-Toe
+// Project:	PRG 8.1.4 Assignment - Vector Container Class Part 2
 // Course:	WANIC VGP2
 //
 // Copyright © 2019 DigiPen (USA) Corporation.
