@@ -69,6 +69,7 @@ int& Vector::operator[](unsigned index)
 void Vector::clear(void)
 {
     delete[] array_;
+    array_ = nullptr;
     size_ = 0;
     capacity_ = 0;
 }
@@ -127,7 +128,8 @@ void Vector::grow(void)
   for (unsigned i = 0; i < size_; i++)
       newArray[i] = array_[i];
 
-  delete[] array_;
+  if (array_ != nullptr)
+    delete[] array_;
   array_ = newArray;
 }
 
