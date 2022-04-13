@@ -60,6 +60,14 @@ void Vector::push_back(int value)
 void Vector::push_front(int value)
 {
     insert(value, 0);
+    /*if (size_ == capacity_)
+        grow();
+
+    for (unsigned i = size_; i > 0; i--)
+        array_[i] = array_[i + 1];
+
+    size_++;
+    array_[0] = value;*/
 }
 
 // Removes the last element. Does nothing if empty.
@@ -84,14 +92,20 @@ void Vector::pop_front(void)
 // abort() if the position is invalid. (Calls check_bounds)
 void Vector::insert(int value, unsigned position)
 {
-    check_bounds(position);
-    if (size_ == capacity_)
-        grow();
+    if (array_ == nullptr)
+        push_back(value);
+    else
+    {
+        if (size_ == capacity_)
+            grow();
 
-    for (unsigned i = size_; i > position; i--)
-        array_[i] = array_[i - 1];
+        check_bounds(position);
+        for (unsigned i = size_; i > position; i--)
+            array_[i] = array_[i - 1];
 
-    array_[position] = value;
+        size_++;
+        array_[position] = value;
+    }
 }
 
 // Removes an element with the specified value (first occurrence)
@@ -149,6 +163,13 @@ Vector& Vector::operator=(const Vector& rhs)
     if (this != &rhs)
     {
         size_ = rhs.size_;
+        if (capacity_ <= size_)
+        {
+            capacity_ = rhs.size_;
+            delete[] array_;
+            array_ = new int[capacity_];
+            allocs_++;
+        }
         for (unsigned i = 0; i < size_; i++)
             array_[i] = rhs.array_[i];
     }
@@ -159,7 +180,8 @@ Vector& Vector::operator=(const Vector& rhs)
 // Concatenates a vector onto the end of this vector.
 Vector& Vector::operator+=(const Vector& rhs)
 {
-    for (unsigned i = 0; i < rhs.size_; i++)
+    unsigned size = rhs.size_;
+    for (unsigned i = 0; i < size; i++)
         push_back(rhs[i]);
 
     return *this;
