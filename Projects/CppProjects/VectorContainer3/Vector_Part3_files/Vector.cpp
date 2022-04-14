@@ -15,6 +15,14 @@
 namespace CS170
 {
 
+template <typename T>
+void swap(T& val1, T& val2)
+{
+    T temp = val1;
+    val1 = val2;
+    val2 = temp;
+}
+
 // Default constructor
 template <typename T>
 Vector<T>::Vector(void) : array_(0), size_(0), capacity_(0), allocs_(0)
@@ -204,6 +212,64 @@ Vector<T> Vector<T>::operator+(const Vector& rhs) const
     return sum;
 }
 
+// Reverses the order of the elements (Linear time)
+template <typename T>
+void Vector<T>::reverse(void)
+{
+    for (unsigned i = 0; i < size / 2; i++)
+    {
+        swap(array_[i], array_[size - 1 - i]);
+    }
+}
+
+// Swaps the contents of other with this Vector (Constant time)
+template <typename T>
+void Vector<T>::swapv(Vector& other)
+{
+    swap(array_, other.array_);
+    swap(size_, other.size_);
+    swap(capacity_, other.capacity_);
+    swap(allocs_, other.allocs_);
+}
+
+// Equality operator (Linear time)
+// Both vectors must be the same size.
+template <typename T>
+bool Vector<T>::operator==(const Vector& rhs) const
+{
+    if (size_ == rhs.size_)
+    {
+        for (unsigned i = 0; i < size_; i++)
+        {
+            if (array_[i] != rhs.array_[i])
+                return false;
+        }
+        return true;
+    }
+    else
+        return false;
+}
+
+// Reallocates an array to match the size of the number
+// of elements. If size == capacity, does nothing.
+template <typename T>
+void Vector<T>::shrink_to_fit(void)
+{
+    if (size_ != capacity_)
+    {
+        T* newArr = new int[size_];
+        allocs_++;
+
+        for (unsigned i = 0; i < size_; i++)
+            newArr[i] = array_[i];
+
+        if (array_ != nullptr)
+            delete[] array_;
+        array_ = newArr;
+        capacity_ = size_;
+    }
+}
+
 // Returns the number of elements in the vector
 template <typename T>
 unsigned Vector<T>::size(void) const
@@ -237,9 +303,10 @@ void Vector<T>::check_bounds(unsigned index) const
     // Don't have to check for < 0 because index is unsigned
   if (index >= size_)
   {
-    std::cout << "Attempting to access index " << index << ".";
-    std::cout << " The size of the array is " << size_ << ". Aborting...\n";
-    std::abort();
+      throw SubscriptError(index);
+      /*std::cout << "Attempting to access index " << index << ".";
+      std::cout << " The size of the array is " << size_ << ". Aborting...\n";
+      std::abort();*/
   }
 }
 
