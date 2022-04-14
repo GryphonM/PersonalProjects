@@ -216,9 +216,9 @@ Vector<T> Vector<T>::operator+(const Vector& rhs) const
 template <typename T>
 void Vector<T>::reverse(void)
 {
-    for (unsigned i = 0; i < size / 2; i++)
+    for (unsigned i = 0; i < size_ / 2; i++)
     {
-        swap(array_[i], array_[size - 1 - i]);
+        swap(array_[i], array_[size_ - 1 - i]);
     }
 }
 
