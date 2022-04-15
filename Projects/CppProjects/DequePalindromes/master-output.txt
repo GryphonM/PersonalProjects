@@ -1,0 +1,20 @@
+Result  String
+true    a
+true    aa
+true    aba
+true    abba
+true    abbcbba
+false   ab
+false   abc
+true    radar
+true    bob
+true    ana
+true    avid diva
+true    Amore, Roma
+true    A Toyota's a toyota
+true    A Santa at NASA
+true    C++
+true    A man, a plan, a cat, a ham, a yak, a yam, a hat, a canal-Panama!
+false   This is a palindrome
+false   palindrome
+
