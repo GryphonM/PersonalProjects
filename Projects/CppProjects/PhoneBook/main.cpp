@@ -87,11 +87,11 @@ void Test5_TestConstructors_Assignment(void)
 
 int main(void)
 {
-    Test1_LoadAndOutput();
+    //Test1_LoadAndOutput();
     //Test2_LoadAndSave();
     //Test3_Sort();
     //Test4_RemoveEntries();
-    //Test5_TestConstructors_Assignment();
+    Test5_TestConstructors_Assignment();
 
     //system("pause");
     return 0;

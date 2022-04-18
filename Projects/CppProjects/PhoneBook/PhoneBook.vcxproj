@@ -99,6 +99,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PhoneBook.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PhoneBook.h" />
