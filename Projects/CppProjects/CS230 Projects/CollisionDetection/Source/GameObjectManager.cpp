@@ -17,6 +17,7 @@
 #include "Space.h"
 #include "GameObject.h"
 #include "GameObjectManager.h"
+#include "Collider.h"
 
 //------------------------------------------------------------------------------
 
@@ -169,7 +170,25 @@ void GameObjectManager::FixedUpdate(float dt)
 		{
 			gameObjectActiveList[i]->FixedUpdate(fixedUpdateDt);
 		}
+		CheckCollisions();
 		timeAccumulator -= fixedUpdateDt;
+	}
+}
+
+// Check for collisions between pairs of objects
+void GameObjectManager::CheckCollisions()
+{
+	
+	for (int i = 0; i < numObjects; i++)
+	{
+		if (!gameObjectActiveList[i]->IsDestroyed())
+		{
+			Collider* col = dynamic_cast<Collider*>(gameObjectActiveList[i]->GetComponent("Collider"));
+			if (col != nullptr)
+			{
+
+			}
+		}
 	}
 }
 
