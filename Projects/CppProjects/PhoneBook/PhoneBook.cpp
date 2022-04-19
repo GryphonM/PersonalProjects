@@ -144,9 +144,7 @@ std::ostream& operator<<(std::ostream& os_, const PhoneBook& phonebook_)
         os_ << (*entry)->name << " " << (*entry)->last_name << "\n";
         os_ << (*entry)->email << "\n";
         os_ << (*entry)->region << "-" << (*entry)->number << "\n";
-        os_ << "*";
-        if (entry != phonebook_.entries.end() - 1)
-            os_ << std::endl;
+        os_ << "*" << std::endl;
     }
 
     return os_;
