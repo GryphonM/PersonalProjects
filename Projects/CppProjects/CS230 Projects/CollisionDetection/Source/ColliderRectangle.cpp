@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-// File Name:	ColliderCircle.cpp
+// File Name:	ColliderRectangle.cpp
 // Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
 // Project:	CS230 7.1.6 Assignment: Collision Detection
 // Course:	WANIC VGP2
@@ -16,6 +16,7 @@
 #include "ColliderPoint.h"
 #include "ColliderCircle.h"
 #include "ColliderRectangle.h"
+#include "GameObject.h"
 #include "Transform.h"
 #include "Intersection2D.h"
 
@@ -23,42 +24,43 @@
 // Public Function Declarations:
 //------------------------------------------------------------------------------
 
-// Constructor for circle collider.
+// Constructor for rectangle collider.
 // Params:
-//   radius = The radius of the circle.
-ColliderCircle::ColliderCircle(float radius_) : radius(radius_), Collider(ColliderType::Circle)
+//   extents = The rectangle's extents (half-width, half-height).
+ColliderRectangle::ColliderRectangle(const Beta::Vector2D& extents_ = Beta::Vector2D(0.5f, 0.5f)) : 
+	extents(extents_), Collider(ColliderType::Rectangle)
 {
 }
 
 // Clone an collider and return a pointer to the cloned object.
 // Returns:
 //   A pointer to a collider.
-Component* ColliderCircle::Clone() const
+Component* ColliderRectangle::Clone() const
 {
-	return new ColliderCircle(*this);
+	return new ColliderRectangle(*this);
 }
 
 // Debug drawing for colliders.
-void ColliderCircle::Draw()
+void ColliderRectangle::Draw()
 {
 	Beta::DebugDraw& debugDraw = *Beta::EngineCore::GetInstance().GetModule<Beta::DebugDraw>();
-	debugDraw.AddCircle(transform->GetTranslation(), radius);
+	debugDraw.AddRectangle(transform->GetTranslation(), extents);
 }
 
-// Get the circle collider's radius.
+// Get the rectangle collider's extents (half-width, half-height).
 // Returns:
-//	 The circle collider's radius.
-float ColliderCircle::GetRadius() const
+//	 The extents of the rectangle.
+const Beta::Vector2D& ColliderRectangle::GetExtents() const
 {
-	return radius;
+	return extents;
 }
 
-// Set the circle collider's radius.
+// Set the rectangle collider's extents (half-width, half-height).
 // Params:
-//   radius = The circle collider's new radius.
-void ColliderCircle::SetRadius(float radius_)
+//   extents = The new extents of the rectangle.
+void ColliderRectangle::SetExtents(const Beta::Vector2D& extents_)
 {
-	radius = radius_;
+	extents = extents_;
 }
 
 // Check for collision between a circle and another arbitrary collider.
@@ -66,23 +68,23 @@ void ColliderCircle::SetRadius(float radius_)
 //	 other = Reference to the second circle collider component.
 // Returns:
 //	 Return the results of the collision check.
-bool ColliderCircle::IsCollidingWith(const Collider& other) const
+bool ColliderRectangle::IsCollidingWith(const Collider& other) const
 {
 	if (other.GetType() == ColliderType::Circle)
 	{
-		return CircleCircleIntersection(Beta::Circle(transform->GetTranslation(), radius),
-			Beta::Circle(other.transform->GetTranslation(), dynamic_cast<const ColliderCircle&>(other).radius));
+		return RectangleCircleIntersection(Beta::BoundingRectangle(transform->GetTranslation(), extents),
+			Beta::Circle(other.transform->GetTranslation(), dynamic_cast<const ColliderCircle &>(other).GetRadius()));
 	}
 	else if (other.GetType() == ColliderType::Point)
 	{
-		return PointCircleIntersection(other.transform->GetTranslation(),
-			Beta::Circle(transform->GetTranslation(), radius));
+		return PointRectangleIntersection(other.transform->GetTranslation(), 
+			Beta::BoundingRectangle(transform->GetTranslation(), extents));
 	}
 	else if (other.GetType() == ColliderType::Rectangle)
 	{
-		return RectangleCircleIntersection(Beta::BoundingRectangle(other.transform->GetTranslation(), 
-			dynamic_cast<const ColliderRectangle&>(other).GetExtents()),
-			Beta::Circle(transform->GetTranslation(), radius));
+		return RectangleRectangleIntersection(Beta::BoundingRectangle(transform->GetTranslation(), extents), 
+			Beta::BoundingRectangle(other.transform->GetTranslation(), 
+				dynamic_cast<const ColliderRectangle &>(other).GetExtents()));
 	}
 	return false;
 }

@@ -52,12 +52,13 @@ bool ColliderPoint::IsCollidingWith(const Collider& other) const
 {
 	if (other.GetType() == ColliderType::Circle)
 	{
-		PointCircleIntersection(transform->GetTranslation(), 
+		return PointCircleIntersection(transform->GetTranslation(), 
 			Beta::Circle(other.transform->GetTranslation(), dynamic_cast<const ColliderCircle&>(other).GetRadius()));
 	}
 	else if (other.GetType() == ColliderType::Rectangle)
 	{
-		PointRectangleIntersection(transform->GetTranslation(),
+		return PointRectangleIntersection(transform->GetTranslation(),
 			Beta::BoundingRectangle(other.transform->GetTranslation(), dynamic_cast<const ColliderRectangle&>(other).GetExtents()));
 	}
+	return false;
 }

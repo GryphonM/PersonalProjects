@@ -1,0 +1,94 @@
+//------------------------------------------------------------------------------
+//
+// File Name:	Level3.cpp
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	CS230 7.1.6 Assignment: Collision Detection
+// Course:	WANIC VGP2
+//
+// Copyright © 2019 DigiPen (USA) Corporation.
+//
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Include Files:
+//------------------------------------------------------------------------------
+#include "stdafx.h"
+#include "Level3.h"
+
+// Systems
+#include "Space.h"
+#include "MeshHelper.h"
+
+// Components
+#include "Archetypes.h"
+#include "GameObject.h"
+#include "SpriteSource.h"
+#include "Animation.h"
+#include "Transform.h"
+#include "RigidBody.h"
+
+// Levels
+#include "Level2.h"
+#include "Level1.h"
+
+using namespace Beta;
+
+//------------------------------------------------------------------------------
+// Public Function Declarations:
+//------------------------------------------------------------------------------
+
+// Creates an instance of Level 3.
+Level3::Level3() : meshQuad(nullptr), spriteSourceCircle(nullptr), textureCircle(nullptr),
+	circleSpeed(1.0f), pointSpeed(100.0f), Level("Level3")
+{
+}
+
+// Load the resources associated with Level 3.
+void Level3::Load()
+{
+	meshQuad = CreateQuadMesh(Vector2D(1, 1), Vector2D(0.5, 0.5));
+	textureCircle = Texture::CreateTextureFromFile("Circle.png");
+	spriteSourceCircle = new SpriteSource(textureCircle, "Circle");
+}
+
+// Initialize the memory associated with Level 3.
+void Level3::Initialize()
+{
+	GameObject* circle = Archetypes::CreateCircle(meshQuad, spriteSourceCircle);
+	dynamic_cast<Transform*>(circle->GetComponent("Transform"))->SetTranslation(Vector2D());
+	GameObject* point = Archetypes::CreatePoint(meshQuad, spriteSourceCircle);
+	dynamic_cast<Transform*>(point->GetComponent("Transform"))->SetTranslation(Vector2D(0, 2.0f));
+	dynamic_cast<RigidBody*>(point->GetComponent("RigidBody"))->AddForce(Vector2D(0, -pointSpeed));
+
+	GetSpace()->GetObjectManager().AddObject(*circle);
+	GetSpace()->GetObjectManager().AddObject(*point);
+}
+
+// Update Level 3.
+// Params:
+//	 dt = Change in time (in seconds) since the last game loop.
+void Level3::Update(float dt)
+{
+	UNREFERENCED_PARAMETER(dt);
+
+	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
+	{
+		Level1* level = new Level1;
+		EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+	}
+	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
+	{
+		Level3* level = new Level3;
+		EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+	}
+	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
+		GetSpace()->RestartLevel();
+}
+
+// Unload the resources associated with Level 3.
+void Level3::Unload()
+{
+	delete meshQuad;
+	delete textureCircle;
+	delete spriteSourceCircle;
+}

@@ -32,6 +32,7 @@
 
 // Levels
 #include "Level1.h"
+#include "Level3.h"
 
 //------------------------------------------------------------------------------
 
@@ -89,6 +90,11 @@ using namespace Beta;
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 		{
 			Level1* level = new Level1;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
+		{
+			Level3* level = new Level3;
 			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))

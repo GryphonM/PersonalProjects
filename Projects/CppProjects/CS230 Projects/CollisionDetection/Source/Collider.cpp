@@ -46,7 +46,7 @@ void Collider::CheckCollision(const Collider& other)
 	if (IsCollidingWith(other))
 	{
 		handler(*this->GetOwner(), *other.GetOwner());
-		other.handler(*this->GetOwner(), *other.GetOwner());
+		other.handler(*other.GetOwner(), *this->GetOwner());
 	}
 }
 

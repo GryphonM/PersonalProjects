@@ -29,7 +29,7 @@ using namespace Beta;
 
 // Create a new sprite object.
 Sprite::Sprite(Mesh* mesh_, const SpriteSource* spriteSource_)
-	: frameIndex(0), flipX(false), flipY(false), color(Colors::Black),
+	: frameIndex(0), flipX(false), flipY(false), color(Colors::White),
 	mesh(mesh_), spriteSource(spriteSource_), transform(nullptr), Component("Sprite")
 {
 }
@@ -56,6 +56,7 @@ void Sprite::Draw()
 
 	GraphicsEngine& graphics = *EngineGetModule(GraphicsEngine);
 	graphics.GetSpriteShader().Use();
+	graphics.SetSpriteBlendColor(color);
 
 	if (spriteSource != nullptr)
 		spriteSource->UseTexture(frameIndex, flipX, flipY);

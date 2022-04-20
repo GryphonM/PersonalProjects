@@ -26,6 +26,7 @@
 
 // Levels
 #include "Level2.h"
+#include "Level3.h"
 
 //------------------------------------------------------------------------------
 
@@ -39,7 +40,7 @@ using namespace Beta;
 
 	// Creates an instance of Level 1.
 	Level1::Level1()
-		: Level("Level1"), meshShip(nullptr), meshBullet(nullptr), windowTitle("")
+		: Level("Level1"), meshShip(nullptr), meshBullet(nullptr)
 	{
 	}
 
@@ -68,14 +69,17 @@ using namespace Beta;
 	void Level1::Update(float dt)
 	{
 		UNREFERENCED_PARAMETER(dt);
-		windowTitle = std::to_string(GetSpace()->GetObjectManager().GetObjectCount("Bullet"));
-		EngineCore::GetInstance().GetModule<WindowSystem>()->SetWindowTitle(windowTitle);
 		
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 			GetSpace()->RestartLevel();
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
 		{
 			Level2* level = new Level2;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
+		{
+			Level3* level = new Level3;
 			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
 		}
 	}

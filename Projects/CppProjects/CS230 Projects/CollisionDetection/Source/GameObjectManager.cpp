@@ -177,8 +177,7 @@ void GameObjectManager::FixedUpdate(float dt)
 
 // Check for collisions between pairs of objects
 void GameObjectManager::CheckCollisions()
-{
-	
+{	
 	for (int i = 0; i < numObjects; i++)
 	{
 		if (!gameObjectActiveList[i]->IsDestroyed())
@@ -186,7 +185,17 @@ void GameObjectManager::CheckCollisions()
 			Collider* col = dynamic_cast<Collider*>(gameObjectActiveList[i]->GetComponent("Collider"));
 			if (col != nullptr)
 			{
-
+				if ((i + 1) != numObjects)
+				{
+					for (int j = i + 1; j < numObjects; j++)
+					{
+						Collider* col2 = dynamic_cast<Collider*>(gameObjectActiveList[j]->GetComponent("Collider"));
+						if (col2 != nullptr)
+						{
+							col->CheckCollision(*col2);
+						}
+					}
+				}
 			}
 		}
 	}

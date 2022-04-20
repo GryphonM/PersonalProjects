@@ -25,6 +25,12 @@
 #include "TimedDeath.h"
 #include "PlayerShip.h"
 #include "MonkeyMovement.h"
+#include "ColorChange.h"
+#include "ScreenWrap.h"
+#include "Collider.h"
+#include "ColliderCircle.h"
+#include "ColliderPoint.h"
+#include "ColliderRectangle.h"
 #include "Component.h"
 
 //------------------------------------------------------------------------------
@@ -49,10 +55,12 @@ namespace Archetypes
 		Sprite* s = new Sprite(mesh);
 		RigidBody* rB = new RigidBody();
 		PlayerShip* pS = new PlayerShip();
+		ScreenWrap* sW = new ScreenWrap();
 		ship->AddComponent(t);
 		ship->AddComponent(s);
 		ship->AddComponent(rB);
 		ship->AddComponent(pS);
+		ship->AddComponent(sW);
 		return ship;
 	}
 
@@ -97,5 +105,76 @@ namespace Archetypes
 		monkey->AddComponent(rB);
 		monkey->AddComponent(mM);
 		return monkey;
+	}
+
+	// Create the circle game object.
+	// Params:
+	//   mesh  = The mesh to use for the object's sprite.
+	//   spriteSource = The sprite source to use for the object.
+	// Returns:
+	//	 A pointer to the newly constructed game object
+	GameObject* CreateCircle(Beta::Mesh* mesh, SpriteSource* spriteSource)
+	{
+		GameObject* circle = new GameObject("Circle");
+		Transform* t = new Transform();
+		Sprite* s = new Sprite(mesh, spriteSource);
+		RigidBody* rB = new RigidBody();
+		ColliderCircle* colC = new ColliderCircle();
+		ColorChange* cC = new ColorChange(Colors::Yellow, Colors::Red);
+		ScreenWrap* sW = new ScreenWrap();
+		circle->AddComponent(t);
+		circle->AddComponent(s);
+		circle->AddComponent(rB);
+		circle->AddComponent(colC);
+		circle->AddComponent(cC);
+		circle->AddComponent(sW);
+		return circle;
+	}
+
+	// Create the point game object.
+	// Params:
+	//   mesh  = The mesh to use for the object's sprite.
+	//   spriteSource = The sprite source to use for the object.
+	// Returns:
+	//	 A pointer to the newly constructed game object
+	GameObject* CreatePoint(Beta::Mesh* mesh, SpriteSource* spriteSource)
+	{
+		GameObject* point = new GameObject("Point");
+		Transform* t = new Transform(Vector2D(), Vector2D(0.2f, 0.2f));
+		Sprite* s = new Sprite(mesh, spriteSource);
+		RigidBody* rB = new RigidBody();
+		ColliderCircle* colC = new ColliderCircle(0.1f);
+		ColorChange* cC = new ColorChange(Colors::Blue, Colors::Red);
+		ScreenWrap* sW = new ScreenWrap();
+		point->AddComponent(t);
+		point->AddComponent(s);
+		point->AddComponent(rB);
+		point->AddComponent(colC);
+		point->AddComponent(cC);
+		point->AddComponent(sW);
+		return point;
+	}
+
+	// Create the rectangle game object.
+	// Params:
+	//   mesh  = The mesh to use for the object's sprite.
+	// Returns:
+	//	 A pointer to the newly constructed game object
+	GameObject* CreateRectangle(Beta::Mesh* mesh)
+	{
+		GameObject* rectangle = new GameObject("rectangle");
+		Transform* t = new Transform(Vector2D(), Vector2D(2.5, 1));
+		Sprite* s = new Sprite(mesh);
+		RigidBody* rB = new RigidBody();
+		//ColliderRectangle* cR = new ColliderRectangle();
+		ColorChange* cC = new ColorChange(Colors::Green, Colors::Red);
+		ScreenWrap* sW = new ScreenWrap();
+		rectangle->AddComponent(t);
+		rectangle->AddComponent(s);
+		rectangle->AddComponent(rB);
+		//rectangle->AddComponent(cR);
+		rectangle->AddComponent(cC);
+		rectangle->AddComponent(sW);
+		return rectangle;
 	}
 }
