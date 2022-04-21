@@ -32,6 +32,7 @@
 #include "ColliderPoint.h"
 #include "ColliderRectangle.h"
 #include "Component.h"
+#include "Asteroid.h"
 
 //------------------------------------------------------------------------------
 
@@ -48,19 +49,21 @@ namespace Archetypes
 	//   mesh  = The mesh to use for the object's sprite.
 	// Returns:
 	//	 A pointer to the newly constructed game object
-	GameObject* CreateShip(Beta::Mesh* mesh)
+	GameObject* CreateShip(Beta::Mesh* mesh, SpriteSource* spriteSource)
 	{
 		GameObject* ship = new GameObject("Ship");
 		Transform* t = new Transform(Vector2D(0, 0), Vector2D(0.5f, 0.5f));
-		Sprite* s = new Sprite(mesh);
+		Sprite* s = new Sprite(mesh, spriteSource);
 		RigidBody* rB = new RigidBody();
 		PlayerShip* pS = new PlayerShip();
 		ScreenWrap* sW = new ScreenWrap();
+		ColliderCircle* cC = new ColliderCircle(0.5f * t->GetScale().x);
 		ship->AddComponent(t);
 		ship->AddComponent(s);
 		ship->AddComponent(rB);
 		ship->AddComponent(pS);
 		ship->AddComponent(sW);
+		ship->AddComponent(cC);
 		return ship;
 	}
 
@@ -69,17 +72,19 @@ namespace Archetypes
 	//   mesh  = The mesh to use for the object's sprite.
 	// Returns:
 	//	 A pointer to the newly constructed game object
-	GameObject* CreateBulletArchetype(Beta::Mesh* mesh)
+	GameObject* CreateBulletArchetype(Beta::Mesh* mesh, SpriteSource* spriteSource)
 	{
 		GameObject* bullet = new GameObject("Bullet");
 		Transform* t = new Transform(Vector2D(0, 0), Vector2D(0.07f, 0.07f));
-		Sprite* s = new Sprite(mesh);
+		Sprite* s = new Sprite(mesh, spriteSource);
 		RigidBody* rB = new RigidBody();
 		TimedDeath* tD = new TimedDeath();
+		ColliderCircle* cC = new ColliderCircle(t->GetScale().x / 2.0f);
 		bullet->AddComponent(t);
 		bullet->AddComponent(s);
 		bullet->AddComponent(rB);
 		bullet->AddComponent(tD);
+		bullet->AddComponent(cC);
 		return bullet;
 	}
 
@@ -162,7 +167,7 @@ namespace Archetypes
 	//	 A pointer to the newly constructed game object
 	GameObject* CreateRectangle(Beta::Mesh* mesh)
 	{
-		GameObject* rectangle = new GameObject("rectangle");
+		GameObject* rectangle = new GameObject("Rectangle");
 		Transform* t = new Transform(Vector2D(), Vector2D(2.5, 1));
 		Sprite* s = new Sprite(mesh);
 		RigidBody* rB = new RigidBody();
@@ -176,5 +181,29 @@ namespace Archetypes
 		rectangle->AddComponent(cC);
 		rectangle->AddComponent(sW);
 		return rectangle;
+	}
+
+	// Create the asteroid game object.
+	// Params:
+	//   mesh  = The mesh to use for the object's sprite.
+	//   spriteSource = The sprite source to use for the object.
+	// Returns:
+	//	 A pointer to the newly constructed game object
+	GameObject* CreateAsteroidArchetype(Beta::Mesh* mesh, SpriteSource* spriteSource)
+	{
+		GameObject* asteroid = new GameObject("Asteroid");
+		Transform* t = new Transform();
+		Sprite* s = new Sprite(mesh, spriteSource);
+		Asteroid* a = new Asteroid();
+		RigidBody* rB = new RigidBody();
+		ColliderCircle* cC = new ColliderCircle(t->GetScale().x * 0.5f);
+		ScreenWrap* sW = new ScreenWrap();
+		asteroid->AddComponent(t);
+		asteroid->AddComponent(s);
+		asteroid->AddComponent(a);
+		asteroid->AddComponent(rB);
+		asteroid->AddComponent(cC);
+		asteroid->AddComponent(sW);
+		return asteroid;
 	}
 }

@@ -105,11 +105,40 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Animation.cpp" />
+    <ClCompile Include="Source\Animator.cpp" />
+    <ClCompile Include="Source\Archetypes.cpp" />
+    <ClCompile Include="Source\Asteroid.cpp" />
+    <ClCompile Include="Source\AsteroidsLevel.cpp" />
+    <ClCompile Include="Source\Collider.cpp" />
+    <ClCompile Include="Source\ColliderCircle.cpp" />
+    <ClCompile Include="Source\ColliderPoint.cpp" />
+    <ClCompile Include="Source\ColliderRectangle.cpp" />
+    <ClCompile Include="Source\ColorChange.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\GameObjectManager.cpp" />
+    <ClCompile Include="Source\Intersection2D.cpp" />
+    <ClCompile Include="Source\Level.cpp" />
+    <ClCompile Include="Source\Level1.cpp" />
+    <ClCompile Include="Source\Level2.cpp" />
+    <ClCompile Include="Source\Level3.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Matrix2DStudent.cpp" />
+    <ClCompile Include="Source\MeshHelper.cpp" />
+    <ClCompile Include="Source\MonkeyMovement.cpp" />
+    <ClCompile Include="Source\PlayerShip.cpp" />
+    <ClCompile Include="Source\RigidBody.cpp" />
+    <ClCompile Include="Source\ScreenWrap.cpp" />
+    <ClCompile Include="Source\Space.cpp" />
+    <ClCompile Include="Source\Sprite.cpp" />
+    <ClCompile Include="Source\SpriteSource.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\TimedDeath.cpp" />
+    <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Animation.h" />
