@@ -27,7 +27,7 @@
 // Constructor for rectangle collider.
 // Params:
 //   extents = The rectangle's extents (half-width, half-height).
-ColliderRectangle::ColliderRectangle(const Beta::Vector2D& extents_ = Beta::Vector2D(0.5f, 0.5f)) : 
+ColliderRectangle::ColliderRectangle(const Beta::Vector2D& extents_) : 
 	extents(extents_), Collider(ColliderType::Rectangle)
 {
 }

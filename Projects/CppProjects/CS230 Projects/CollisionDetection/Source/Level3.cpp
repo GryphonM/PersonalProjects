@@ -39,7 +39,7 @@ using namespace Beta;
 
 // Creates an instance of Level 3.
 Level3::Level3() : meshQuad(nullptr), spriteSourceCircle(nullptr), textureCircle(nullptr),
-	circleSpeed(1.0f), pointSpeed(100.0f), Level("Level3")
+	circleSpeed(100.0f), pointSpeed(100.0f), Level("Level3")
 {
 }
 
@@ -54,14 +54,25 @@ void Level3::Load()
 // Initialize the memory associated with Level 3.
 void Level3::Initialize()
 {
-	GameObject* circle = Archetypes::CreateCircle(meshQuad, spriteSourceCircle);
-	dynamic_cast<Transform*>(circle->GetComponent("Transform"))->SetTranslation(Vector2D());
+	GameObject* staticCircle = Archetypes::CreateCircle(meshQuad, spriteSourceCircle);
+	dynamic_cast<Transform*>(staticCircle->GetComponent("Transform"))->SetTranslation(Vector2D(2.0f, 2.0f));
+	GameObject* staticRect = Archetypes::CreateRectangle(meshQuad);
+	dynamic_cast<Transform*>(staticRect->GetComponent("Transform"))->SetTranslation(Vector2D(1.0f, -1.5f));
 	GameObject* point = Archetypes::CreatePoint(meshQuad, spriteSourceCircle);
-	dynamic_cast<Transform*>(point->GetComponent("Transform"))->SetTranslation(Vector2D(0, 2.0f));
+	dynamic_cast<Transform*>(point->GetComponent("Transform"))->SetTranslation(Vector2D(1.0f, 2.0f));
 	dynamic_cast<RigidBody*>(point->GetComponent("RigidBody"))->AddForce(Vector2D(0, -pointSpeed));
+	GameObject* moveCircle = Archetypes::CreateCircle(meshQuad, spriteSourceCircle);
+	dynamic_cast<Transform*>(moveCircle->GetComponent("Transform"))->SetTranslation(Vector2D(-1.5f, 0.5f));
+	dynamic_cast<RigidBody*>(moveCircle->GetComponent("RigidBody"))->AddForce(Vector2D(0, circleSpeed).Rotate(-120.f));
+	GameObject* moveRect = Archetypes::CreateRectangle(meshQuad);
+	dynamic_cast<Transform*>(moveRect->GetComponent("Transform"))->SetTranslation(Vector2D(-2.0f, 2.0f));
+	dynamic_cast<RigidBody*>(moveRect->GetComponent("RigidBody"))->AddForce(Vector2D(0, circleSpeed).Rotate(45.f));
 
-	GetSpace()->GetObjectManager().AddObject(*circle);
+	GetSpace()->GetObjectManager().AddObject(*staticCircle);
+	GetSpace()->GetObjectManager().AddObject(*staticRect);
 	GetSpace()->GetObjectManager().AddObject(*point);
+	GetSpace()->GetObjectManager().AddObject(*moveCircle);
+	GetSpace()->GetObjectManager().AddObject(*moveRect);
 }
 
 // Update Level 3.
