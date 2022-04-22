@@ -33,6 +33,7 @@
 // Levels
 #include "Level1.h"
 #include "Level3.h"
+#include "AsteroidsLevel.h"
 
 //------------------------------------------------------------------------------
 
@@ -99,6 +100,11 @@ using namespace Beta;
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
 			GetSpace()->RestartLevel();
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('4'))
+		{
+			AsteroidsLevel* level = new AsteroidsLevel;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
 	}
 
 	// Unload the resources associated with Level 2.

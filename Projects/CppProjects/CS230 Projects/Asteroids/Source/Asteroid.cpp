@@ -45,7 +45,7 @@ void Asteroid::SetPosition()
 {
 	if (size == Size::Large)
 	{
-		Location corner = static_cast<Location>(Random::Range(1, 4));
+		Location corner = static_cast<Location>(Random::Range(0, 3));
 		BoundingRectangle screen = EngineCore::GetInstance().GetModule<GraphicsEngine>()->GetDefaultCamera().GetScreenWorldDimensions();
 		switch (corner)
 		{
@@ -144,11 +144,11 @@ unsigned Asteroid::GetPointValue() const
 {
 	switch (size)
 	{
-	case Size::Large:
-		return basePointsValue;
 	case Size::Medium:
 		return basePointsValue * static_cast<unsigned>(sizePointsModifier);
 	case Size::Small:
 		return basePointsValue * static_cast<unsigned>(sizePointsModifier * sizePointsModifier);
+	default:
+		return basePointsValue;
 	}
 }

@@ -112,6 +112,11 @@ private:
 	// Death
 	float deathDuration;
 	float timer;
+	float blinkDuration;
+	float blinkTimer;
+	Beta::Color deadColor;
+	float spinSpeed;
+	bool blinkOn;
 	bool isDying;
 };
 

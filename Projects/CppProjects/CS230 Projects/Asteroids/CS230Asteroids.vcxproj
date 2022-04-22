@@ -127,6 +127,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClCompile Include="Source\Matrix2DStudent.cpp" />
     <ClCompile Include="Source\MeshHelper.cpp" />
     <ClCompile Include="Source\MonkeyMovement.cpp" />
+    <ClCompile Include="Source\PlayerProjectile.cpp" />
     <ClCompile Include="Source\PlayerShip.cpp" />
     <ClCompile Include="Source\RigidBody.cpp" />
     <ClCompile Include="Source\ScreenWrap.cpp" />

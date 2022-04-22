@@ -18,12 +18,33 @@
 #include "Transform.h"
 #include "RigidBody.h"
 #include "GameObject.h"
+#include "Collider.h"
+#include "PlayerProjectile.h"
+#include "Sprite.h"
 #include "Archetypes.h"
 #include "Space.h"
 
 using namespace Beta;
 
 //------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Friend Functions:
+//------------------------------------------------------------------------------
+
+// Collision handler for PlayerShip objects.
+// Params:
+//   object = The first object.
+//   other  = The other object the first object is colliding with.
+void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
+{
+	if (other.GetName() == "Asteroid" && !dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying)
+	{
+		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying = true;
+		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->timer = 
+			dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deathDuration;
+	}
+}
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -35,8 +56,10 @@ using namespace Beta;
 //   maximumSpeed  = Maximum attainable speed of the ship.
 //   rotationSpeed = Speed at which the ship rotates.
 //   bulletSpeed   = Speed at which bullets move when fired by ship.
-PlayerShip::PlayerShip(float forwardThrust_, float maximumSpeed_, float rotationSpeed_, float bulletSpeed_) :
+PlayerShip::PlayerShip(float forwardThrust_, float maximumSpeed_, float rotationSpeed_, float bulletSpeed_, float deathDuration_) :
 	forwardThrust(forwardThrust_), maximumSpeed(maximumSpeed_), rotationSpeed(rotationSpeed_), bulletSpeed(bulletSpeed_),
+	deathDuration(deathDuration_), score(0), timer(0.0f), isDying(false), blinkDuration(0.1f), blinkTimer(0.0f),
+	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false),
 	bulletArchetype(nullptr), transform(nullptr), rigidBody(nullptr), Component("PlayerShip")
 {
 }
@@ -55,6 +78,7 @@ void PlayerShip::Initialize()
 	bulletArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bullet");
 	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
 	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
+	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(PlayerShipCollisionHandler);
 }
 
 // Update function for this component.
@@ -62,10 +86,26 @@ void PlayerShip::Initialize()
 //   dt = The (fixed) change in time since the last step.
 void PlayerShip::Update(float dt)
 {
-	UNREFERENCED_PARAMETER(dt);
-	Move();
-	Rotate();
-	Shoot();
+	if (!isDying)
+	{
+		Move();
+		Rotate();
+		Shoot();
+	}
+	else
+		DeathSequence(dt);
+}
+
+// Return the player's current score.
+unsigned PlayerShip::GetScore() const
+{
+	return score;
+}
+
+// Increase the player's score by the given amount.
+void PlayerShip::IncreaseScore(unsigned amount)
+{
+	score += amount;
 }
 
 //------------------------------------------------------------------------------
@@ -103,7 +143,7 @@ void PlayerShip::Rotate() const
 }
 
 // Shoot projectiles when space is pressed
-void PlayerShip::Shoot() const
+void PlayerShip::Shoot()
 {
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(' '))
 	{
@@ -111,5 +151,29 @@ void PlayerShip::Shoot() const
 		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bullet);
 		dynamic_cast<Transform*>(bullet->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
 		dynamic_cast<RigidBody*>(bullet->GetComponent("RigidBody"))->SetVelocity(Vector2D(bulletSpeed, 0).Rotate(transform->GetRotation()));
+		dynamic_cast<PlayerProjectile*>(bullet->GetComponent("PlayerProjectile"))->SetSpawner(this);
 	}
+}
+
+// Play death "animation"
+void PlayerShip::DeathSequence(float dt)
+{
+	timer -= dt;
+	if (timer > 0)
+	{
+		dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(deadColor);
+		dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"))->SetAngularVelocity(spinSpeed);
+		if (blinkTimer <= 0)
+		{
+			blinkTimer = blinkDuration;
+			if (blinkOn)
+				dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetAlpha(1);
+			else
+				dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetAlpha(0);
+		}
+		else
+			blinkTimer -= dt;
+	}
+	else
+		GetOwner()->GetSpace()->RestartLevel();
 }

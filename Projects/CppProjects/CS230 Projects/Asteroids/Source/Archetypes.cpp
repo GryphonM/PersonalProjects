@@ -31,6 +31,7 @@
 #include "ColliderCircle.h"
 #include "ColliderPoint.h"
 #include "ColliderRectangle.h"
+#include "PlayerProjectile.h"
 #include "Component.h"
 #include "Asteroid.h"
 
@@ -79,11 +80,13 @@ namespace Archetypes
 		Sprite* s = new Sprite(mesh, spriteSource);
 		RigidBody* rB = new RigidBody();
 		TimedDeath* tD = new TimedDeath();
+		PlayerProjectile* pP = new PlayerProjectile();
 		ColliderCircle* cC = new ColliderCircle(t->GetScale().x / 2.0f);
 		bullet->AddComponent(t);
 		bullet->AddComponent(s);
 		bullet->AddComponent(rB);
 		bullet->AddComponent(tD);
+		bullet->AddComponent(pP);
 		bullet->AddComponent(cC);
 		return bullet;
 	}

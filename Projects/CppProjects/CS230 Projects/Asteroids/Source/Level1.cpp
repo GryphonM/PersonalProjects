@@ -23,10 +23,12 @@
 // Components
 #include "Archetypes.h"
 #include "GameObject.h"
+#include "SpriteSource.h"
 
 // Levels
 #include "Level2.h"
 #include "Level3.h"
+#include "AsteroidsLevel.h"
 
 //------------------------------------------------------------------------------
 
@@ -39,8 +41,9 @@ using namespace Beta;
 	//------------------------------------------------------------------------------
 
 	// Creates an instance of Level 1.
-	Level1::Level1()
-		: Level("Level1"), meshShip(nullptr), meshBullet(nullptr)
+	Level1::Level1() : Level("Level1"), meshShip(nullptr), meshBullet(nullptr), 
+		textureShip(nullptr), textureBullet(nullptr), 
+		spriteSourceShip(nullptr), spriteSourceBullet(nullptr)
 	{
 	}
 
@@ -51,7 +54,13 @@ using namespace Beta;
 
 		meshShip = CreateTriangleMesh(Colors::Red, Colors::Green, Colors::Blue);
 		meshBullet = CreateTriangleMesh(Colors::Violet, Colors::Violet, Colors::Violet);
-		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet));
+
+		textureShip = Texture::CreateTextureFromFile("ship.png");
+		textureBullet = Texture::CreateTextureFromFile("bullet.png");
+
+		spriteSourceShip = new SpriteSource(textureShip, "Ship");
+		spriteSourceBullet = new SpriteSource(textureBullet, "Bullet");
+		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));
 	}
 
 	// Initialize the memory associated with Level 1.
@@ -59,7 +68,7 @@ using namespace Beta;
 	{
 		std::cout << "Level1::Initialize" << std::endl;
 
-		GameObject* ship = Archetypes::CreateShip(meshShip);
+		GameObject* ship = Archetypes::CreateShip(meshShip, nullptr);
 		GetSpace()->GetObjectManager().AddObject(*ship);
 	}
 
@@ -80,6 +89,11 @@ using namespace Beta;
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
 		{
 			Level3* level = new Level3;
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		}
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('4'))
+		{
+			AsteroidsLevel* level = new AsteroidsLevel;
 			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
 		}
 	}
