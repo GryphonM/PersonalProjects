@@ -38,7 +38,6 @@ void AsteroidCollisionHandler(GameObject& object, GameObject& other)
 	{
 		dynamic_cast<Asteroid*>(object.GetComponent("Asteroid"))->SpawnNewAsteroids();
 		object.Destroy();
-		other.Destroy();
 	}
 }
 

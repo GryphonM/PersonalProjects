@@ -36,6 +36,7 @@ void PlayerProjectileCollisionHandler(GameObject& object, GameObject& other)
 	{
 		int points = dynamic_cast<Asteroid*>(other.GetComponent("Asteroid"))->GetPointValue();
 		dynamic_cast<PlayerProjectile*>(object.GetComponent("PlayerProjectile"))->player->IncreaseScore(points);
+		object.Destroy();
 	}
 }
 

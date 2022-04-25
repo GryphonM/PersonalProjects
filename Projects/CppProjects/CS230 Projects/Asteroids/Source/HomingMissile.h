@@ -1,11 +1,11 @@
 //------------------------------------------------------------------------------
 //
-// File Name:	PlayerShip.h
-// Author(s):	Jeremy Kings (j.kings)
-// Project:		BetaFramework
-// Course:		WANIC VGP2 2018-2019
+// File Name:	HomingMissile
+// Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
+// Project:	PRG 7.1.7 Assignment: Asteroids
+// Course:	WANIC VGP2
 //
-// Copyright © 2018 DigiPen (USA) Corporation.
+// Copyright © 2019 DigiPen (USA) Corporation.
 //
 //------------------------------------------------------------------------------
 
@@ -25,27 +25,22 @@
 
 class Transform;
 class RigidBody;
+class PlayerShip;
 
 //------------------------------------------------------------------------------
 // Public Structures:
 //------------------------------------------------------------------------------
-
-class PlayerShip : public Component
+class HomingMissile : public Component
 {
 public:
 	//------------------------------------------------------------------------------
 	// Public Functions:
 	//------------------------------------------------------------------------------
 
-	// Non-default constructor
+	// Default Constructor
 	// Params:
-	//   forwardThrust = Amount of force added to the ship when thrusters are activated.
-	//   maximumSpeed  = Maximum attainable speed of the ship.
-	//   rotationSpeed = Speed at which the ship rotates.
-	//   bulletSpeed   = Speed at which bullets move when fired by ship.
-	//   deathDuration = The amount of time the death "animation" will last.
-	PlayerShip(float forwardThrust = 3.0f, float maximumSpeed = 2.0f, float rotationSpeed = 3.14159f,
-		float bulletSpeed = 4.0f, float deathDuration = 2.0f);
+	//   speed_ = The speed at which the missile approaches asteroids
+	HomingMissile(float speed_ = 3.0f);
 
 	// Clone a component and return a pointer to the cloned component.
 	// Returns:
@@ -60,76 +55,38 @@ public:
 	//   dt = The (fixed) change in time since the last step.
 	void Update(float dt) override;
 
-	// Return the player's current score.
-	unsigned GetScore() const;
-
-	// Increase the player's score by the given amount.
-	void IncreaseScore(unsigned amount);
-
+	// Set the object that spawned this object
+	// Params:
+	//   player_ = the object to set the spawner to
+	void SetSpawner(PlayerShip* player_);
 private:
 	//------------------------------------------------------------------------------
 	// Private Functions:
 	//------------------------------------------------------------------------------
 
-	// Move forward when up arrow is pressed
-	void Move() const;
-
-	// Rotate when left or right arrow key is pressed
-	void Rotate() const;
-
-	// Shoot projectiles when space is pressed
-	void Shoot();
-
-	// Handles the missile firing
-	void MissileFire(float dt);
-
-	// Play death "animation"
-	void DeathSequence(float dt);
-
-	// Collision handler for PlayerShip objects.
+	// Collision handler for PlayerProjectile objects.
 	// Params:
 	//   object = The first object.
 	//   other  = The other object the first object is colliding with.
-	friend void PlayerShipCollisionHandler(GameObject& object, GameObject& other);
+	friend void MissileCollisionHandler(GameObject& object, GameObject& other);
+
+	// Starts the explosion sequence
+	void Explode();
+
+	// Finds the nearest Asteroid and sets it as the target
+	void SetTarget();
+
+	// Find the direction toward the target and move that way
+	void Move();
 
 	//------------------------------------------------------------------------------
 	// Private Variables:
 	//------------------------------------------------------------------------------
+	PlayerShip* player;
+	GameObject* target;
 
-	// Movement properties
-	float forwardThrust;
-	float maximumSpeed;
-	float rotationSpeed;
-	float bulletSpeed;
-
-	// Bullet archetype
-	GameObject* bulletArchetype;
-
-	// Homing Missile
-	GameObject* missileArchetype;
-	float missileWait;
-	float missileTimer;
-	Beta::Color readyColor;
-	Beta::Color normalColor;
-	float flashDuration;
-	float flashTimer;
-
-	// Components
+	float speed;
+	float explosionRadius;
 	Transform* transform;
 	RigidBody* rigidBody;
-
-	// Scoring
-	unsigned score;
-
-	// Death
-	float deathDuration;
-	float timer;
-	float blinkDuration;
-	float blinkTimer;
-	Beta::Color deadColor;
-	float spinSpeed;
-	bool blinkOn;
-	bool isDying;
 };
-
-//------------------------------------------------------------------------------

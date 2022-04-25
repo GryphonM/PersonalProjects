@@ -80,6 +80,15 @@ public:
 	//	   else return nullptr.
 	GameObject* GetObjectByName(const std::string& objectName) const;
 
+	// Returns a pointer to all the active game objects matching the specified name.
+	// Params:
+	//	 objectName = The name of the object to be returned, if found.
+	// Returns:
+	//   If the named object is found,
+	//	   then return the pointer to an array of objects
+	//	   else return nullptr.
+	void GetObjectsByName(const std::string& objectName, std::vector<GameObject*>& out) const;
+
 	// Returns a pointer to the first game object archetype matching the specified name.
 	// Params:
 	//	 objectName = The name of the archetype to be returned, if found.

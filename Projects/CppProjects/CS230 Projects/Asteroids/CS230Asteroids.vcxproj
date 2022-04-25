@@ -118,6 +118,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GameObjectManager.cpp" />
+    <ClCompile Include="Source\HomingMissile.cpp" />
     <ClCompile Include="Source\Intersection2D.cpp" />
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\Level1.cpp" />
@@ -155,6 +156,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\GameObjectManager.h" />
+    <ClInclude Include="Source\HomingMissile.h" />
     <ClInclude Include="Source\Intersection2D.h" />
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\Level2.h" />

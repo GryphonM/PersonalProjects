@@ -116,6 +116,22 @@ GameObject* GameObjectManager::GetObjectByName(const std::string& objectName) co
 	return nullptr;
 }
 
+// Returns a pointer to all the active game objects matching the specified name.
+// Params:
+//	 objectName = The name of the object to be returned, if found.
+// Returns:
+//   If the named object is found,
+//	   then return the pointer to an array of objects
+//	   else return nullptr.
+void GameObjectManager::GetObjectsByName(const std::string& objectName, std::vector<GameObject*>& out) const
+{
+	for (int i = 0; i < numObjects; i++)
+	{
+		if (gameObjectActiveList[i]->GetName() == objectName)
+			out.push_back(gameObjectActiveList[i]);
+	}
+}
+
 // Returns a pointer to the first game object archetype matching the specified name.
 // Params:
 //	 objectName = The name of the archetype to be returned, if found.

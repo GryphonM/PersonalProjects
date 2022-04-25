@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-// File Name:	Asteroid.cpp
+// File Name:	AsteroidsLevel.cpp
 // Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
 // Project:	PRG 7.1.7 Assignment: Asteroids
 // Course:	WANIC VGP2
@@ -37,7 +37,8 @@ AsteroidsLevel::AsteroidsLevel() : asteroidSpawnInitial(8), asteroidSpawnMaximum
 	asteroidSpawnCount(0), asteroidWaveCount(0), playerShip(nullptr), asteroidHighScore(0),
 	meshShip(nullptr), textureShip(nullptr), spriteSourceShip(nullptr), bulletArchetype(nullptr),
 	meshBullet(nullptr), textureBullet(nullptr), spriteSourceBullet(nullptr), asteroidArchetype(nullptr),
-	meshAsteroid(nullptr), textureAsteroid(nullptr), spriteSourceAsteroid(nullptr), Level("AsteroidsLevel")
+	meshAsteroid(nullptr), textureAsteroid(nullptr), spriteSourceAsteroid(nullptr), missileArchetype(nullptr),
+	meshMissile(nullptr), textureMissile(nullptr), spriteSourceMissile(nullptr), Level("AsteroidsLevel")
 {
 }
 
@@ -56,8 +57,13 @@ void AsteroidsLevel::Load()
 	textureAsteroid = Texture::CreateTextureFromFile("asteroid.png");
 	spriteSourceAsteroid = new SpriteSource(textureAsteroid, "Asteroid");
 
+	meshMissile = CreateQuadMesh(Vector2D(1.0f, 1.0f), Vector2D(0.5f, 0.5f));
+	textureMissile = Texture::CreateTextureFromFile("bullet.png");
+	spriteSourceMissile = new SpriteSource(textureMissile, "Missile");
+
 	asteroidArchetype = Archetypes::CreateAsteroidArchetype(meshAsteroid, spriteSourceAsteroid);
 	bulletArchetype = Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet);
+	missileArchetype = Archetypes::CreateMissileArchetype(meshMissile, spriteSourceMissile);
 	Beta::EngineCore::GetInstance().GetModule<Beta::GraphicsEngine>()->SetBackgroundColor();
 
 	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));

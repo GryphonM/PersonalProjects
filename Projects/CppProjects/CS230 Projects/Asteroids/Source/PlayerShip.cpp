@@ -20,6 +20,7 @@
 #include "GameObject.h"
 #include "Collider.h"
 #include "PlayerProjectile.h"
+#include "HomingMissile.h"
 #include "Sprite.h"
 #include "Archetypes.h"
 #include "Space.h"
@@ -60,8 +61,9 @@ void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
 PlayerShip::PlayerShip(float forwardThrust_, float maximumSpeed_, float rotationSpeed_, float bulletSpeed_, float deathDuration_) :
 	forwardThrust(forwardThrust_), maximumSpeed(maximumSpeed_), rotationSpeed(rotationSpeed_), bulletSpeed(bulletSpeed_),
 	deathDuration(deathDuration_), score(0), timer(0.0f), isDying(false), blinkDuration(0.25f), blinkTimer(0.0f),
-	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false),
-	bulletArchetype(nullptr), transform(nullptr), rigidBody(nullptr), Component("PlayerShip")
+	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false), missileWait(3.0f), missileTimer(0.0f), readyColor(Colors::Blue),
+	normalColor(Colors::White), flashDuration(0.5f), flashTimer(0.0f),
+	missileArchetype(nullptr), bulletArchetype(nullptr), transform(nullptr), rigidBody(nullptr), Component("PlayerShip")
 {
 }
 
@@ -77,6 +79,7 @@ Component* PlayerShip::Clone() const
 void PlayerShip::Initialize()
 {
 	bulletArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bullet");
+	missileArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Missile");
 	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
 	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
 	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(PlayerShipCollisionHandler);
@@ -92,6 +95,7 @@ void PlayerShip::Update(float dt)
 		Move();
 		Rotate();
 		Shoot();
+		MissileFire(dt);
 	}
 	else
 		DeathSequence(dt);
@@ -149,11 +153,32 @@ void PlayerShip::Shoot()
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(' '))
 	{
 		GameObject* bullet = new GameObject(*bulletArchetype);
-		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bullet);
 		dynamic_cast<Transform*>(bullet->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
 		dynamic_cast<RigidBody*>(bullet->GetComponent("RigidBody"))->SetVelocity(Vector2D(bulletSpeed, 0).Rotate(transform->GetRotation()));
 		dynamic_cast<PlayerProjectile*>(bullet->GetComponent("PlayerProjectile"))->SetSpawner(this);
+		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bullet);
 	}
+}
+
+// Handles the missile firing
+void PlayerShip::MissileFire(float dt)
+{
+	if (missileTimer <= 0)
+	{
+		dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(readyColor);
+		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(16))
+		{
+			missileTimer = missileWait;
+			dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(normalColor);
+
+			GameObject* missile = new GameObject(*missileArchetype);
+			dynamic_cast<Transform*>(missile->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
+			dynamic_cast<HomingMissile*>(missile->GetComponent("PlayerProjectile"))->SetSpawner(this);
+			GetOwner()->GetSpace()->GetObjectManager().AddObject(*missile);
+		}
+	}
+	else
+		missileTimer -= dt;
 }
 
 // Play death "animation"

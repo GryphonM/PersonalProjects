@@ -96,6 +96,14 @@ namespace Archetypes
 	// Returns:
 	//	 A pointer to the newly constructed game object
 	GameObject* CreateAsteroidArchetype(Beta::Mesh* mesh, SpriteSource* spriteSource);
+
+	// Create the homing missile game object.
+	// Params:
+	//   mesh  = The mesh to use for the object's sprite.
+	//   spriteSource = The sprite source to use for the object.
+	// Returns:
+	//	 A pointer to the newly constructed game object
+	GameObject* CreateMissileArchetype(Beta::Mesh* mesh, SpriteSource* spriteSource);
 }
 
 //----------------------------------------------------------------------------

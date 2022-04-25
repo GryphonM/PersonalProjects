@@ -34,6 +34,7 @@
 #include "PlayerProjectile.h"
 #include "Component.h"
 #include "Asteroid.h"
+#include "HomingMissile.h"
 
 //------------------------------------------------------------------------------
 
@@ -208,5 +209,27 @@ namespace Archetypes
 		asteroid->AddComponent(cC);
 		asteroid->AddComponent(sW);
 		return asteroid;
+	}
+
+	// Create the homing missile game object.
+	// Params:
+	//   mesh  = The mesh to use for the object's sprite.
+	//   spriteSource = The sprite source to use for the object.
+	// Returns:
+	//	 A pointer to the newly constructed game object
+	GameObject* CreateMissileArchetype(Beta::Mesh* mesh, SpriteSource* spriteSource)
+	{
+		GameObject* missile = new GameObject("Missile");
+		Transform* t = new Transform(Vector2D(0, 0), Vector2D(0.25f, 0.25f));
+		Sprite* s = new Sprite(mesh, spriteSource);
+		RigidBody* rB = new RigidBody();
+		HomingMissile* hM = new HomingMissile();
+		ColliderCircle* cC = new ColliderCircle(t->GetScale().x / 2.0f);
+		missile->AddComponent(t);
+		missile->AddComponent(s);
+		missile->AddComponent(rB);
+		missile->AddComponent(hM);
+		missile->AddComponent(cC);
+		return missile;
 	}
 }
