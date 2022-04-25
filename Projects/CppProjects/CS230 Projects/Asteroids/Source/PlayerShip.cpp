@@ -41,8 +41,9 @@ void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
 	if (other.GetName() == "Asteroid" && !dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying)
 	{
 		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying = true;
-		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->timer = 
-			dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deathDuration;
+		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->timer = dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deathDuration;
+		dynamic_cast<Sprite*>(object.GetComponent("Sprite"))->SetColor(dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deadColor);
+		dynamic_cast<RigidBody*>(object.GetComponent("RigidBody"))->SetAngularVelocity(dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->spinSpeed);
 	}
 }
 
@@ -58,7 +59,7 @@ void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
 //   bulletSpeed   = Speed at which bullets move when fired by ship.
 PlayerShip::PlayerShip(float forwardThrust_, float maximumSpeed_, float rotationSpeed_, float bulletSpeed_, float deathDuration_) :
 	forwardThrust(forwardThrust_), maximumSpeed(maximumSpeed_), rotationSpeed(rotationSpeed_), bulletSpeed(bulletSpeed_),
-	deathDuration(deathDuration_), score(0), timer(0.0f), isDying(false), blinkDuration(0.1f), blinkTimer(0.0f),
+	deathDuration(deathDuration_), score(0), timer(0.0f), isDying(false), blinkDuration(0.25f), blinkTimer(0.0f),
 	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false),
 	bulletArchetype(nullptr), transform(nullptr), rigidBody(nullptr), Component("PlayerShip")
 {
@@ -161,8 +162,6 @@ void PlayerShip::DeathSequence(float dt)
 	timer -= dt;
 	if (timer > 0)
 	{
-		dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(deadColor);
-		dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"))->SetAngularVelocity(spinSpeed);
 		if (blinkTimer <= 0)
 		{
 			blinkTimer = blinkDuration;
@@ -170,6 +169,7 @@ void PlayerShip::DeathSequence(float dt)
 				dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetAlpha(1);
 			else
 				dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetAlpha(0);
+			blinkOn = !blinkOn;
 		}
 		else
 			blinkTimer -= dt;

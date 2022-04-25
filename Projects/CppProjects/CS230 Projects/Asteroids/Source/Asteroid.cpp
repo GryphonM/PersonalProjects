@@ -15,6 +15,7 @@
 
 #include "stdafx.h"
 #include "Asteroid.h"
+#include "Space.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "RigidBody.h"
@@ -37,6 +38,7 @@ void AsteroidCollisionHandler(GameObject& object, GameObject& other)
 	{
 		dynamic_cast<Asteroid*>(object.GetComponent("Asteroid"))->SpawnNewAsteroids();
 		object.Destroy();
+		other.Destroy();
 	}
 }
 
@@ -86,6 +88,7 @@ void Asteroid::SpawnNewAsteroids()
 			dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
 			dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
 				(spawnScaleModifier * transform->GetScale().x) / 2);
+			GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
 		}
 	}
 	else if (size == Size::Medium)
@@ -93,10 +96,11 @@ void Asteroid::SpawnNewAsteroids()
 		for (int i = 0; i < Random::Range(1, 2); i++)
 		{
 			GameObject* newAst = new GameObject(*GetOwner());
-			dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Large;
+			dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Small;
 			dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
 			dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
 				(spawnScaleModifier * transform->GetScale().x) / 2);
+			GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
 		}
 	}
 }
@@ -145,9 +149,9 @@ unsigned Asteroid::GetPointValue() const
 	switch (size)
 	{
 	case Size::Medium:
-		return basePointsValue * static_cast<unsigned>(sizePointsModifier);
+		return static_cast<unsigned>(basePointsValue * sizePointsModifier);
 	case Size::Small:
-		return basePointsValue * static_cast<unsigned>(sizePointsModifier * sizePointsModifier);
+		return static_cast<unsigned>(basePointsValue * sizePointsModifier * sizePointsModifier);
 	default:
 		return basePointsValue;
 	}
