@@ -21,6 +21,7 @@
 #include "PlayerShip.h"
 #include "Asteroid.h"
 #include "Collider.h"
+#include "ColliderCircle.h"
 #include "Space.h"
 
 using namespace Beta;
@@ -98,16 +99,7 @@ void HomingMissile::SetSpawner(PlayerShip* player_)
 // Handles a custom destruction
 void HomingMissile::Explode()
 {
-	std::vector<GameObject*> Asteroids;
-	GetOwner()->GetSpace()->GetObjectManager().GetObjectsByName("Asteroid", Asteroids);
-
-	for (auto it = Asteroids.begin() + 1; it != Asteroids.end(); it++)
-	{
-		float dist = dynamic_cast<Transform*>((*it)->GetComponent("Transform"))->GetTranslation().DistanceSquared(transform->GetTranslation());
-		if (dist < (explosionRadius * explosionRadius))
-			(*it)->Destroy();
-	}
-
+	dynamic_cast<ColliderCircle*> (GetOwner()->GetComponent("Collider"))->SetRadius(explosionRadius);
 	GetOwner()->Destroy();
 }
 
