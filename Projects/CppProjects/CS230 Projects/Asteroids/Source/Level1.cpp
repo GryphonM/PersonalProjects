@@ -41,9 +41,9 @@ using namespace Beta;
 	//------------------------------------------------------------------------------
 
 	// Creates an instance of Level 1.
-	Level1::Level1() : Level("Level1"), meshShip(nullptr), meshBullet(nullptr), 
-		textureShip(nullptr), textureBullet(nullptr), 
-		spriteSourceShip(nullptr), spriteSourceBullet(nullptr)
+	Level1::Level1() : Level("Level1"), meshShip(nullptr), meshBullet(nullptr), meshBomb(nullptr),
+		textureShip(nullptr), textureBullet(nullptr), textureBomb(nullptr),
+		spriteSourceShip(nullptr), spriteSourceBullet(nullptr), spriteSourceBomb(nullptr)
 	{
 	}
 
@@ -54,13 +54,17 @@ using namespace Beta;
 
 		meshShip = CreateTriangleMesh(Colors::Red, Colors::Green, Colors::Blue);
 		meshBullet = CreateTriangleMesh(Colors::Violet, Colors::Violet, Colors::Violet);
+		meshBomb = CreateQuadMesh(Vector2D(1.0f, 1.0f), Vector2D(0.5f, 0.5f));
 
 		textureShip = Texture::CreateTextureFromFile("ship.png");
 		textureBullet = Texture::CreateTextureFromFile("bullet.png");
+		textureBomb = Texture::CreateTextureFromFile("Circle.png");
 
 		spriteSourceShip = new SpriteSource(textureShip, "Ship");
 		spriteSourceBullet = new SpriteSource(textureBullet, "Bullet");
+		spriteSourceBomb = new SpriteSource(textureBomb, "Bomb");
 		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));
+		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBombArchetype(meshBomb, spriteSourceBomb));
 	}
 
 	// Initialize the memory associated with Level 1.

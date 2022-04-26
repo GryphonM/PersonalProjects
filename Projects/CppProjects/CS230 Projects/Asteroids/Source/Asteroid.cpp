@@ -15,6 +15,7 @@
 
 #include "stdafx.h"
 #include "Asteroid.h"
+#include "Bomb.h"
 #include "Space.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -34,7 +35,9 @@ using namespace Beta;
 //   other  = The other object the first object is colliding with.
 void AsteroidCollisionHandler(GameObject& object, GameObject& other)
 {
-	if (other.GetName() == "Bullet" || other.GetName() == "Missile")
+	if (other.GetName() == "Bullet" || 
+		other.GetName() == "Missile" ||
+		(other.GetName() == "Bomb" && dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->IsExploding()))
 	{
 		dynamic_cast<Asteroid*>(object.GetComponent("Asteroid"))->SpawnNewAsteroids();
 		object.Destroy();

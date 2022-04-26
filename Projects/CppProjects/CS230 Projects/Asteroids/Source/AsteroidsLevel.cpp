@@ -38,7 +38,8 @@ AsteroidsLevel::AsteroidsLevel() : asteroidSpawnInitial(8), asteroidSpawnMaximum
 	meshShip(nullptr), textureShip(nullptr), spriteSourceShip(nullptr), bulletArchetype(nullptr),
 	meshBullet(nullptr), textureBullet(nullptr), spriteSourceBullet(nullptr), asteroidArchetype(nullptr),
 	meshAsteroid(nullptr), textureAsteroid(nullptr), spriteSourceAsteroid(nullptr), missileArchetype(nullptr),
-	meshMissile(nullptr), textureMissile(nullptr), spriteSourceMissile(nullptr), Level("AsteroidsLevel")
+	meshMissile(nullptr), textureMissile(nullptr), spriteSourceMissile(nullptr), bombArchetype(nullptr),
+	meshBomb(nullptr), textureBomb(nullptr), spriteSourceBomb(nullptr), Level("AsteroidsLevel")
 {
 }
 
@@ -61,13 +62,19 @@ void AsteroidsLevel::Load()
 	textureMissile = Texture::CreateTextureFromFile("bullet.png");
 	spriteSourceMissile = new SpriteSource(textureMissile, "Missile");
 
+	meshBomb = CreateQuadMesh(Vector2D(1.0f, 1.0f), Vector2D(0.5f, 0.5f));
+	textureBomb = Texture::CreateTextureFromFile("Circle.png");
+	spriteSourceBomb = new SpriteSource(textureBomb, "Bomb");
+
 	asteroidArchetype = Archetypes::CreateAsteroidArchetype(meshAsteroid, spriteSourceAsteroid);
 	bulletArchetype = Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet);
 	missileArchetype = Archetypes::CreateMissileArchetype(meshMissile, spriteSourceMissile);
+	bombArchetype = Archetypes::CreateBombArchetype(meshBomb, spriteSourceBomb);
 	Beta::EngineCore::GetInstance().GetModule<Beta::GraphicsEngine>()->SetBackgroundColor();
 
 	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));
 	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateMissileArchetype(meshMissile, spriteSourceMissile));
+	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBombArchetype(meshBomb, spriteSourceBomb));
 }
 
 // Initialize the memory associated with the Asteroids level.

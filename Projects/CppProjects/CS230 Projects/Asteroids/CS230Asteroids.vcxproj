@@ -110,6 +110,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClCompile Include="Source\Archetypes.cpp" />
     <ClCompile Include="Source\Asteroid.cpp" />
     <ClCompile Include="Source\AsteroidsLevel.cpp" />
+    <ClCompile Include="Source\Bomb.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
     <ClCompile Include="Source\ColliderCircle.cpp" />
     <ClCompile Include="Source\ColliderPoint.cpp" />
@@ -148,6 +149,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClInclude Include="Source\Archetypes.h" />
     <ClInclude Include="Source\Asteroid.h" />
     <ClInclude Include="Source\AsteroidsLevel.h" />
+    <ClInclude Include="Source\Bomb.h" />
     <ClInclude Include="Source\Collider.h" />
     <ClInclude Include="Source\ColliderCircle.h" />
     <ClInclude Include="Source\ColliderPoint.h" />

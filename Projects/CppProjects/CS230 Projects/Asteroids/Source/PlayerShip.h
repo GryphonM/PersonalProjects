@@ -86,6 +86,9 @@ private:
 	// Handles the missile firing
 	void MissileFire(float dt);
 
+	// Lays a bomb when the down key is pressed
+	void LayBomb();
+
 	// Play death "animation"
 	void DeathSequence(float dt);
 
@@ -117,6 +120,9 @@ private:
 	Beta::Color normalColor;
 	float flashDuration;
 	float flashTimer;
+
+	// Bomb
+	GameObject* bombArchetype;
 
 	// Components
 	Transform* transform;

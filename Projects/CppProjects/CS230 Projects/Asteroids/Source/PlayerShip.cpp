@@ -21,6 +21,7 @@
 #include "Collider.h"
 #include "PlayerProjectile.h"
 #include "HomingMissile.h"
+#include "Bomb.h"
 #include "Sprite.h"
 #include "Archetypes.h"
 #include "Space.h"
@@ -39,7 +40,8 @@ using namespace Beta;
 //   other  = The other object the first object is colliding with.
 void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
 {
-	if (other.GetName() == "Asteroid" && !dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying)
+	if ((other.GetName() == "Asteroid" && !dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying) ||
+		(other.GetName() == "Bomb" && dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->IsExploding()))
 	{
 		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying = true;
 		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->timer = dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deathDuration;
@@ -62,7 +64,7 @@ PlayerShip::PlayerShip(float forwardThrust_, float maximumSpeed_, float rotation
 	forwardThrust(forwardThrust_), maximumSpeed(maximumSpeed_), rotationSpeed(rotationSpeed_), bulletSpeed(bulletSpeed_),
 	deathDuration(deathDuration_), score(0), timer(0.0f), isDying(false), blinkDuration(0.25f), blinkTimer(0.0f),
 	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false), missileWait(6.0f), missileTimer(0.0f), readyColor(Colors::Blue),
-	normalColor(Colors::White), flashDuration(0.5f), flashTimer(0.0f), hasMissile(false),
+	normalColor(Colors::White), flashDuration(0.5f), flashTimer(0.0f), hasMissile(false), bombArchetype(nullptr),
 	missileArchetype(nullptr), bulletArchetype(nullptr), transform(nullptr), rigidBody(nullptr), Component("PlayerShip")
 {
 }
@@ -80,6 +82,7 @@ void PlayerShip::Initialize()
 {
 	bulletArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bullet");
 	missileArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Missile");
+	bombArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bomb");
 	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
 	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
 	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(PlayerShipCollisionHandler);
@@ -96,6 +99,7 @@ void PlayerShip::Update(float dt)
 		Rotate();
 		Shoot();
 		MissileFire(dt);
+		LayBomb();
 	}
 	else
 		DeathSequence(dt);
@@ -185,6 +189,18 @@ void PlayerShip::MissileFire(float dt)
 	}
 	else
 		missileTimer -= dt;
+}
+
+// Lays a bomb when the down key is pressed
+void PlayerShip::LayBomb()
+{
+	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(40))
+	{
+		GameObject* bomb = new GameObject(*bombArchetype);
+		dynamic_cast<Transform*>(bomb->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
+		dynamic_cast<Bomb*>(bomb->GetComponent("Bomb"))->SetSpawner(this);
+		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bomb);
+	}
 }
 
 // Play death "animation"

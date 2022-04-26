@@ -32,7 +32,7 @@ using namespace Beta;
 // Friend Functions:
 //------------------------------------------------------------------------------
 
-// Collision handler for PlayerProjectile objects.
+// Collision handler for HomingMissile objects.
 // Params:
 //   object = The first object.
 //   other  = The other object the first object is colliding with.
@@ -128,10 +128,7 @@ void HomingMissile::SetTarget()
 void HomingMissile::Move()
 {
 	Vector2D targetDir = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation() - transform->GetTranslation();
-	Vector2D targetPos = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation();
-	targetDir = targetDir.Normalized();
-	Vector2D dir = Vector2D::FromAngleDegrees(transform->GetRotation());
-	float angle = acos(targetPos.DotProduct(dir) / (targetPos.Magnitude() * dir.Magnitude()));
+	float angle = atan2(targetDir.y, targetDir.x);
 	transform->SetRotation(angle);
 	rigidBody->SetVelocity(targetDir * speed);
 }
