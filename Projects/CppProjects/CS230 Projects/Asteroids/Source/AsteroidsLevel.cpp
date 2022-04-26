@@ -67,17 +67,19 @@ void AsteroidsLevel::Load()
 	Beta::EngineCore::GetInstance().GetModule<Beta::GraphicsEngine>()->SetBackgroundColor();
 
 	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));
+	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateMissileArchetype(meshMissile, spriteSourceMissile));
 }
 
 // Initialize the memory associated with the Asteroids level.
 void AsteroidsLevel::Initialize()
 {
-	GameObject* ship = Archetypes::CreateShip(meshShip, spriteSourceShip);
+	GameObject* ship = Archetypes::CreateShip(meshShip, spriteSourceShip);	
 	GetSpace()->GetObjectManager().AddObject(*ship);
 
 	asteroidWaveCount = 0;
 	asteroidSpawnCount = asteroidSpawnInitial;
 	playerShip = dynamic_cast<PlayerShip*>(GetSpace()->GetObjectManager().GetObjectByName("Ship")->GetComponent("PlayerShip"));
+	playerShip->EnableMissile();
 }
 
 // Update the Asteroids level.

@@ -136,6 +136,10 @@ void HomingMissile::SetTarget()
 void HomingMissile::Move()
 {
 	Vector2D targetDir = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation() - transform->GetTranslation();
+	Vector2D targetPos = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation();
 	targetDir = targetDir.Normalized();
+	Vector2D dir = Vector2D::FromAngleDegrees(transform->GetRotation());
+	float angle = acos(targetPos.DotProduct(dir) / (targetPos.Magnitude() * dir.Magnitude()));
+	transform->SetRotation(angle);
 	rigidBody->SetVelocity(targetDir * speed);
 }

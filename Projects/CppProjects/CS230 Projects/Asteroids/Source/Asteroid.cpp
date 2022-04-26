@@ -34,7 +34,7 @@ using namespace Beta;
 //   other  = The other object the first object is colliding with.
 void AsteroidCollisionHandler(GameObject& object, GameObject& other)
 {
-	if (other.GetName() == "Bullet" || other.GetName() == "Spaceship")
+	if (other.GetName() == "Bullet" || other.GetName() == "Missile")
 	{
 		dynamic_cast<Asteroid*>(object.GetComponent("Asteroid"))->SpawnNewAsteroids();
 		object.Destroy();

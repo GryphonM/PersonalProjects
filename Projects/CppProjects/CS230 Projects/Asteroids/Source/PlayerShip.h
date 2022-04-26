@@ -66,6 +66,9 @@ public:
 	// Increase the player's score by the given amount.
 	void IncreaseScore(unsigned amount);
 
+	// Enables the Missile
+	void EnableMissile();
+
 private:
 	//------------------------------------------------------------------------------
 	// Private Functions:
@@ -107,6 +110,7 @@ private:
 
 	// Homing Missile
 	GameObject* missileArchetype;
+	bool hasMissile;
 	float missileWait;
 	float missileTimer;
 	Beta::Color readyColor;

@@ -61,8 +61,8 @@ void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
 PlayerShip::PlayerShip(float forwardThrust_, float maximumSpeed_, float rotationSpeed_, float bulletSpeed_, float deathDuration_) :
 	forwardThrust(forwardThrust_), maximumSpeed(maximumSpeed_), rotationSpeed(rotationSpeed_), bulletSpeed(bulletSpeed_),
 	deathDuration(deathDuration_), score(0), timer(0.0f), isDying(false), blinkDuration(0.25f), blinkTimer(0.0f),
-	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false), missileWait(3.0f), missileTimer(0.0f), readyColor(Colors::Blue),
-	normalColor(Colors::White), flashDuration(0.5f), flashTimer(0.0f),
+	deadColor(Colors::Red), spinSpeed(2.0f), blinkOn(false), missileWait(6.0f), missileTimer(0.0f), readyColor(Colors::Blue),
+	normalColor(Colors::White), flashDuration(0.5f), flashTimer(0.0f), hasMissile(false),
 	missileArchetype(nullptr), bulletArchetype(nullptr), transform(nullptr), rigidBody(nullptr), Component("PlayerShip")
 {
 }
@@ -111,6 +111,12 @@ unsigned PlayerShip::GetScore() const
 void PlayerShip::IncreaseScore(unsigned amount)
 {
 	score += amount;
+}
+
+// Enables the Missile
+void PlayerShip::EnableMissile()
+{
+	hasMissile = true;
 }
 
 //------------------------------------------------------------------------------
@@ -163,7 +169,7 @@ void PlayerShip::Shoot()
 // Handles the missile firing
 void PlayerShip::MissileFire(float dt)
 {
-	if (missileTimer <= 0)
+	if (hasMissile && missileTimer <= 0)
 	{
 		dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(readyColor);
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(16))
@@ -173,7 +179,7 @@ void PlayerShip::MissileFire(float dt)
 
 			GameObject* missile = new GameObject(*missileArchetype);
 			dynamic_cast<Transform*>(missile->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
-			dynamic_cast<HomingMissile*>(missile->GetComponent("PlayerProjectile"))->SetSpawner(this);
+			dynamic_cast<HomingMissile*>(missile->GetComponent("HomingMissile"))->SetSpawner(this);
 			GetOwner()->GetSpace()->GetObjectManager().AddObject(*missile);
 		}
 	}

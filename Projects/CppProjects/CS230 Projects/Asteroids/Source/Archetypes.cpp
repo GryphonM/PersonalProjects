@@ -224,11 +224,13 @@ namespace Archetypes
 		Sprite* s = new Sprite(mesh, spriteSource);
 		RigidBody* rB = new RigidBody();
 		HomingMissile* hM = new HomingMissile();
+		ScreenWrap* sW = new ScreenWrap();
 		ColliderCircle* cC = new ColliderCircle(t->GetScale().x / 2.0f);
 		missile->AddComponent(t);
 		missile->AddComponent(s);
 		missile->AddComponent(rB);
 		missile->AddComponent(hM);
+		missile->AddComponent(sW);
 		missile->AddComponent(cC);
 		return missile;
 	}
