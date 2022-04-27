@@ -47,9 +47,12 @@ void BombCollisionHandler(GameObject& object, GameObject& other)
 		dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->StartExplosion();
 		other.Destroy();
 	}
-	else if (other.GetName() == "Bomb" && dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->exploding 
+	else if (other.GetName() == "Bomb" && dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->exploding
 		&& !dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->exploding)
+	{
+		dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->explosionRadius += 0.25f * dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->explosionRadius;
 		dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->StartExplosion();
+	}
 }
 //------------------------------------------------------------------------------
 // Public Functions:

@@ -54,7 +54,7 @@ void MissileCollisionHandler(GameObject& object, GameObject& other)
 // Params:
 //   speed_ = The speed at which the missile approaches asteroids
 HomingMissile::HomingMissile(float speed_) : speed(speed_), explosionRadius(1.0f),
-	player(nullptr), target(nullptr), transform(nullptr), rigidBody(nullptr), Component("HomingMissile")
+	player(nullptr), targetID(0), transform(nullptr), rigidBody(nullptr), Component("HomingMissile")
 {
 }
 
@@ -108,27 +108,33 @@ void HomingMissile::SetTarget()
 {
 	std::vector<GameObject*> Asteroids;
 	GetOwner()->GetSpace()->GetObjectManager().GetObjectsByName("Asteroid", Asteroids);
-	GameObject* target_ = Asteroids[0];
-	float currentDist = dynamic_cast<Transform*>(target_->GetComponent("Transform"))->GetTranslation().DistanceSquared(transform->GetTranslation());
+	int target_ = Asteroids[0]->GetID();
+	float currentDist = dynamic_cast<Transform*>(Asteroids[0]->GetComponent("Transform"))->GetTranslation().DistanceSquared(transform->GetTranslation());
 
 	for (auto it = Asteroids.begin() + 1; it != Asteroids.end(); it++)
 	{
 		float dist = dynamic_cast<Transform*>((*it)->GetComponent("Transform"))->GetTranslation().DistanceSquared(transform->GetTranslation());
 		if (dist < currentDist)
 		{
-			target_ = *it;
+			target_ = (*it)->GetID();
 			currentDist = dist;
 		}
 	}
 
-	target = target_;
+	targetID = target_;
 }
 
 // Find the direction toward the target and move that way
 void HomingMissile::Move()
 {
-	Vector2D targetDir = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation() - transform->GetTranslation();
-	float angle = atan2(targetDir.y, targetDir.x);
-	transform->SetRotation(angle);
-	rigidBody->SetVelocity(targetDir * speed);
+	GameObject* target = dynamic_cast<GameObject*>(GetOwner()->GetSpace()->GetObjectByID(targetID));
+	if (target != nullptr)
+	{
+		Vector2D targetDir = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation() - transform->GetTranslation();
+		float angle = atan2(targetDir.y, targetDir.x);
+		transform->SetRotation(angle);
+		rigidBody->SetVelocity(targetDir * speed);
+	}
+	else
+		SetTarget();
 }

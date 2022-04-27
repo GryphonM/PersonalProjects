@@ -16,6 +16,7 @@
 #include "stdafx.h"
 #include "Asteroid.h"
 #include "Bomb.h"
+#include "HomingMissile.h"
 #include "Space.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -81,28 +82,32 @@ void Asteroid::SetVelocity()
 // Generate new asteroids based off this asteroid
 void Asteroid::SpawnNewAsteroids()
 {
-	if (size == Size::Large)
+	if (!spawnedNew)
 	{
-		for (int i = 0; i < Random::Range(2, 3); i++)
+		spawnedNew = true;
+		if (size == Size::Large)
 		{
-			GameObject* newAst = new GameObject(*GetOwner());
-			dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Medium;
-			dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
-			dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
-				(spawnScaleModifier * transform->GetScale().x) / 2);
-			GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
+			for (int i = 0; i < Random::Range(2, 3); i++)
+			{
+				GameObject* newAst = new GameObject(*GetOwner());
+				dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Medium;
+				dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
+				dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
+					(spawnScaleModifier * transform->GetScale().x) / 2);
+				GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
+			}
 		}
-	}
-	else if (size == Size::Medium)
-	{
-		for (int i = 0; i < Random::Range(1, 2); i++)
+		else if (size == Size::Medium)
 		{
-			GameObject* newAst = new GameObject(*GetOwner());
-			dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Small;
-			dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
-			dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
-				(spawnScaleModifier * transform->GetScale().x) / 2);
-			GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
+			for (int i = 0; i < Random::Range(1, 2); i++)
+			{
+				GameObject* newAst = new GameObject(*GetOwner());
+				dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Small;
+				dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
+				dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
+					(spawnScaleModifier * transform->GetScale().x) / 2);
+				GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
+			}
 		}
 	}
 }
@@ -120,8 +125,8 @@ void Asteroid::SpawnNewAsteroids()
 //   spawnScaleModifier = Percentage of original asteroid's scale to use for new asteroids.
 Asteroid::Asteroid(float speedMin_, float speedMax_, unsigned basePointsValue_, 
 	float sizePointsModifier_, float spawnScaleModifier_) : 
-	speedMin(speedMin_), speedMax(speedMax_), basePointsValue(basePointsValue_), 
-	sizePointsModifier(sizePointsModifier_), spawnScaleModifier(spawnScaleModifier_),
+	speedMin(speedMin_), speedMax(speedMax_), basePointsValue(basePointsValue_), spawnedNew(false),
+	sizePointsModifier(sizePointsModifier_), spawnScaleModifier(spawnScaleModifier_), pointsGiven(false),
 	size(Size::Large), location(Location::TopLeft), transform(nullptr), rigidBody(nullptr),
 	Component("Asteroid")
 {
@@ -148,13 +153,19 @@ void Asteroid::Initialize()
 // Get the value of this object for increasing the player's score.
 unsigned Asteroid::GetPointValue() const
 {
-	switch (size)
+	if (!pointsGiven)
 	{
-	case Size::Medium:
-		return static_cast<unsigned>(basePointsValue * sizePointsModifier);
-	case Size::Small:
-		return static_cast<unsigned>(basePointsValue * sizePointsModifier * sizePointsModifier);
-	default:
-		return basePointsValue;
+		pointsGiven = true;
+		switch (size)
+		{
+		case Size::Medium:
+			return static_cast<unsigned>(basePointsValue * sizePointsModifier);
+		case Size::Small:
+			return static_cast<unsigned>(basePointsValue * sizePointsModifier * sizePointsModifier);
+		default:
+			return basePointsValue;
+		}
 	}
+	else
+		return 0;
 }

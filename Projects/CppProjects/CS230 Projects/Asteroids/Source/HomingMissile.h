@@ -83,7 +83,7 @@ private:
 	// Private Variables:
 	//------------------------------------------------------------------------------
 	PlayerShip* player;
-	GameObject* target;
+	unsigned int targetID;
 
 	float speed;
 	float explosionRadius;
