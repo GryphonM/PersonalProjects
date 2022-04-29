@@ -182,8 +182,11 @@ namespace CS170
 	template <typename T> T sum(const T* start, const T* end)
 	{
 		T sum = *start;
-		for (const T* place = start + 1; place != end; place++)
-			sum += *place;
+		if (start != end)
+		{
+			for (const T* place = start + 1; place != end; place++)
+				sum += *place;
+		}
 		return sum;
 	}
 
