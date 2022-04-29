@@ -1,0 +1,50 @@
+Updating the ObjectManager for the 1st time
+********************************************
+Updating The Following Hero Object: Hero1
+Updating The Following Enemy Object: Enemy1
+Updating The Following Hero Object: Hero1
+Updating The Following Hero Object: Hero1
+Updating The Following Enemy Object: Enemy2
+
+Displaying the ObjectManager for the 1st time
+**********************************************
+Displaying The Following Hero Object: Hero1
+Item 1: 1
+Item 2: 0
+Item 3: 2
+Displaying The Following Enemy Object: Enemy1
+Displaying The Following Hero Object: Hero1
+Item 1: 1
+Item 2: 0
+Item 3: 2
+Displaying The Following Hero Object: Hero1
+Item 1: 0
+Item 2: 0
+Item 3: 0
+Item 4: 0
+Item 5: 0
+Displaying The Following Enemy Object: Enemy2
+
+Displaying the ObjectManager for the 2nd time
+**********************************************
+Displaying The Following Hero Object: Hero1
+Item 1: 1
+Item 2: 0
+Item 3: 2
+Displaying The Following Hero Object: Hero1
+Item 1: 0
+Item 2: 0
+Item 3: 0
+Item 4: 0
+Item 5: 0
+Displaying The Following Enemy Object: Enemy2
+
+Displaying the ObjectManager for the 3rd time
+**********************************************
+Displaying The Following Enemy Object: Enemy2
+
+Clearing the ObjectManager 
+***************************
+
+Displaying the ObjectManager for the 4th time
+**********************************************

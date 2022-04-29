@@ -1,0 +1,8 @@
+Updating The Following Hero Object: Hero
+Displaying The Following Hero Object: Hero
+Item 1: 0
+Item 2: 0
+Item 3: 0
+Item 4: 0
+Updating The Following Enemy Object: Enemy
+Displaying The Following Enemy Object: Enemy

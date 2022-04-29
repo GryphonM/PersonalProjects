@@ -1,0 +1,19 @@
+Updating The Following Hero Object: Hero1
+Displaying The Following Hero Object: Hero1
+Item 1: 1
+Item 2: 0
+Item 3: 2
+Updating The Following Hero Object: Hero2
+Displaying The Following Hero Object: Hero2
+Item 1: 1
+Item 2: 1
+Item 3: 2
+Updating The Following Hero Object: Hero3
+Displaying The Following Hero Object: Hero3
+Item 1: 1
+Item 2: 1
+Item 3: 2
+Updating The Following Enemy Object: Enemy1
+Displaying The Following Enemy Object: Enemy1
+Updating The Following Enemy Object: Enemy2
+Displaying The Following Enemy Object: Enemy2
