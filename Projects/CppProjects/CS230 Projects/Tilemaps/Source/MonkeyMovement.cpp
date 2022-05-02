@@ -30,7 +30,7 @@ using namespace Beta;
 //------------------------------------------------------------------------------
 
 // Constructor
-MonkeyMovement::MonkeyMovement() : monkeyWalkSpeed(2.0f), monkeyJumpSpeed(3.0f), groundHeight(-1.0f),
+MonkeyMovement::MonkeyMovement() : monkeyWalkSpeed(2.0f), monkeyJumpSpeed(3.0f),
 	gravity(Vector2D(0, -4.0f)), transform(nullptr), rigidBody(nullptr), Component("Monkey")
 {
 }
@@ -86,7 +86,7 @@ void MonkeyMovement::MoveHorizontal() const
 }
 
 // Moves vertically based on input
-void MonkeyMovement::MoveVertical() const
+void MonkeyMovement::MoveVertical()
 {
 	bool grounded = false;
 

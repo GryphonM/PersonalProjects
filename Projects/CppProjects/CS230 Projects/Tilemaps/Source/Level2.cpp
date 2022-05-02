@@ -47,8 +47,9 @@ using namespace Beta;
 
 	// Creates an instance of Level 2.
 	Level2::Level2()
-		: Level("Level2"), mesh(nullptr), texture(nullptr),spriteSource(nullptr), 
-		columns(3), rows(5), animation(nullptr), animFrameStart(0), animFrameCount(8), animFrameDuration(0.2f)
+		: Level("Level2"), meshMonkey(nullptr), textureMonkey(nullptr),spriteSourceMonkey(nullptr), 
+		columnsMonkey(3), rowsMonkey(5), dataMap(nullptr), textureMap(nullptr), spriteSourceMap(nullptr),
+		meshMap(nullptr), columnsMap(0), rowsMap(0)
 	{
 	}
 
@@ -59,16 +60,13 @@ using namespace Beta;
 		
 		// TO DO:
 		// Create a texture from the Monkey.png file using Texture::CreateTextureFromFile
-		texture = Texture::CreateTextureFromFile("Monkey.png");
+		textureMonkey = Texture::CreateTextureFromFile("Monkey.png");
 
 		// Create a new sprite sources for monkey
-		spriteSource = new SpriteSource(texture, "Monkey", 3, 5);
-
-		// Create a new animation for the monkey walk cycle
-		animation = new Animation("Monkey Walk", nullptr, animFrameCount, animFrameStart, animFrameDuration);
+		spriteSourceMonkey = new SpriteSource(textureMonkey, "Monkey", 3, 5);
 
 		// Create a textured mesh with 2 triangles using CreateQuadMesh
-		mesh = CreateQuadMesh(Vector2D(1.f / columns, 1.f / rows), Vector2D(0.5f, 0.5f));
+		meshMonkey = CreateQuadMesh(Vector2D(1.f / columnsMonkey, 1.f / rowsMonkey), Vector2D(0.5f, 0.5f));
 	}
 
 	// Initialize the memory associated with Level 2.
@@ -77,7 +75,7 @@ using namespace Beta;
 		std::cout << "Level2::Initialize" << std::endl;
 		
 		// TO DO:
-		GameObject* monkey = Archetypes::CreateMonkey(mesh, spriteSource, animation);
+		GameObject* monkey = Archetypes::CreateMonkey(meshMonkey, spriteSourceMonkey, nullptr);
 		GetSpace()->GetObjectManager().AddObject(*monkey);
 	}
 
@@ -112,10 +110,9 @@ using namespace Beta;
 	{
 		std::cout << "Level2::Unload" << std::endl;
 		
-		// TO DO: Delete the animation, sprite source, texture, mesh
-		delete animation;
-		delete spriteSource;
-		delete mesh;
-		delete texture;
+		// Delete the sprite source, texture, mesh
+		delete spriteSourceMonkey;
+		delete meshMonkey;
+		delete textureMonkey;
 	}
 //}
