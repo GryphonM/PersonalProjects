@@ -23,6 +23,7 @@
 // Resources
 #include "SpriteSource.h"
 #include "Animation.h"
+#include "Tilemap.h"
 
 // Components
 #include "Sprite.h"
@@ -65,6 +66,11 @@ using namespace Beta;
 		// Create a new sprite sources for monkey
 		spriteSourceMonkey = new SpriteSource(textureMonkey, "Monkey", 3, 5);
 
+		// Create a tilemap from a file
+		dataMap = Tilemap::CreateTilemapFromFile("Level2.txt");
+		if (dataMap == nullptr)
+			std::cout << "Error loading map!" << std::endl;
+
 		// Create a textured mesh with 2 triangles using CreateQuadMesh
 		meshMonkey = CreateQuadMesh(Vector2D(1.f / columnsMonkey, 1.f / rowsMonkey), Vector2D(0.5f, 0.5f));
 	}
@@ -75,7 +81,7 @@ using namespace Beta;
 		std::cout << "Level2::Initialize" << std::endl;
 		
 		// TO DO:
-		GameObject* monkey = Archetypes::CreateMonkey(meshMonkey, spriteSourceMonkey, nullptr);
+		GameObject* monkey = Archetypes::CreateMonkey(meshMonkey, spriteSourceMonkey);
 		GetSpace()->GetObjectManager().AddObject(*monkey);
 	}
 
@@ -96,13 +102,13 @@ using namespace Beta;
 			Level3* level = new Level3;
 			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
 		}
-		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
-			GetSpace()->RestartLevel();
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('4'))
 		{
 			AsteroidsLevel* level = new AsteroidsLevel;
 			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
 		}
+		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
+			GetSpace()->RestartLevel();
 	}
 
 	// Unload the resources associated with Level 2.
@@ -114,5 +120,6 @@ using namespace Beta;
 		delete spriteSourceMonkey;
 		delete meshMonkey;
 		delete textureMonkey;
+		delete dataMap;
 	}
 //}

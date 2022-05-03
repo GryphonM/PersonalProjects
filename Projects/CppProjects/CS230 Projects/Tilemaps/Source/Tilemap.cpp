@@ -20,6 +20,8 @@
 // Public Functions:
 //------------------------------------------------------------------------------
 
+std::string Tilemap::mapPath = Beta::EngineCore::GetInstance().GetFilePath() + "Levels/";
+
 // Create a tilemap from the given parameters.
 // Params:
 //   numColumns = The width of the map.
@@ -69,18 +71,18 @@ int Tilemap::GetCellValue(unsigned column, unsigned row) const
 //   filename = The name of the file containing the tilemap data.
 Tilemap* Tilemap::CreateTilemapFromFile(const std::string& filename)
 {
-	std::ifstream input(filename);
-	if (input.is_open())
+	std::ifstream input(mapPath + filename);
+	if (!input.is_open())
+		return nullptr;
+
+	int columns;
+	int rows;
+	if (ReadIntegerVariable(input, "width", columns))
 	{
-		int columns;
-		int rows;
-		if (ReadIntegerVariable(input, "width", columns))
+		if (ReadIntegerVariable(input, "height", rows))
 		{
-			if (ReadIntegerVariable(input, "height", rows))
-			{
-				int** arr = ReadArrayVariable(input, "data", columns, rows);
-				return new Tilemap(columns, rows, arr);
-			}
+			int** arr = ReadArrayVariable(input, "data", columns, rows);
+			return new Tilemap(columns, rows, arr);
 		}
 	}
 	return nullptr;
@@ -106,7 +108,7 @@ bool Tilemap::ReadIntegerVariable(std::ifstream& file, const std::string& name, 
 		if (input == name)
 		{
 			file >> variable;
-			std::cout << name << variable << std::endl;
+			std::cout << name << " " << variable << std::endl;
 			return true;
 		}
 	} while (!file.eof());

@@ -63,7 +63,7 @@ namespace Archetypes
 	//   animation		= The animation to use for this object.
 	// Returns:
 	//	 A pointer to the newly constructed game object
-	GameObject* CreateMonkey(Beta::Mesh* mesh, SpriteSource* spriteSource, Animation* animation);
+	GameObject* CreateMonkey(Beta::Mesh* mesh, SpriteSource* spriteSource/*, Animation* animation*/);
 
 	// Create the circle game object.
 	// Params:

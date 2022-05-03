@@ -100,18 +100,15 @@ namespace Archetypes
 	//   animatino = The walk animation.
 	// Returns:
 	//	 A pointer to the newly constructed game object
-	GameObject* CreateMonkey(Beta::Mesh* mesh, SpriteSource* spriteSource, Animation* animation)
+	GameObject* CreateMonkey(Beta::Mesh* mesh, SpriteSource* spriteSource/*, Animation* animation*/)
 	{
 		GameObject* monkey = new GameObject("Monkey");
 		Transform* t = new Transform();
 		Sprite* s = new Sprite(mesh, spriteSource);
-		Animator* a = new Animator();
-		a->AddAnimation(animation);
 		RigidBody* rB = new RigidBody();
 		MonkeyMovement* mM = new MonkeyMovement();
 		monkey->AddComponent(t);
 		monkey->AddComponent(s);
-		monkey->AddComponent(a);
 		monkey->AddComponent(rB);
 		monkey->AddComponent(mM);
 		return monkey;
