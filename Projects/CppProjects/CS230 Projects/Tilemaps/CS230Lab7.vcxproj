@@ -108,6 +108,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClCompile Include="Source\Animation.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\Archetypes.cpp" />
+    <ClCompile Include="Source\Asteroid.cpp" />
     <ClCompile Include="Source\AsteroidsLevel.cpp" />
     <ClCompile Include="Source\Bomb.cpp" />
     <ClCompile Include="Source\Collider.cpp" />
@@ -147,6 +148,7 @@ xcopy FreeType\lib\win64\freetype.dll "$(OutDir)" /Y</Command>
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\Archetypes.h" />
+    <ClInclude Include="Source\Asteroid.h" />
     <ClInclude Include="Source\AsteroidsLevel.h" />
     <ClInclude Include="Source\Bomb.h" />
     <ClInclude Include="Source\Collider.h" />

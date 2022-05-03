@@ -69,14 +69,17 @@ private:
 	// Meshes
 	Beta::Mesh* meshShip;
 	Beta::Mesh* meshBullet;
+	Beta::Mesh* meshBomb;
 
 	// Textures
 	Beta::Texture* textureShip;
 	Beta::Texture* textureBullet;
+	Beta::Texture* textureBomb;
 
 	// SpriteSources
 	SpriteSource* spriteSourceShip;
 	SpriteSource* spriteSourceBullet;
+	SpriteSource* spriteSourceBomb;
 };
 
 //----------------------------------------------------------------------------

@@ -66,6 +66,9 @@ public:
 	// Increase the player's score by the given amount.
 	void IncreaseScore(unsigned amount);
 
+	// Enables the Missile
+	void EnableMissile();
+
 private:
 	//------------------------------------------------------------------------------
 	// Private Functions:
@@ -79,6 +82,12 @@ private:
 
 	// Shoot projectiles when space is pressed
 	void Shoot();
+
+	// Handles the missile firing
+	void MissileFire(float dt);
+
+	// Lays a bomb when the down key is pressed
+	void LayBomb();
 
 	// Play death "animation"
 	void DeathSequence(float dt);
@@ -102,6 +111,19 @@ private:
 	// Bullet archetype
 	GameObject* bulletArchetype;
 
+	// Homing Missile
+	GameObject* missileArchetype;
+	bool hasMissile;
+	float missileWait;
+	float missileTimer;
+	Beta::Color readyColor;
+	Beta::Color normalColor;
+	float flashDuration;
+	float flashTimer;
+
+	// Bomb
+	GameObject* bombArchetype;
+
 	// Components
 	Transform* transform;
 	RigidBody* rigidBody;
@@ -112,6 +134,11 @@ private:
 	// Death
 	float deathDuration;
 	float timer;
+	float blinkDuration;
+	float blinkTimer;
+	Beta::Color deadColor;
+	float spinSpeed;
+	bool blinkOn;
 	bool isDying;
 };
 

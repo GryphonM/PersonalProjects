@@ -33,7 +33,7 @@ Tilemap::Tilemap(unsigned numColumns_, unsigned numRows_, int** data_) :
 // Destructor.
 Tilemap::~Tilemap()
 {
-	for (int i = 0; i < numRows; i++)
+	for (unsigned i = 0; i < numRows; i++)
 		delete[] data[i];
 	delete[] data;
 }
@@ -70,19 +70,20 @@ int Tilemap::GetCellValue(unsigned column, unsigned row) const
 Tilemap* Tilemap::CreateTilemapFromFile(const std::string& filename)
 {
 	std::ifstream input(filename);
-	if (!input.is_open())
-		return nullptr;
-
-	int columns;
-	int rows;
-	if (ReadIntegerVariable(input, "width", columns))
+	if (input.is_open())
 	{
-		if (ReadIntegerVariable(input, "height", rows))
+		int columns;
+		int rows;
+		if (ReadIntegerVariable(input, "width", columns))
 		{
-			int** arr = ReadArrayVariable(input, "data", columns, rows);
-			return new Tilemap(columns, rows, arr);
+			if (ReadIntegerVariable(input, "height", rows))
+			{
+				int** arr = ReadArrayVariable(input, "data", columns, rows);
+				return new Tilemap(columns, rows, arr);
+			}
 		}
 	}
+	return nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -105,6 +106,7 @@ bool Tilemap::ReadIntegerVariable(std::ifstream& file, const std::string& name, 
 		if (input == name)
 		{
 			file >> variable;
+			std::cout << name << variable << std::endl;
 			return true;
 		}
 	} while (!file.eof());
@@ -128,13 +130,18 @@ int** Tilemap::ReadArrayVariable(std::ifstream& file, const std::string& name,
 		return nullptr;
 
 	int** arr = new int*[rows];
-	for (int i = 0; i < rows; i++)
+	for (unsigned i = 0; i < rows; i++)
 		arr[i] = new int[columns];
+	std::cout << name << std::endl;
 
-	for (int i = 0; i < rows; i++)
+	for (unsigned i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < columns; j++)
+		for (unsigned j = 0; j < columns; j++)
+		{
 			file >> arr[i][j];
+			std::cout << arr[i][j] << " ";
+		}
+		std::cout << std::endl;
 	}
 	return arr;
 }

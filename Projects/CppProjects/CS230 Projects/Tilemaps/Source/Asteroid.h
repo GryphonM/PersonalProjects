@@ -111,6 +111,8 @@ private:
 	// Other variables
 	Size size;
 	Location location;
+	bool spawnedNew;
+	mutable bool pointsGiven;
 
 	// Components
 	Transform* transform;

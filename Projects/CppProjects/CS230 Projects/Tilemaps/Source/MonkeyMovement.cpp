@@ -92,14 +92,14 @@ void MonkeyMovement::MoveVertical()
 
 	// Gravity
 	float bottom = transform->GetTranslation().y - (0.5f * transform->GetScale().y);
-	if (bottom > groundHeight)
+	if (bottom > 0/*groundHeight*/)
 	{
 		rigidBody->AddForce(gravity);
 		grounded = false;
 	}
 	else
 	{
-		transform->SetTranslation(Vector2D(transform->GetTranslation().x, groundHeight + (0.5f * transform->GetScale().y)));
+		transform->SetTranslation(Vector2D(transform->GetTranslation().x, /*groundHeight + */(0.5f * transform->GetScale().y)));
 		rigidBody->SetVelocity(Vector2D(rigidBody->GetVelocity().x, 0));
 		grounded = true;
 	}

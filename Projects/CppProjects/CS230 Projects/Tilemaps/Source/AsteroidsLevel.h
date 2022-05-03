@@ -107,6 +107,18 @@ private:
 	Beta::Texture* textureBullet;
 	SpriteSource* spriteSourceBullet;
 
+	// Missile
+	GameObject* missileArchetype;
+	Beta::Mesh* meshMissile;
+	Beta::Texture* textureMissile;
+	SpriteSource* spriteSourceMissile;
+
+	// Bomb
+	GameObject* bombArchetype;
+	Beta::Mesh* meshBomb;
+	Beta::Texture* textureBomb;
+	SpriteSource* spriteSourceBomb;
+
 	// Asteroid
 	GameObject* asteroidArchetype;
 	Beta::Mesh* meshAsteroid;
