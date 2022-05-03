@@ -139,6 +139,9 @@
     <ClCompile Include="Source\Asteroid.cpp">
       <Filter>Game\Behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SpriteTilemap.cpp">
+      <Filter>High-Level API\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">

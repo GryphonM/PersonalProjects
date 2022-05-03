@@ -36,6 +36,9 @@
 #include "Asteroid.h"
 #include "HomingMissile.h"
 #include "Bomb.h"
+#include "Tilemap.h"
+#include "SpriteTilemap.h"
+#include "ColliderTilemap.h"
 
 //------------------------------------------------------------------------------
 
@@ -251,5 +254,24 @@ namespace Archetypes
 		bomb->AddComponent(b);
 		bomb->AddComponent(cC);
 		return bomb;
+	}
+
+	// Create a tilemap object
+	// Params:
+	//   mesh = The mesh to use for the sprite.
+	//   spriteSource = The sprite source to use for the sprite.
+	//   map = The map to use for tilemap related components.
+	// Returns:
+	//   A pointer to the newly constructed game object.
+	GameObject* CreateTilemapObject(Beta::Mesh* mesh, SpriteSource* spriteSource, Tilemap* map)
+	{
+		GameObject* tilemap = new GameObject("Tilemap");
+		Transform* t = new Transform(Vector2D(-3.5, 2.5));
+		SpriteTilemap* sT = new SpriteTilemap(mesh, spriteSource, map);
+		//ColliderTilemap* cT = new ColliderTilemap();
+		tilemap->AddComponent(t);
+		tilemap->AddComponent(sT);
+		//tilemap->AddComponent(cT);
+		return tilemap;
 	}
 }

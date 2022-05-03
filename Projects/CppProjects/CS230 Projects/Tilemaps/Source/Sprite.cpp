@@ -51,6 +51,14 @@ void Sprite::Initialize()
 // Draw a sprite (Sprite can be textured or untextured).
 void Sprite::Draw()
 {
+	Draw(Vector2D(0, 0));
+}
+
+// Draw a sprite at an offset from the object's translation.
+// Params:
+//   offset = The offset that will be added to the translation when drawing.
+void Sprite::Draw(const Beta::Vector2D& offset)
+{
 	if (mesh == nullptr || transform == nullptr)
 		return;
 
@@ -63,7 +71,9 @@ void Sprite::Draw()
 	else
 		graphics.GetDefaultTexture().Use();
 
-	graphics.SetTransform(reinterpret_cast<const Matrix2D&>(transform->GetMatrix()));
+	Matrix2D offset_ = Matrix2D::TranslationMatrix(offset.x, offset.y);
+	offset_ *= reinterpret_cast<const Matrix2D&>(transform->GetMatrix());
+	graphics.SetTransform(offset_);
 	mesh->Draw();
 }
 

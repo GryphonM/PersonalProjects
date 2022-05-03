@@ -50,7 +50,7 @@ using namespace Beta;
 	Level2::Level2()
 		: Level("Level2"), meshMonkey(nullptr), textureMonkey(nullptr),spriteSourceMonkey(nullptr), 
 		columnsMonkey(3), rowsMonkey(5), dataMap(nullptr), textureMap(nullptr), spriteSourceMap(nullptr),
-		meshMap(nullptr), columnsMap(0), rowsMap(0)
+		meshMap(nullptr), columnsMap(4), rowsMap(3)
 	{
 	}
 
@@ -71,6 +71,11 @@ using namespace Beta;
 		if (dataMap == nullptr)
 			std::cout << "Error loading map!" << std::endl;
 
+		// Create visuals for tilemap
+		meshMap = CreateQuadMesh(Vector2D(static_cast<float>(columnsMap), static_cast<float>(rowsMap)), Vector2D(0.5f, 0.5f));
+		textureMap = Texture::CreateTextureFromFile("Tilemap.png");
+		spriteSourceMap = new SpriteSource(textureMap, "Tilemap", columnsMap, rowsMap);
+
 		// Create a textured mesh with 2 triangles using CreateQuadMesh
 		meshMonkey = CreateQuadMesh(Vector2D(1.f / columnsMonkey, 1.f / rowsMonkey), Vector2D(0.5f, 0.5f));
 	}
@@ -82,7 +87,9 @@ using namespace Beta;
 		
 		// TO DO:
 		GameObject* monkey = Archetypes::CreateMonkey(meshMonkey, spriteSourceMonkey);
+		GameObject* tilemap = Archetypes::CreateTilemapObject(meshMap, spriteSourceMap, dataMap);
 		GetSpace()->GetObjectManager().AddObject(*monkey);
+		GetSpace()->GetObjectManager().AddObject(*tilemap);
 	}
 
 	// Update Level 2.
@@ -118,8 +125,11 @@ using namespace Beta;
 		
 		// Delete the sprite source, texture, mesh
 		delete spriteSourceMonkey;
+		delete spriteSourceMap;
 		delete meshMonkey;
+		delete meshMap;
 		delete textureMonkey;
+		delete textureMap;
 		delete dataMap;
 	}
 //}
