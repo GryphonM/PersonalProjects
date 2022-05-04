@@ -49,8 +49,8 @@ void SpriteTilemap::Draw()
 			int cellVal = map->GetCellValue(j, i);
 			if (cellVal != 0)
 			{
-				SetFrame(cellVal);
-				Sprite::Draw(Vector2D(j * scale.x, i * scale.y));
+				SetFrame(cellVal - 1);
+				Sprite::Draw(Vector2D(j * scale.x, i * -scale.y));
 			}
 		}
 	}

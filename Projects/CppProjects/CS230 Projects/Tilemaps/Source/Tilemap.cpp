@@ -61,7 +61,7 @@ unsigned Tilemap::GetHeight() const
 //   or a positive integer otherwise.
 int Tilemap::GetCellValue(unsigned column, unsigned row) const
 {
-	if (column < 0 || column > numColumns || row < 0 || row > numRows)
+	if (column > numColumns || row > numRows)
 		return -1;
 	return data[row][column];
 }

@@ -72,7 +72,7 @@ using namespace Beta;
 			std::cout << "Error loading map!" << std::endl;
 
 		// Create visuals for tilemap
-		meshMap = CreateQuadMesh(Vector2D(static_cast<float>(columnsMap), static_cast<float>(rowsMap)), Vector2D(0.5f, 0.5f));
+		meshMap = CreateQuadMesh(Vector2D(1.f / columnsMap, 1.f / rowsMap), Vector2D(0.5f, 0.5f));
 		textureMap = Texture::CreateTextureFromFile("Tilemap.png");
 		spriteSourceMap = new SpriteSource(textureMap, "Tilemap", columnsMap, rowsMap);
 

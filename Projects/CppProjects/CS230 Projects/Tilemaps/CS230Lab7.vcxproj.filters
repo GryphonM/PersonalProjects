@@ -142,6 +142,9 @@
     <ClCompile Include="Source\SpriteTilemap.cpp">
       <Filter>High-Level API\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ColliderTilemap.cpp">
+      <Filter>High-Level API\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">

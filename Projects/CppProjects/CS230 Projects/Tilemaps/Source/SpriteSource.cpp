@@ -80,7 +80,7 @@ const Vector2D SpriteSource::GetUV(unsigned int frameIndex) const
 	float VSize = 1.f / numRows;
 
 	unsigned column = frameIndex % numCols;
-	unsigned row = frameIndex / numRows;
+	unsigned row = frameIndex / numCols;
 
 	return Vector2D(USize * column, VSize * row);
 }
