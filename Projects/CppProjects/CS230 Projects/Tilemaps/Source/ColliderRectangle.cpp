@@ -86,5 +86,9 @@ bool ColliderRectangle::IsCollidingWith(const Collider& other) const
 			Beta::BoundingRectangle(other.transform->GetTranslation(), 
 				dynamic_cast<const ColliderRectangle &>(other).GetExtents()));
 	}
+	else if (other.GetType() == ColliderType::Tilemap)
+	{
+		return other.IsCollidingWith(*this);
+	}
 	return false;
 }

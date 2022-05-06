@@ -17,6 +17,7 @@
 #include "MonkeyMovement.h"
 #include "Transform.h"
 #include "RigidBody.h"
+#include "Sprite.h"
 #include "GameObject.h"
 #include "Archetypes.h"
 #include "Space.h"
@@ -26,12 +27,26 @@ using namespace Beta;
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
+// Friend Functions:
+//------------------------------------------------------------------------------
+
+// Map collision handler for Monkey objects.
+// Params:
+//   object = The monkey object.
+//   collision = Which sides the monkey collided on.
+void MonkeyMapCollisionHandler(GameObject& object, const MapCollision& collision)
+{
+	if (collision.bottom)
+		dynamic_cast<MonkeyMovement*>(object.GetComponent("Monkey"))->onGround = true;
+}
+
+//------------------------------------------------------------------------------
 // Public Functions:
 //------------------------------------------------------------------------------
 
 // Constructor
-MonkeyMovement::MonkeyMovement() : monkeyWalkSpeed(2.0f), monkeyJumpSpeed(3.0f),
-	gravity(Vector2D(0, -4.0f)), transform(nullptr), rigidBody(nullptr), Component("Monkey")
+MonkeyMovement::MonkeyMovement() : monkeyWalkSpeed(2.0f), monkeyJumpSpeed(3.0f), onGround(false),
+	gravity(Vector2D(0, -4.0f)), transform(nullptr), rigidBody(nullptr), sprite(nullptr), Component("Monkey")
 {
 }
 
@@ -48,6 +63,8 @@ void MonkeyMovement::Initialize()
 {
 	transform = dynamic_cast<Transform *>(GetOwner()->GetComponent("Transform"));
 	rigidBody = dynamic_cast<RigidBody *>(GetOwner()->GetComponent("RigidBody"));
+	sprite = dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"));
+	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetMapCollisionHandler(MonkeyMapCollisionHandler);
 }
 
 // Update function for this component.
@@ -88,29 +105,19 @@ void MonkeyMovement::MoveHorizontal() const
 // Moves vertically based on input
 void MonkeyMovement::MoveVertical()
 {
-	bool grounded = false;
-
 	// Gravity
-	float bottom = transform->GetTranslation().y - (0.5f * transform->GetScale().y);
-	if (bottom > 0/*groundHeight*/)
-	{
-		rigidBody->AddForce(gravity);
-		grounded = false;
-	}
-	else
-	{
-		transform->SetTranslation(Vector2D(transform->GetTranslation().x, /*groundHeight + */(0.5f * transform->GetScale().y)));
-		rigidBody->SetVelocity(Vector2D(rigidBody->GetVelocity().x, 0));
-		grounded = true;
-	}
+	rigidBody->AddForce(gravity);
+
+	if (rigidBody->GetVelocity().y < -0.25f)
+		onGround = false;
 
 	// Jump
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(38))
 	{
-		if (grounded)
+		if (onGround)
 		{
 			rigidBody->SetVelocity(Vector2D(rigidBody->GetVelocity().x, monkeyJumpSpeed));
-			grounded = false;
+			onGround = false;
 		}
 	}
 }

@@ -39,6 +39,12 @@ Component* ColliderTilemap::Clone() const
 	return new ColliderTilemap(*this);
 }
 
+// Debug drawing for colliders.
+void ColliderTilemap::Draw()
+{
+
+}
+
 // Check for collision between a tilemap and another arbitrary collider.
 // Params:
 //	 other = Reference to the second collider component.
@@ -56,7 +62,7 @@ bool ColliderTilemap::IsCollidingWith(const Collider& other) const
 	bool collided = collisions.bottom || collisions.top || collisions.right || collisions.left;
 	if (collided)
 	{
-		other.GetMapCollisionHandler()(other.GetOwner(), collisions);
+		other.GetMapCollisionHandler()(*other.GetOwner(), collisions);
 		return true;
 	}
 	return false;
@@ -84,8 +90,8 @@ bool ColliderTilemap::IsSideColliding(const BoundingRectangle& rectangle, Rectan
 {
 	if (side == RectangleSide::Bottom)
 	{
-		Vector2D hotspot1 = Vector2D(0.5f * (rectangle.center.x - rectangle.left), rectangle.bottom);
-		Vector2D hotspot2 = Vector2D(0.5f * (rectangle.right - rectangle.center.x), rectangle.bottom);
+		Vector2D hotspot1 = Vector2D(0.5f * (rectangle.center.x + rectangle.left), rectangle.bottom);
+		Vector2D hotspot2 = Vector2D(0.5f * (rectangle.right + rectangle.center.x), rectangle.bottom);
 		if (IsCollidingAtPosition(hotspot1.x, hotspot1.y) || IsCollidingAtPosition(hotspot2.x, hotspot2.y))
 			return true;
 		else
@@ -93,8 +99,8 @@ bool ColliderTilemap::IsSideColliding(const BoundingRectangle& rectangle, Rectan
 	}
 	else if (side == RectangleSide::Top)
 	{
-		Vector2D hotspot1 = Vector2D(0.5f * (rectangle.center.x - rectangle.left), rectangle.top);
-		Vector2D hotspot2 = Vector2D(0.5f * (rectangle.right - rectangle.center.x), rectangle.top);
+		Vector2D hotspot1 = Vector2D(0.5f * (rectangle.center.x + rectangle.left), rectangle.top);
+		Vector2D hotspot2 = Vector2D(0.5f * (rectangle.right + rectangle.center.x), rectangle.top);
 		if (IsCollidingAtPosition(hotspot1.x, hotspot1.y) || IsCollidingAtPosition(hotspot2.x, hotspot2.y))
 			return true;
 		else
@@ -102,8 +108,8 @@ bool ColliderTilemap::IsSideColliding(const BoundingRectangle& rectangle, Rectan
 	}
 	else if (side == RectangleSide::Left)
 	{
-		Vector2D hotspot1 = Vector2D(rectangle.left, 0.5f * (rectangle.center.y - rectangle.bottom));
-		Vector2D hotspot2 = Vector2D(rectangle.left, 0.5f * (rectangle.top - rectangle.center.y));
+		Vector2D hotspot1 = Vector2D(rectangle.left, 0.5f * (rectangle.center.y + rectangle.bottom));
+		Vector2D hotspot2 = Vector2D(rectangle.left, 0.5f * (rectangle.top + rectangle.center.y));
 		if (IsCollidingAtPosition(hotspot1.x, hotspot1.y) || IsCollidingAtPosition(hotspot2.x, hotspot2.y))
 			return true;
 		else
@@ -111,13 +117,14 @@ bool ColliderTilemap::IsSideColliding(const BoundingRectangle& rectangle, Rectan
 	}
 	else if (side == RectangleSide::Right)
 	{
-		Vector2D hotspot1 = Vector2D(rectangle.right, 0.5f * (rectangle.center.y - rectangle.bottom));
-		Vector2D hotspot2 = Vector2D(rectangle.right, 0.5f * (rectangle.top - rectangle.center.y));
+		Vector2D hotspot1 = Vector2D(rectangle.right, 0.5f * (rectangle.center.y + rectangle.bottom));
+		Vector2D hotspot2 = Vector2D(rectangle.right, 0.5f * (rectangle.top + rectangle.center.y));
 		if (IsCollidingAtPosition(hotspot1.x, hotspot1.y) || IsCollidingAtPosition(hotspot2.x, hotspot2.y))
 			return true;
 		else
 			return false;
 	}
+	return false;
 }
 
 // Determines whether a point is within a collidable cell in the tilemap.
@@ -130,9 +137,9 @@ bool ColliderTilemap::IsSideColliding(const BoundingRectangle& rectangle, Rectan
 bool ColliderTilemap::IsCollidingAtPosition(float x, float y) const
 {
 	Vector2D tilePos = transform->GetInverseMatrix() * Vector2D(x, y);
-	tilePos.x = static_cast<int>(tilePos.x);
-	tilePos.y = -static_cast<int>(tilePos.y);
-	if (map->GetCellValue(tilePos.y, tilePos.x) == 0)
+	tilePos.x = floor(tilePos.x + 0.5f);
+	tilePos.y = floor((-tilePos.y) +0.5f);
+	if (map->GetCellValue(static_cast<int>(tilePos.x), static_cast<int>(tilePos.y)) == 0)
 		return false;
 	else
 		return true;
@@ -147,6 +154,7 @@ bool ColliderTilemap::IsCollidingAtPosition(float x, float y) const
 void ColliderTilemap::ResolveCollisions(const BoundingRectangle& objectRectangle, Transform* objectTransform,
 	RigidBody* objectRigidBody, const MapCollision& collisions) const
 {
+	UNREFERENCED_PARAMETER(objectRectangle);
 	Vector2D newPos = objectTransform->GetTranslation();
 	Vector2D newVel = objectRigidBody->GetVelocity();
 	if (collisions.bottom || collisions.top)
@@ -172,5 +180,7 @@ void ColliderTilemap::ResolveCollisions(const BoundingRectangle& objectRectangle
 //   The center of the next tile for the given position on the given side.
 float ColliderTilemap::GetNextTileCenter(RectangleSide side, float sidePosition) const
 {
-
+	if (side == RectangleSide::Count)
+		return 0;
+	return sidePosition;
 }

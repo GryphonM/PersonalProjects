@@ -52,15 +52,18 @@ Component* Transform::Clone() const
 const CS230::Matrix2D& Transform::GetMatrix() const
 {
 	if (isDirty)
-	{
-		CS230::Matrix2D Translation = CS230::Matrix2D::TranslationMatrix(translation.x, translation.y);
-		CS230::Matrix2D Scale = CS230::Matrix2D::ScalingMatrix(scale.x, scale.y);
-		CS230::Matrix2D Rotation = CS230::Matrix2D::RotationMatrixRadians(rotation);
-
-		matrix = Translation * Rotation * Scale;
-		isDirty = false;
-	}
+		CalculateMatrices();
 	return matrix;
+}
+
+// Get the inverse transform matrix, based upon translation, rotation and scale settings.
+// Returns:
+//   A reference to the component's inverse matrix structure
+const CS230::Matrix2D& Transform::GetInverseMatrix() const
+{
+	if (isDirty)
+		CalculateMatrices();
+	return inverseMatrix;
 }
 
 // Set the translation of a transform component.
@@ -123,4 +126,23 @@ void Transform::SetScale(const Beta::Vector2D& scale_)
 const Beta::Vector2D& Transform::GetScale() const
 {
 	return scale;
+}
+
+//------------------------------------------------------------------------------
+// Private Functions:
+//------------------------------------------------------------------------------
+
+// Calculate the matrix and inverse matrix.
+void Transform::CalculateMatrices() const
+{
+	CS230::Matrix2D Translation = CS230::Matrix2D::TranslationMatrix(translation.x, translation.y);
+	CS230::Matrix2D ITranslation = CS230::Matrix2D::TranslationMatrix(-translation.x, -translation.y);
+	CS230::Matrix2D Scale = CS230::Matrix2D::ScalingMatrix(scale.x, scale.y);
+	CS230::Matrix2D IScale = CS230::Matrix2D::ScalingMatrix(1 / scale.x, 1 / scale.y);
+	CS230::Matrix2D Rotation = CS230::Matrix2D::RotationMatrixRadians(rotation);
+	CS230::Matrix2D IRotation = CS230::Matrix2D::RotationMatrixRadians(-rotation);
+
+	matrix = Translation * Rotation * Scale;
+	inverseMatrix = IScale * IRotation * ITranslation;
+	isDirty = false;
 }

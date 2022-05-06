@@ -90,7 +90,7 @@ void Level3::Update(float dt)
 	}
 	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
 	{
-		Level3* level = new Level3;
+		Level2* level = new Level2;
 		EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
 	}
 	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))

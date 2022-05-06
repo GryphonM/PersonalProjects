@@ -20,6 +20,14 @@
 #include "GameObject.h"
 
 //------------------------------------------------------------------------------
+// Public Structures:
+//------------------------------------------------------------------------------
+MapCollision::MapCollision(bool bottom_, bool top_, bool left_, bool right_) : 
+	bottom(bottom_), top(top_), left(left_), right(right_)
+{
+}
+
+//------------------------------------------------------------------------------
 // Public Function Declarations:
 //------------------------------------------------------------------------------
 
@@ -27,7 +35,7 @@
 // Params:
 //   type = The type of collider (see the ColliderType enum).
 Collider::Collider(ColliderType type_) : transform(nullptr), rigidBody(nullptr),
-	type(type_), handler(nullptr), Component("Collider")
+	type(type_), handler(nullptr), mapHandler(nullptr), Component("Collider")
 {
 }
 
@@ -45,8 +53,10 @@ void Collider::CheckCollision(const Collider& other)
 {
 	if (IsCollidingWith(other))
 	{
-		handler(*this->GetOwner(), *other.GetOwner());
-		other.handler(*other.GetOwner(), *this->GetOwner());
+		if (handler != nullptr)
+			handler(*this->GetOwner(), *other.GetOwner());
+		if (other.handler != nullptr)
+			other.handler(*other.GetOwner(), *this->GetOwner());
 	}
 }
 
@@ -62,4 +72,18 @@ ColliderType Collider::GetType() const
 void Collider::SetCollisionHandler(CollisionEventHandler handler_)
 {
 	handler = handler_;
+}
+
+// Sets the map collision handler function for the collider.
+// Params:
+//   handler = A pointer to the collision handler function.
+void Collider::SetMapCollisionHandler(MapCollisionEventHandler mapHandler_)
+{
+	mapHandler = mapHandler_;
+}
+
+// Get the map collision handler function pointer.
+MapCollisionEventHandler Collider::GetMapCollisionHandler() const
+{
+	return mapHandler;
 }

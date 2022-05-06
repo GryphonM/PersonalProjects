@@ -106,13 +106,15 @@ namespace Archetypes
 	GameObject* CreateMonkey(Beta::Mesh* mesh, SpriteSource* spriteSource/*, Animation* animation*/)
 	{
 		GameObject* monkey = new GameObject("Monkey");
-		Transform* t = new Transform();
+		Transform* t = new Transform(Vector2D(0, 1), Vector2D(1, 1));
 		Sprite* s = new Sprite(mesh, spriteSource);
 		RigidBody* rB = new RigidBody();
+		ColliderRectangle* cR = new ColliderRectangle(Vector2D(0.5f * t->GetScale().x, 0.5f * t->GetScale().y));
 		MonkeyMovement* mM = new MonkeyMovement();
 		monkey->AddComponent(t);
 		monkey->AddComponent(s);
 		monkey->AddComponent(rB);
+		monkey->AddComponent(cR);
 		monkey->AddComponent(mM);
 		return monkey;
 	}
@@ -268,10 +270,11 @@ namespace Archetypes
 		GameObject* tilemap = new GameObject("Tilemap");
 		Transform* t = new Transform(Vector2D(-3.5, 2.5));
 		SpriteTilemap* sT = new SpriteTilemap(mesh, spriteSource, map);
-		//ColliderTilemap* cT = new ColliderTilemap();
+		ColliderTilemap* cT = new ColliderTilemap();
+		cT->SetTilemap(map);
 		tilemap->AddComponent(t);
 		tilemap->AddComponent(sT);
-		//tilemap->AddComponent(cT);
+		tilemap->AddComponent(cT);
 		return tilemap;
 	}
 }
