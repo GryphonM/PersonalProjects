@@ -124,6 +124,33 @@
     <ClCompile Include="Source\Animator.cpp">
       <Filter>High-Level API\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Asteroid.cpp">
+      <Filter>Game\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bomb.cpp">
+      <Filter>Game\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HomingMissile.cpp">
+      <Filter>Game\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerProjectile.cpp">
+      <Filter>Game\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AsteroidsLevel.cpp">
+      <Filter>Game\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ColliderTilemap.cpp">
+      <Filter>High-Level API\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SpriteTilemap.cpp">
+      <Filter>High-Level API\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tilemap.cpp">
+      <Filter>High-Level API\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SoundManager.cpp">
+      <Filter>High-Level API\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">
@@ -212,6 +239,30 @@
     </ClInclude>
     <ClInclude Include="Source\RigidBody.h">
       <Filter>High-Level API\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Asteroid.h">
+      <Filter>Game\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bomb.h">
+      <Filter>Game\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HomingMissile.h">
+      <Filter>Game\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerProjectile.h">
+      <Filter>Game\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AsteroidsLevel.h">
+      <Filter>Game\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ColliderTilemap.h">
+      <Filter>High-Level API\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SpriteTilemap.h">
+      <Filter>High-Level API\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tilemap.h">
+      <Filter>High-Level API\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
