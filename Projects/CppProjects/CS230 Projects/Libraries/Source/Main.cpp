@@ -17,6 +17,7 @@
 
 // Engine modules
 #include "Space.h"
+#include "SoundManager.h"
 
 // Initial game state
 #include "Level1.h"
@@ -43,6 +44,7 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	// Add additional modules to engine
 	using namespace Beta;
 	EngineCore& engine = EngineCore::GetInstance();
+	/*SoundManager* sound = */engine.AddModule<SoundManager>();
 	Space* space = engine.AddModule<Space>();
 
 	// Set initial level to the second level.

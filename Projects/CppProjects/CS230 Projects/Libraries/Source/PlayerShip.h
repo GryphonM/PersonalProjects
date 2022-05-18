@@ -23,6 +23,14 @@
 // Forward Declarations:
 //------------------------------------------------------------------------------
 
+namespace FMOD
+{
+	namespace Studio
+	{
+		class EventInstance;
+	}
+}
+
 class Transform;
 class RigidBody;
 
@@ -107,6 +115,9 @@ private:
 	float maximumSpeed;
 	float rotationSpeed;
 	float bulletSpeed;
+
+	// Sound
+	FMOD::Studio::EventInstance* soundEvent;
 
 	// Bullet archetype
 	GameObject* bulletArchetype;

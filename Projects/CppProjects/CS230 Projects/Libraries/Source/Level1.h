@@ -30,8 +30,14 @@ namespace Beta
 	class Texture;
 };
 
+namespace FMOD
+{
+	class Channel;
+}
+
 class GameObject;
 class SpriteSource;
+class SoundManager;
 
 //------------------------------------------------------------------------------
 // Public Structures:
@@ -58,6 +64,9 @@ public:
 	//	 dt = Change in time (in seconds) since the last game loop.
 	void Update(float dt) override;
 
+	// Destroy objects associated with the Asteroids level.
+	void Shutdown() override;
+
 	// Unload the resources associated with Level 1.
 	void Unload() override;
 
@@ -65,6 +74,10 @@ private:
 	//------------------------------------------------------------------------------
 	// Private Variables:
 	//------------------------------------------------------------------------------
+
+	// Audio
+	SoundManager* soundManager;
+	FMOD::Channel* musicChannel;
 
 	// Meshes
 	Beta::Mesh* meshShip;

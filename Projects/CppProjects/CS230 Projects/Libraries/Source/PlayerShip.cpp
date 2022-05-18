@@ -25,6 +25,7 @@
 #include "Sprite.h"
 #include "Archetypes.h"
 #include "Space.h"
+#include "SoundManager.h"
 
 using namespace Beta;
 
@@ -80,9 +81,16 @@ Component* PlayerShip::Clone() const
 // Initialize this component (happens at object creation).
 void PlayerShip::Initialize()
 {
+	soundEvent = EngineCore::GetInstance().GetModule<SoundManager>()->PlayEvent("Test Tones");
+	soundEvent->setPaused(true);
+	soundEvent->setVolume(0.2f);
+	soundEvent->setParameterValue("Wave Type", 0);
+	soundEvent->setParameterValue("LowMidHigh", 0);
+
 	bulletArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bullet");
 	missileArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Missile");
 	bombArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bomb");
+
 	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
 	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
 	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(PlayerShipCollisionHandler);
@@ -136,6 +144,8 @@ void PlayerShip::Move() const
 			rigidBody->AddForce(Vector2D(forwardThrust, 0).Rotate(transform->GetRotation()));
 		else
 			rigidBody->SetVelocity(Vector2D(maximumSpeed, 0).Rotate(transform->GetRotation()));
+
+		soundEvent->setPaused(false);
 	}
 	else
 	{
@@ -143,6 +153,8 @@ void PlayerShip::Move() const
 			rigidBody->SetVelocity(Vector2D((rigidBody->GetVelocity().Magnitude() - 0.025f * forwardThrust), 0).Rotate(transform->GetRotation()));
 		else
 			rigidBody->SetVelocity(Vector2D(0, 0));
+
+		soundEvent->setPaused(true);
 	}
 }
 
@@ -207,6 +219,7 @@ void PlayerShip::LayBomb()
 void PlayerShip::DeathSequence(float dt)
 {
 	timer -= dt;
+	soundEvent->setPaused(true);
 	if (timer > 0)
 	{
 		if (blinkTimer <= 0)

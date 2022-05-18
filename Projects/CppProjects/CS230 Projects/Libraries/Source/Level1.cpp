@@ -19,6 +19,7 @@
 // Systems
 #include "Space.h"
 #include "MeshHelper.h"
+#include "SoundManager.h"
 
 // Components
 #include "Archetypes.h"
@@ -42,8 +43,8 @@ using namespace Beta;
 
 	// Creates an instance of Level 1.
 	Level1::Level1() : Level("Level1"), meshShip(nullptr), meshBullet(nullptr), meshBomb(nullptr),
-		textureShip(nullptr), textureBullet(nullptr), textureBomb(nullptr),
-		spriteSourceShip(nullptr), spriteSourceBullet(nullptr), spriteSourceBomb(nullptr)
+		textureShip(nullptr), textureBullet(nullptr), textureBomb(nullptr), soundManager(nullptr),
+		spriteSourceShip(nullptr), spriteSourceBullet(nullptr), spriteSourceBomb(nullptr), musicChannel(nullptr)
 	{
 	}
 
@@ -51,6 +52,12 @@ using namespace Beta;
 	void Level1::Load()
 	{
 		std::cout << "Level1::Load" << std::endl;
+
+		soundManager = EngineCore::GetInstance().GetModule<SoundManager>();
+		soundManager->AddMusic("Asteroid_Field.mp3");
+		soundManager->AddEffect("teleport.wav");
+		soundManager->AddBank("Master Bank.strings.bank");
+		soundManager->AddBank("Master Bank.bank");
 
 		meshShip = CreateTriangleMesh(Colors::Red, Colors::Green, Colors::Blue);
 		meshBullet = CreateTriangleMesh(Colors::Violet, Colors::Violet, Colors::Violet);
@@ -72,6 +79,8 @@ using namespace Beta;
 	{
 		std::cout << "Level1::Initialize" << std::endl;
 
+		musicChannel = soundManager->PlaySound("Asteroid Field");
+
 		GameObject* ship = Archetypes::CreateShip(meshShip, nullptr);
 		GetSpace()->GetObjectManager().AddObject(*ship);
 	}
@@ -82,6 +91,9 @@ using namespace Beta;
 	void Level1::Update(float dt)
 	{
 		UNREFERENCED_PARAMETER(dt);
+
+		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('T'))
+			soundManager->PlaySound("teleport.wav");
 		
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 			GetSpace()->RestartLevel();
@@ -102,10 +114,18 @@ using namespace Beta;
 		}
 	}
 
+	// Destroy objects associated with the Asteroids level.
+	void Level1::Shutdown()
+	{
+		musicChannel->stop();
+	}
+
 	// Unload the resources associated with Level 1.
 	void Level1::Unload()
 	{
 		std::cout << "Level1::Unload" << std::endl;
+
+		soundManager->Shutdown();
 
 		delete meshShip;
 		delete meshBullet;
