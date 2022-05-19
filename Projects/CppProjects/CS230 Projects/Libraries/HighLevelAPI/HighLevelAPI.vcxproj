@@ -71,27 +71,31 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)lib\</OutDir>
+    <OutDir>$(SolutionDir)HighLevelAPI\lib\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
     <TargetName>BetaHigh_x64_D</TargetName>
+    <IncludePath>include;..\LowLevelAPI\include;..\fmod\inc;$(IncludePath);$(VC_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)lib\</OutDir>
+    <OutDir>$(SolutionDir)HighLevelAPI\lib\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
     <TargetName>BetaHigh_x86_D</TargetName>
+    <IncludePath>include;..\LowLevelAPI\include;..\fmod\inc;$(IncludePath);$(VC_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)lib\</OutDir>
+    <OutDir>$(SolutionDir)HighLevelAPI\lib\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
     <TargetName>BetaHigh_x86</TargetName>
+    <IncludePath>include;..\LowLevelAPI\include;..\fmod\inc;$(IncludePath);$(VC_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)lib\</OutDir>
+    <OutDir>$(SolutionDir)HighLevelAPI\lib\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
     <TargetName>BetaHigh_x64</TargetName>
+    <IncludePath>include;..\LowLevelAPI\include;..\fmod\inc;$(IncludePath);$(VC_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -99,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,6 +158,59 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Animation.h" />
+    <ClInclude Include="include\Animator.h" />
+    <ClInclude Include="include\Collider.h" />
+    <ClInclude Include="include\ColliderCircle.h" />
+    <ClInclude Include="include\ColliderPoint.h" />
+    <ClInclude Include="include\ColliderRectangle.h" />
+    <ClInclude Include="include\ColliderTilemap.h" />
+    <ClInclude Include="include\Component.h" />
+    <ClInclude Include="include\GameObject.h" />
+    <ClInclude Include="include\GameObjectManager.h" />
+    <ClInclude Include="include\Intersection2D.h" />
+    <ClInclude Include="include\Level.h" />
+    <ClInclude Include="include\Matrix2DStudent.h" />
+    <ClInclude Include="include\MeshHelper.h" />
+    <ClInclude Include="include\RigidBody.h" />
+    <ClInclude Include="include\SoundManager.h" />
+    <ClInclude Include="include\Space.h" />
+    <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\SpriteSource.h" />
+    <ClInclude Include="include\SpriteTilemap.h" />
+    <ClInclude Include="include\stdafx.h" />
+    <ClInclude Include="include\Tilemap.h" />
+    <ClInclude Include="include\Transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Animation.cpp" />
+    <ClCompile Include="src\Animator.cpp" />
+    <ClCompile Include="src\Collider.cpp" />
+    <ClCompile Include="src\ColliderCircle.cpp" />
+    <ClCompile Include="src\ColliderPoint.cpp" />
+    <ClCompile Include="src\ColliderRectangle.cpp" />
+    <ClCompile Include="src\ColliderTilemap.cpp" />
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\GameObjectManager.cpp" />
+    <ClCompile Include="src\Intersection2D.cpp" />
+    <ClCompile Include="src\Level.cpp" />
+    <ClCompile Include="src\Matrix2DStudent.cpp" />
+    <ClCompile Include="src\MeshHelper.cpp" />
+    <ClCompile Include="src\RigidBody.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
+    <ClCompile Include="src\Space.cpp" />
+    <ClCompile Include="src\Sprite.cpp" />
+    <ClCompile Include="src\SpriteSource.cpp" />
+    <ClCompile Include="src\SpriteTilemap.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Tilemap.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
