@@ -48,19 +48,19 @@ protected:
 	// These functions are protected to ensure this class is effectively abstract.
 
 	// Constructor
-	Serializable();
+	Serializable() = default;
 	// Destructor
-	virtual ~Serializable(); 
+	virtual ~Serializable() = default; 
 
 	// Copy constructor
 	// Params:
 	//   other = Another serializable object.
-	Serializable(const Serializable& other);
+	Serializable(const Serializable& other) = default;
 	
 	// Assignment operator
 	// Params:
 	//   other = Another serializable object.
-	Serializable& operator=(const Serializable& other); 
+	Serializable& operator=(const Serializable& other) = default; 
 };
 
 //------------------------------------------------------------------------------

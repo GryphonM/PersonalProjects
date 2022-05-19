@@ -120,14 +120,14 @@
     <ClInclude Include="include\Transform.h">
       <Filter>Header Files\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="include\FileStream.h">
-      <Filter>Header Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="include\GameObjectFactory.h">
       <Filter>Header Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="include\Serializable.h">
-      <Filter>Header Files\GameObjects</Filter>
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileStream.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +198,12 @@
       <Filter>Source Files\Spaces</Filter>
     </ClCompile>
     <ClCompile Include="src\Tilemap.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Serializable.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileStream.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>

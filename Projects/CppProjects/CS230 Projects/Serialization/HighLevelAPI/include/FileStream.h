@@ -73,6 +73,9 @@ public:
 	template<typename T>
 	void WriteVariable(const std::string& name, const T& variable)
 	{
+		for (unsigned i = 0; i < indentLevel; i++)
+			stream << tab;
+		stream << name << ": " << variable << std::endl;
 	}
 
 	// Writes a value to the currently open file.
@@ -81,6 +84,9 @@ public:
 	template<typename T>
 	void WriteValue(const T& value)
 	{
+		for (unsigned i = 0; i < indentLevel; i++)
+			stream << tab;
+		stream << value << std::endl;
 	}
 
 	// Reads the value of a variable with the given name from the currently open file.
@@ -90,6 +96,13 @@ public:
 	template<typename T>
 	void ReadVariable(const std::string& name, T& variable)
 	{
+		std::string word;
+		stream >> word;
+		if (word != name)
+			throw FileStreamException(filename, name + " was not found");
+
+		ReadSkip(':');
+		stream >> variable;
 	}
 
 	// Reads the next value from the currently open file.
@@ -98,6 +111,7 @@ public:
 	template<typename T>
 	void ReadValue(T& value)
 	{
+		stream >> value;
 	}
 
 	// Reads a piece of text from the currently open file

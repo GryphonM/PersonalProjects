@@ -24,6 +24,7 @@
 #include "SpriteSource.h"
 #include "Animation.h"
 #include "Tilemap.h"
+#include "FileStream.h"
 
 // Components
 #include "Sprite.h"
@@ -122,6 +123,14 @@ using namespace Beta;
 	void Level2::Unload()
 	{
 		std::cout << "Level2::Unload" << std::endl;
+
+		FileStream stream = FileStream("Test.txt", std::fstream::out);
+		stream.BeginScope();
+		stream.BeginScope();
+		stream.WriteVariable("Hours Spent Refactoring: ", 758493);
+		stream.WriteValue(1234.56789);
+		stream.EndScope();
+		stream.EndScope();
 		
 		// Delete the sprite source, texture, mesh
 		delete spriteSourceMonkey;
