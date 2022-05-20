@@ -124,13 +124,20 @@ using namespace Beta;
 	{
 		std::cout << "Level2::Unload" << std::endl;
 
-		FileStream stream = FileStream("Test.txt", std::fstream::out);
-		stream.BeginScope();
-		stream.BeginScope();
-		stream.WriteVariable("Hours Spent Refactoring: ", 758493);
-		stream.WriteValue(1234.56789);
-		stream.EndScope();
-		stream.EndScope();
+		//FileStream stream = FileStream("Test.txt", std::fstream::out);
+		//try
+		//{
+		//	stream.BeginScope();
+		//	stream.BeginScope();
+		//	stream.WriteVariable("Hours Spent Refactoring", 758493);
+		//	stream.WriteValue(1234.56789);
+		//	stream.EndScope();
+		//	stream.EndScope();
+		//}
+		//catch (FileStreamException)
+		//{
+		//	std::cout << "File Not Open" << std::endl;
+		//}
 		
 		// Delete the sprite source, texture, mesh
 		delete spriteSourceMonkey;

@@ -33,7 +33,7 @@ FileStreamException::FileStreamException(const std::string& fileName, const std:
 //   filename = The name of the file to open.
 //   mode = Whether to open the file for reading/writing, etc.
 FileStream::FileStream(const std::string& filename_, std::ios_base::openmode mode) : 
-	stream(filename.c_str(), mode), filename(filename_), indentLevel(0)
+	stream(filename_.c_str(), mode), filename(filename_), indentLevel(0)
 {
 }
 
