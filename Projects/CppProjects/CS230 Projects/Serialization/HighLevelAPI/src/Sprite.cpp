@@ -18,6 +18,7 @@
 #include "SpriteSource.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "FileStream.h"
 
 using namespace Beta;
 
@@ -148,4 +149,22 @@ void Sprite::SetFlipX(bool flipX_)
 void Sprite::SetFlipY(bool flipY_)
 {
 	flipY = flipY_;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void Sprite::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("frameIndex", frameIndex);
+	stream.ReadVariable("color", color);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void Sprite::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("frameIndex", frameIndex);
+	stream.WriteVariable("color", color);
 }

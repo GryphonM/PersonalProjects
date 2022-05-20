@@ -15,6 +15,7 @@
 
 #include "stdafx.h"
 #include "Transform.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -126,6 +127,26 @@ void Transform::SetScale(const Beta::Vector2D& scale_)
 const Beta::Vector2D& Transform::GetScale() const
 {
 	return scale;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void Transform::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("translation", translation);
+	stream.ReadVariable("rotation", rotation);
+	stream.ReadVariable("scale", scale);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void Transform::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("translation", translation);
+	stream.WriteVariable("rotation", rotation);
+	stream.WriteVariable("scale", scale);
 }
 
 //------------------------------------------------------------------------------

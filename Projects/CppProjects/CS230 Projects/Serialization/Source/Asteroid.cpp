@@ -23,6 +23,7 @@
 #include "RigidBody.h"
 #include "Collider.h"
 #include "ColliderCircle.h"
+#include "FileStream.h"
 
 using namespace Beta;
 
@@ -169,3 +170,19 @@ unsigned Asteroid::GetPointValue() const
 	else
 		return 0;
 }
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+//void Asteroid::Deserialize(FileStream& stream)
+//{
+//
+//}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+//void Asteroid::Serialize(FileStream& stream) const
+//{
+//
+//}

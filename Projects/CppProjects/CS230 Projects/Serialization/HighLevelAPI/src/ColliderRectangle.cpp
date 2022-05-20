@@ -19,6 +19,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Intersection2D.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 // Public Function Declarations:
@@ -91,4 +92,20 @@ bool ColliderRectangle::IsCollidingWith(const Collider& other) const
 		return other.IsCollidingWith(*this);
 	}
 	return false;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void ColliderRectangle::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("extents", extents);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void ColliderRectangle::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("extents", extents);
 }

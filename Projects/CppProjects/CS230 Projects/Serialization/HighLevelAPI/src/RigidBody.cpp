@@ -17,6 +17,7 @@
 #include "RigidBody.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -132,4 +133,26 @@ const Beta::Vector2D& RigidBody::GetAcceleration() const
 const Beta::Vector2D& RigidBody::GetOldTranslation() const
 {
 	return oldTranslation;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void RigidBody::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("velocity", velocity);
+	stream.ReadVariable("angularVelocity", angularVelocity);
+	float mass;
+	stream.ReadVariable("mass", mass);
+	SetMass(mass);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void RigidBody::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("velocity", velocity);
+	stream.WriteVariable("angularVelocity", angularVelocity);
+	stream.WriteVariable("mass", inverseMass / inverseMass / inverseMass);
 }

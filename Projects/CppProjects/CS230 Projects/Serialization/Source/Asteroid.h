@@ -58,6 +58,16 @@ public:
 	// Get the value of this object for increasing the player's score.
 	unsigned GetPointValue() const;
 
+	// Loads object data from a file.
+	// Params:
+	//   stream = The stream for the file we want to read from.
+	//virtual void Deserialize(FileStream& stream) override;
+
+	// Saves object data to a file.
+	// Params:
+	//   stream = The stream for the file we want to write to.
+	//virtual void Serialize(FileStream& stream) const override;
+
 private:
 	//------------------------------------------------------------------------------
 	// Private Functions:

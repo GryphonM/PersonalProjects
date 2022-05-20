@@ -18,6 +18,7 @@
 #include "ColliderRectangle.h"
 #include "Transform.h"
 #include "Intersection2D.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 // Public Function Declarations:
@@ -85,4 +86,20 @@ bool ColliderCircle::IsCollidingWith(const Collider& other) const
 			Beta::Circle(transform->GetTranslation(), radius));
 	}
 	return false;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void ColliderCircle::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("radius", radius);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void ColliderCircle::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("radius", radius);
 }
