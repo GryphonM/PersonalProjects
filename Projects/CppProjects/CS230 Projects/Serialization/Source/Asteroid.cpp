@@ -174,15 +174,15 @@ unsigned Asteroid::GetPointValue() const
 // Loads object data from a file.
 // Params:
 //   stream = The stream for the file we want to read from.
-//void Asteroid::Deserialize(FileStream& stream)
-//{
-//
-//}
+void Asteroid::Deserialize(FileStream& stream)
+{
+
+}
 
 // Saves object data to a file.
 // Params:
 //   stream = The stream for the file we want to write to.
-//void Asteroid::Serialize(FileStream& stream) const
-//{
-//
-//}
+void Asteroid::Serialize(FileStream& stream) const
+{
+
+}
