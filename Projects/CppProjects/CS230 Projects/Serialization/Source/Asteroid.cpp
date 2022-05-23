@@ -176,7 +176,8 @@ unsigned Asteroid::GetPointValue() const
 //   stream = The stream for the file we want to read from.
 void Asteroid::Deserialize(FileStream& stream)
 {
-
+	stream.ReadVariable("minSpeed", speedMin);
+	stream.ReadVariable("maxSpeed", speedMax);
 }
 
 // Saves object data to a file.
