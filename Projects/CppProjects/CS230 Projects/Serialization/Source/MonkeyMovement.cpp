@@ -21,6 +21,7 @@
 #include "GameObject.h"
 #include "Archetypes.h"
 #include "Space.h"
+#include "FileStream.h"
 
 using namespace Beta;
 
@@ -75,6 +76,26 @@ void MonkeyMovement::Update(float dt)
 	UNREFERENCED_PARAMETER(dt);
 	MoveHorizontal();
 	MoveVertical();
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void MonkeyMovement::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("monkeyWalkSpeed", monkeyWalkSpeed);
+	stream.ReadVariable("monkeyJumpSpeed", monkeyJumpSpeed);
+	stream.ReadVariable("gravity", gravity);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void MonkeyMovement::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("monkeyWalkSpeed", monkeyWalkSpeed);
+	stream.WriteVariable("monkeyJumpSpeed", monkeyJumpSpeed);
+	stream.WriteVariable("gravity", gravity);
 }
 
 //------------------------------------------------------------------------------

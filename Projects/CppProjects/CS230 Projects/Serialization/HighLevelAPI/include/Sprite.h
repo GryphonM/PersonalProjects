@@ -47,7 +47,7 @@ public:
 	//------------------------------------------------------------------------------
 
 	// Create a new sprite object.
-	Sprite(Beta::Mesh* mesh_, const SpriteSource* spriteSource_ = nullptr);
+	Sprite(Beta::Mesh* mesh_ = nullptr, const SpriteSource* spriteSource_ = nullptr);
 
 	// Clone a component and return a pointer to the cloned component.
 	// Returns:

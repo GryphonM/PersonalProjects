@@ -15,6 +15,7 @@
 
 #include "stdafx.h"
 #include "GameObject.h"
+#include "GameObjectFactory.h"
 #include "Space.h"
 #include "Sprite.h"
 #include "SpriteSource.h"
@@ -70,6 +71,7 @@ namespace Archetypes
 		ship->AddComponent(pS);
 		ship->AddComponent(sW);
 		ship->AddComponent(cC);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(ship);
 		return ship;
 	}
 
@@ -93,6 +95,7 @@ namespace Archetypes
 		bullet->AddComponent(tD);
 		bullet->AddComponent(pP);
 		bullet->AddComponent(cC);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(bullet);
 		return bullet;
 	}
 
@@ -116,6 +119,7 @@ namespace Archetypes
 		monkey->AddComponent(rB);
 		monkey->AddComponent(cR);
 		monkey->AddComponent(mM);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(monkey);
 		return monkey;
 	}
 
@@ -140,6 +144,7 @@ namespace Archetypes
 		circle->AddComponent(colC);
 		circle->AddComponent(cC);
 		circle->AddComponent(sW);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(circle);
 		return circle;
 	}
 
@@ -164,6 +169,7 @@ namespace Archetypes
 		point->AddComponent(cP);
 		point->AddComponent(cC);
 		point->AddComponent(sW);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(point);
 		return point;
 	}
 
@@ -178,7 +184,7 @@ namespace Archetypes
 		Transform* t = new Transform(Vector2D(), Vector2D(2.5, 1));
 		Sprite* s = new Sprite(mesh);
 		RigidBody* rB = new RigidBody();
-		ColliderRectangle* cR = new ColliderRectangle(Vector2D(0.5f * t->GetScale().x, 0.5f *  t->GetScale().y));
+		ColliderRectangle* cR = new ColliderRectangle(Vector2D(0.5f * t->GetScale().x, 0.5f * t->GetScale().y));
 		ColorChange* cC = new ColorChange(Colors::Green, Colors::Red);
 		ScreenWrap* sW = new ScreenWrap();
 		rectangle->AddComponent(t);
@@ -187,6 +193,7 @@ namespace Archetypes
 		rectangle->AddComponent(cR);
 		rectangle->AddComponent(cC);
 		rectangle->AddComponent(sW);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(rectangle);
 		return rectangle;
 	}
 
@@ -199,7 +206,7 @@ namespace Archetypes
 	GameObject* CreateAsteroidArchetype(Beta::Mesh* mesh, SpriteSource* spriteSource)
 	{
 		GameObject* asteroid = new GameObject("Asteroid");
-		Transform* t = new Transform(Vector2D(0,0), Vector2D(0.5f, 0.5f));
+		Transform* t = new Transform(Vector2D(0, 0), Vector2D(0.5f, 0.5f));
 		Sprite* s = new Sprite(mesh, spriteSource);
 		Asteroid* a = new Asteroid();
 		RigidBody* rB = new RigidBody();
@@ -211,6 +218,7 @@ namespace Archetypes
 		asteroid->AddComponent(rB);
 		asteroid->AddComponent(cC);
 		asteroid->AddComponent(sW);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(asteroid);
 		return asteroid;
 	}
 
@@ -235,6 +243,7 @@ namespace Archetypes
 		missile->AddComponent(hM);
 		missile->AddComponent(sW);
 		missile->AddComponent(cC);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(missile);
 		return missile;
 	}
 
@@ -255,6 +264,7 @@ namespace Archetypes
 		bomb->AddComponent(s);
 		bomb->AddComponent(b);
 		bomb->AddComponent(cC);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(bomb);
 		return bomb;
 	}
 
@@ -275,6 +285,7 @@ namespace Archetypes
 		tilemap->AddComponent(t);
 		tilemap->AddComponent(sT);
 		tilemap->AddComponent(cT);
+		EngineCore::GetInstance().GetModule<GameObjectFactory>()->SaveObjectToFile(tilemap);
 		return tilemap;
 	}
 }

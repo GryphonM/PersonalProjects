@@ -1,0 +1,31 @@
+Monkey
+{
+  numComponents: 5
+  Transform
+  {
+    translation: { 0, 1 }
+    rotation: 0
+    scale: { 1, 1 }
+  }
+  Sprite
+  {
+    frameIndex: 0
+    color: { 1 , 1 , 1 , 1 }
+  }
+  RigidBody
+  {
+    velocity: { 0, 0 }
+    angularVelocity: 0
+    mass: 1
+  }
+  ColliderRectangle
+  {
+    extents: { 0.5, 0.5 }
+  }
+  MonkeyMovement
+  {
+    monkeyWalkSpeed: 2
+    monkeyJumpSpeed: 3
+    gravity: { 0, -4 }
+  }
+}

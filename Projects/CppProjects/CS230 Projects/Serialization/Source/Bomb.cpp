@@ -22,6 +22,7 @@
 #include "Asteroid.h"
 #include "Collider.h"
 #include "ColliderCircle.h"
+#include "FileStream.h"
 
 using namespace Beta;
 
@@ -136,6 +137,29 @@ void Bomb::SetSpawner(PlayerShip* player_)
 bool Bomb::IsExploding()
 {
 	return exploding;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void Bomb::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("radius", explosionRadius);
+	stream.ReadVariable("waitTime", waitDuration);
+	stream.ReadVariable("explosionTime", explosionDuration);
+	stream.ReadVariable("blinkTime", blinkDuration);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void Bomb::Serialize(FileStream& stream) const
+{
+
+	stream.WriteVariable("radius", explosionRadius);
+	stream.WriteVariable("waitTime", waitDuration);
+	stream.WriteVariable("explosionTime", explosionDuration);
+	stream.WriteVariable("blinkTime", blinkDuration);
 }
 
 //------------------------------------------------------------------------------

@@ -23,6 +23,7 @@
 #include "Collider.h"
 #include "ColliderCircle.h"
 #include "Space.h"
+#include "FileStream.h"
 
 using namespace Beta;
 
@@ -90,6 +91,24 @@ void HomingMissile::Update(float dt)
 void HomingMissile::SetSpawner(PlayerShip* player_)
 {
 	player = player_;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void HomingMissile::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("speed", speed);
+	stream.ReadVariable("radius", explosionRadius);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void HomingMissile::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("speed", speed);
+	stream.WriteVariable("radius", explosionRadius);
 }
 
 //------------------------------------------------------------------------------

@@ -26,6 +26,7 @@
 #include "Archetypes.h"
 #include "Space.h"
 #include "SoundManager.h"
+#include "FileStream.h"
 
 using namespace Beta;
 
@@ -129,6 +130,28 @@ void PlayerShip::IncreaseScore(unsigned amount)
 void PlayerShip::EnableMissile()
 {
 	hasMissile = true;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void PlayerShip::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("forwardThrust", forwardThrust);
+	stream.ReadVariable("maximumSpeed", maximumSpeed);
+	stream.ReadVariable("rotationSpeed", rotationSpeed);
+	stream.ReadVariable("bulletSpeed", bulletSpeed);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void PlayerShip::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("forwardThrust", forwardThrust);
+	stream.WriteVariable("maximumSpeed", maximumSpeed);
+	stream.WriteVariable("rotationSpeed", rotationSpeed);
+	stream.WriteVariable("bulletSpeed", bulletSpeed);
 }
 
 //------------------------------------------------------------------------------

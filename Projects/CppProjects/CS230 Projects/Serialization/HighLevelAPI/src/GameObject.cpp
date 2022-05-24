@@ -17,6 +17,8 @@
 #include "Component.h"
 #include "Space.h"
 #include "GameObject.h"
+#include "GameObjectFactory.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 
@@ -144,4 +146,53 @@ bool GameObject::IsDestroyed() const
 Space* GameObject::GetSpace() const
 {
 	return dynamic_cast<Space*>(GetOwner());
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void GameObject::Deserialize(FileStream& stream)
+{
+	try
+	{
+		stream.ReadSkip(GetName());
+		stream.ReadSkip('{');
+		unsigned components;
+		stream.ReadVariable("numComponents", components);
+		for (unsigned i = 0; i < components; i++)
+		{
+			std::string componentName;
+			stream.ReadValue(componentName);
+			Component* newComponent = EngineCore::GetInstance().GetModule<GameObjectFactory>()->CreateComponent(componentName);
+			if (newComponent == nullptr)
+				throw FileStreamException(componentName, "could not be found");
+			AddComponent(newComponent);
+			stream.ReadSkip('{');
+			newComponent->Deserialize(stream);
+			stream.ReadSkip('}');
+		}
+		stream.ReadSkip('}');
+	}
+	catch (FileStreamException exc)
+	{
+		std::cout << exc.what() << std::endl;
+	};
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void GameObject::Serialize(FileStream& stream) const
+{
+	stream.WriteValue(GetName());
+	stream.BeginScope();
+	stream.WriteVariable("numComponents", numComponents);
+	for (unsigned i = 0; i < numComponents; i++)
+	{
+		stream.WriteValue(std::string(typeid(*components[i]).name()).substr(6));
+		stream.BeginScope();
+		components[i]->Serialize(stream);
+		stream.EndScope();
+	}
+	stream.EndScope();
 }

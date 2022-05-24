@@ -1,0 +1,36 @@
+Asteroid
+{
+  numComponents: 6
+  Transform
+  {
+    translation: { 0, 0 }
+    rotation: 0
+    scale: { 0.5, 0.5 }
+  }
+  Sprite
+  {
+    frameIndex: 0
+    color: { 1 , 1 , 1 , 1 }
+  }
+  Asteroid
+  {
+    minSpeed: 0.5
+    maxSpeed: 1
+    basePoints: 20
+    sizeModifier: 0.5
+    spawnModifier: 0.8
+  }
+  RigidBody
+  {
+    velocity: { 0, 0 }
+    angularVelocity: 0
+    mass: 1
+  }
+  ColliderCircle
+  {
+    radius: 0.25
+  }
+  ScreenWrap
+  {
+  }
+}

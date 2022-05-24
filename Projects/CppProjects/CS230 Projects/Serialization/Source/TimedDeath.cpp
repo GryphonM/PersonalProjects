@@ -17,6 +17,7 @@
 #include "TimedDeath.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 
@@ -47,4 +48,20 @@ void TimedDeath::Update(float dt)
 	timeUntilDeath -= dt;
 	if (timeUntilDeath <= 0)
 		GetOwner()->Destroy();
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void TimedDeath::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("deathTime", timeUntilDeath);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void TimedDeath::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("deathTime", timeUntilDeath);
 }

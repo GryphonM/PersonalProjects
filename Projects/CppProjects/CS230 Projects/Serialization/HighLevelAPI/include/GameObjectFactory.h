@@ -78,6 +78,7 @@ public:
 	template <class ComponentType>
 	void RegisterComponent()
 	{
+		registeredComponents.push_back(new ComponentType());
 	}
 
 private:

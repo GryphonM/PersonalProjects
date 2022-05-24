@@ -1,6 +1,0 @@
-{
-  {
-    Hours Spent Refactoring: : 758493
-    1234.57
-  }
-}

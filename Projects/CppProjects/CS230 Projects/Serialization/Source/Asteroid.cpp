@@ -178,6 +178,9 @@ void Asteroid::Deserialize(FileStream& stream)
 {
 	stream.ReadVariable("minSpeed", speedMin);
 	stream.ReadVariable("maxSpeed", speedMax);
+	stream.ReadVariable("basePoints", basePointsValue);
+	stream.ReadVariable("sizeModifier", sizePointsModifier);
+	stream.ReadVariable("spawnModifier", spawnScaleModifier);
 }
 
 // Saves object data to a file.
@@ -185,5 +188,9 @@ void Asteroid::Deserialize(FileStream& stream)
 //   stream = The stream for the file we want to write to.
 void Asteroid::Serialize(FileStream& stream) const
 {
-
+	stream.WriteVariable("minSpeed", speedMin);
+	stream.WriteVariable("maxSpeed", speedMax);
+	stream.WriteVariable("basePoints", basePointsValue);
+	stream.WriteVariable("sizeModifier", sizePointsModifier);
+	stream.WriteVariable("spawnModifier", spawnScaleModifier);
 }

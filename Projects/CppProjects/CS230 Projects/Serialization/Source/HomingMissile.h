@@ -59,6 +59,16 @@ public:
 	// Params:
 	//   player_ = the object to set the spawner to
 	void SetSpawner(PlayerShip* player_);
+
+	// Loads object data from a file.
+	// Params:
+	//   stream = The stream for the file we want to read from.
+	virtual void Deserialize(FileStream& stream) override;
+
+	// Saves object data to a file.
+	// Params:
+	//   stream = The stream for the file we want to write to.
+	virtual void Serialize(FileStream& stream) const override;
 private:
 	//------------------------------------------------------------------------------
 	// Private Functions:

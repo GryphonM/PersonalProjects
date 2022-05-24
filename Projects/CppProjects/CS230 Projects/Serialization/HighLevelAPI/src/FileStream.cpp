@@ -47,22 +47,36 @@ FileStream::~FileStream()
 // Outputs a curly brace and increases the tab count.
 void FileStream::BeginScope()
 {
-	CheckFileOpen();
-	for (unsigned i = 0; i < indentLevel; i++)
-		stream << tab;
-	stream << "{" << std::endl;
-	indentLevel++;
+	try
+	{
+		CheckFileOpen();
+		for (unsigned i = 0; i < indentLevel; i++)
+			stream << tab;
+		stream << "{" << std::endl;
+		indentLevel++;
+	}
+	catch (FileStreamException exc)
+	{
+		std::cout << exc.what() << std::endl;
+	}
 }
 
 // Ends the current scope when writing to a file.
 // Outputs an end curly brace and decreases tab count.
 void FileStream::EndScope()
 {
-	CheckFileOpen();
-	indentLevel--;
-	for (unsigned i = 0; i < indentLevel; i++)
-		stream << tab;
-	stream << "}" << std::endl;
+	try
+	{
+		CheckFileOpen();
+		indentLevel--;
+		for (unsigned i = 0; i < indentLevel; i++)
+			stream << tab;
+		stream << "}" << std::endl;
+	}
+	catch (FileStreamException exc)
+	{
+		std::cout << exc.what() << std::endl;
+	}
 }
 
 // Reads a piece of text from the currently open file
@@ -71,11 +85,18 @@ void FileStream::EndScope()
 //   text = The text to search for in the file.
 void FileStream::ReadSkip(const std::string& text)
 {
-	CheckFileOpen();
-	std::string input;
-	stream >> input;
-	if (input != text)
-		throw FileStreamException(filename, text + "could not be found");
+	try
+	{
+		CheckFileOpen();
+		std::string input;
+		stream >> input;
+		if (input != text)
+			throw FileStreamException(filename, text + "could not be found");
+	}
+	catch (FileStreamException exc)
+	{
+		std::cout << exc.what() << std::endl;
+	}
 }
 
 // Skips characters in the stream up until the next
@@ -83,11 +104,18 @@ void FileStream::ReadSkip(const std::string& text)
 //    delimiter = The delimiter to search for in the file.
 void FileStream::ReadSkip(char delimiter)
 {
-	CheckFileOpen();
-	while (!stream.eof() || stream.get() != delimiter)
-		stream.ignore();
+	try
+	{
+		CheckFileOpen();
+		while (!stream.eof() || stream.get() != delimiter)
+			stream.ignore();
 
-	stream.ignore();
+		stream.ignore();
+	}
+	catch (FileStreamException exc)
+	{
+		std::cout << exc.what() << std::endl;
+	}
 }
 
 //------------------------------------------------------------------------------

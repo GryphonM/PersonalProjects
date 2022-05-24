@@ -17,6 +17,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Collider.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 // Public Function Declarations:
@@ -72,4 +73,24 @@ void ColorChange::Update(float dt)
 		sprite->SetColor(normalColor);
 
 	timer -= dt;
+}
+
+// Loads object data from a file.
+// Params:
+//   stream = The stream for the file we want to read from.
+void ColorChange::Deserialize(FileStream& stream)
+{
+	stream.ReadVariable("normalColor", normalColor);
+	stream.ReadVariable("collidedColor", collidedColor);
+	stream.ReadVariable("collidedColorTime", collidedColorTime);
+}
+
+// Saves object data to a file.
+// Params:
+//   stream = The stream for the file we want to write to.
+void ColorChange::Serialize(FileStream& stream) const
+{
+	stream.WriteVariable("normalColor", normalColor);
+	stream.WriteVariable("collidedColor", collidedColor);
+	stream.WriteVariable("collidedColorTime", collidedColorTime);
 }

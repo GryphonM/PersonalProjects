@@ -16,6 +16,7 @@
 //------------------------------------------------------------------------------
 
 #include <BetaObject.h>
+#include "Serializable.h"
 
 //------------------------------------------------------------------------------
 
@@ -32,7 +33,7 @@ class Space;
 
 // You are free to change the contents of this structure as long as you do not
 //   change the public interface declared in the header.
-class GameObject : public Beta::BetaObject
+class GameObject : public Beta::BetaObject, public Serializable
 {
 public:
 	//------------------------------------------------------------------------------
@@ -86,6 +87,16 @@ public:
 
 	// Get the space that contains this object.
 	Space* GetSpace() const;
+
+	// Loads object data from a file.
+	// Params:
+	//   stream = The stream for the file we want to read from.
+	virtual void Deserialize(FileStream& stream) override;
+
+	// Saves object data to a file.
+	// Params:
+	//   stream = The stream for the file we want to write to.
+	virtual void Serialize(FileStream& stream) const override;
 
 private:
 	//------------------------------------------------------------------------------

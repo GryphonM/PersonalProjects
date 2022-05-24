@@ -1,0 +1,26 @@
+Bomb
+{
+  numComponents: 4
+  Transform
+  {
+    translation: { 0, 0 }
+    rotation: 0
+    scale: { 0.2, 0.2 }
+  }
+  Sprite
+  {
+    frameIndex: 0
+    color: { 1 , 1 , 1 , 1 }
+  }
+  Bomb
+  {
+    radius: 1
+    waitTime: 3
+    explosionTime: 0.5
+    blinkTime: 0.25
+  }
+  ColliderCircle
+  {
+    radius: 0.1
+  }
+}
