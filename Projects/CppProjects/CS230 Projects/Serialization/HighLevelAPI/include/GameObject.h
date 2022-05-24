@@ -104,7 +104,7 @@ private:
 	//------------------------------------------------------------------------------
 
 	// Components
-	Component* components[10];
+	std::vector<Component*> components;
 	unsigned numComponents;
 
 	// Whether the object has been marked for destruction.

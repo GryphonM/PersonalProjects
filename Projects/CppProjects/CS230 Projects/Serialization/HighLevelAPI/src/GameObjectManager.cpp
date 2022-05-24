@@ -60,9 +60,10 @@ void GameObjectManager::Update(float dt)
 // Shutdown the game object manager, destroying all active objects.
 void GameObjectManager::Shutdown(void)
 {
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		delete gameObjectActiveList[i];
+		delete (*it);
+		(*it) = nullptr;
 	}
 	numObjects = 0;
 }
@@ -70,9 +71,10 @@ void GameObjectManager::Shutdown(void)
 // Unload the game object manager, destroying all object archetypes.
 void GameObjectManager::Unload(void)
 {
-	for (int i = 0; i < numArchetypes; i++)
+	for (auto it = gameObjectArchetypes.begin(); it != gameObjectArchetypes.end(); it++)
 	{
-		delete gameObjectArchetypes[i];
+		delete (*it);
+		(*it) = nullptr;
 	}
 	numArchetypes = 0;
 }
@@ -84,7 +86,7 @@ void GameObjectManager::AddObject(GameObject& gameObject)
 {
 	gameObject.SetOwner(GetOwner());
 	gameObject.Initialize();
-	gameObjectActiveList[numObjects] = &gameObject;
+	gameObjectActiveList.push_back(&gameObject);
 	numObjects++;
 }
 
@@ -93,7 +95,7 @@ void GameObjectManager::AddObject(GameObject& gameObject)
 //	 gameObject = Reference to the game object to be added to the list.
 void GameObjectManager::AddArchetype(GameObject& gameObject)
 {
-	gameObjectArchetypes[numArchetypes] = &gameObject;
+	gameObjectArchetypes.push_back(&gameObject);
 	numArchetypes++;
 }
 
@@ -106,11 +108,11 @@ void GameObjectManager::AddArchetype(GameObject& gameObject)
 //	   else return nullptr.
 GameObject* GameObjectManager::GetObjectByName(const std::string& objectName) const
 {
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		if (gameObjectActiveList[i]->GetName() == objectName)
+		if ((*it)->GetName() == objectName)
 		{
-			return gameObjectActiveList[i];
+			return *it;
 		}
 	}
 	return nullptr;
@@ -125,10 +127,10 @@ GameObject* GameObjectManager::GetObjectByName(const std::string& objectName) co
 //	   else return nullptr.
 void GameObjectManager::GetObjectsByName(const std::string& objectName, std::vector<GameObject*>& out) const
 {
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		if (gameObjectActiveList[i]->GetName() == objectName)
-			out.push_back(gameObjectActiveList[i]);
+		if ((*it)->GetName() == objectName)
+			out.push_back(*it);
 	}
 }
 
@@ -141,11 +143,11 @@ void GameObjectManager::GetObjectsByName(const std::string& objectName, std::vec
 //	   else return nullptr.
 GameObject* GameObjectManager::GetArchetypeByName(const std::string& objectName) const
 {
-	for (int i = 0; i < numArchetypes; i++)
+	for (auto it = gameObjectArchetypes.begin(); it != gameObjectArchetypes.end(); it++)
 	{
-		if (gameObjectArchetypes[i]->GetName() == objectName)
+		if ((*it)->GetName() == objectName)
 		{
-			return gameObjectArchetypes[i];
+			return (*it);
 		}
 	}
 	return nullptr;
@@ -157,9 +159,9 @@ GameObject* GameObjectManager::GetArchetypeByName(const std::string& objectName)
 size_t GameObjectManager::GetObjectCount(const std::string& objectName) const
 {
 	size_t count = 0;
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		if (gameObjectActiveList[i]->GetName() == objectName && !gameObjectActiveList[i]->IsDestroyed())
+		if ((*it)->GetName() == objectName && !(*it)->IsDestroyed())
 		{
 			count++;
 		}
@@ -170,9 +172,9 @@ size_t GameObjectManager::GetObjectCount(const std::string& objectName) const
 // Update object logic using variable timestep.
 void GameObjectManager::VariableUpdate(float dt)
 {
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		gameObjectActiveList[i]->Update(dt);
+		(*it)->Update(dt);
 	}
 }
 
@@ -182,9 +184,9 @@ void GameObjectManager::FixedUpdate(float dt)
 	timeAccumulator += dt;
 	while (timeAccumulator >= fixedUpdateDt)
 	{
-		for (int i = 0; i < numObjects; i++)
+		for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 		{
-			gameObjectActiveList[i]->FixedUpdate(fixedUpdateDt);
+			(*it)->FixedUpdate(fixedUpdateDt);
 		}
 		CheckCollisions();
 		timeAccumulator -= fixedUpdateDt;
@@ -194,18 +196,18 @@ void GameObjectManager::FixedUpdate(float dt)
 // Check for collisions between pairs of objects
 void GameObjectManager::CheckCollisions()
 {	
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		if (!gameObjectActiveList[i]->IsDestroyed())
+		if (!(*it)->IsDestroyed())
 		{
-			Collider* col = dynamic_cast<Collider*>(gameObjectActiveList[i]->GetComponent("Collider"));
+			Collider* col = dynamic_cast<Collider*>((*it)->GetComponent("Collider"));
 			if (col != nullptr)
 			{
-				if ((i + 1) != numObjects)
+				if ((it + 1) != gameObjectActiveList.end())
 				{
-					for (int j = i + 1; j < numObjects; j++)
+					for (auto jt = it + 1; jt != gameObjectActiveList.end(); jt++)
 					{
-						Collider* col2 = dynamic_cast<Collider*>(gameObjectActiveList[j]->GetComponent("Collider"));
+						Collider* col2 = dynamic_cast<Collider*>((*jt)->GetComponent("Collider"));
 						if (col2 != nullptr)
 						{
 							col->CheckCollision(*col2);
@@ -220,13 +222,15 @@ void GameObjectManager::CheckCollisions()
 // Destroy any objects marked for destruction.
 void GameObjectManager::DestroyObjects()
 {
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		if (gameObjectActiveList[i]->IsDestroyed())
+		if ((*it)->IsDestroyed())
 		{
-			delete gameObjectActiveList[i];
-			gameObjectActiveList[i] = gameObjectActiveList[numObjects - 1];
-			gameObjectActiveList[numObjects - 1] = nullptr;
+			delete (*it);
+			gameObjectActiveList.erase(it);
+			it--;
+			//(*it) = *(gameObjectActiveList.end() - 1);
+			//*(gameObjectActiveList.end() - 1) = nullptr;
 			numObjects--;
 		}
 	}
@@ -235,8 +239,8 @@ void GameObjectManager::DestroyObjects()
 // Draw all game objects in the active game object list.
 void GameObjectManager::Draw(void)
 {
-	for (int i = 0; i < numObjects; i++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
-		gameObjectActiveList[i]->Draw();
+		(*it)->Draw();
 	}
 }

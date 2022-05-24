@@ -52,18 +52,18 @@ GameObject::GameObject(const GameObject& other) :
 // Free the memory associated with a game object.
 GameObject::~GameObject()
 {
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		delete components[i];
+		delete (*it);
 	}
 }
 
 // Initialize this object's components and set it to active.
 void GameObject::Initialize()
 {
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		components[i]->Initialize();
+		(*it)->Initialize();
 	}
 }
 
@@ -75,9 +75,9 @@ void GameObject::Update(float dt)
 	if (isDestroyed)
 		return;
 
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		components[i]->Update(dt);
+		(*it)->Update(dt);
 	}
 }
 
@@ -89,18 +89,18 @@ void GameObject::FixedUpdate(float dt)
 	if (isDestroyed)
 		return;
 
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		components[i]->FixedUpdate(dt);
+		(*it)->FixedUpdate(dt);
 	}
 }
 
 // Draw any visible components attached to the game object.
 void GameObject::Draw()
 {
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		components[i]->Draw();
+		(*it)->Draw();
 	}
 }
 
@@ -108,7 +108,7 @@ void GameObject::Draw()
 void GameObject::AddComponent(Component* component)
 {
 	component->SetOwner(this);
-	components[numComponents] = component;
+	components.push_back(component);
 	numComponents++;
 }
 
@@ -117,11 +117,11 @@ void GameObject::AddComponent(Component* component)
 //   name = The name of the component to find.
 Component* GameObject::GetComponent(const std::string& name_)
 {
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		if (components[i]->GetName() == name_)
+		if ((*it)->GetName() == name_)
 		{
-			return components[i];
+			return (*it);
 		}
 	}
 
@@ -187,11 +187,11 @@ void GameObject::Serialize(FileStream& stream) const
 	stream.WriteValue(GetName());
 	stream.BeginScope();
 	stream.WriteVariable("numComponents", numComponents);
-	for (unsigned i = 0; i < numComponents; i++)
+	for (auto it = components.begin(); it != components.end(); it++)
 	{
-		stream.WriteValue(std::string(typeid(*components[i]).name()).substr(6));
+		stream.WriteValue(std::string(typeid(**it).name()).substr(6));
 		stream.BeginScope();
-		components[i]->Serialize(stream);
+		(*it)->Serialize(stream);
 		stream.EndScope();
 	}
 	stream.EndScope();

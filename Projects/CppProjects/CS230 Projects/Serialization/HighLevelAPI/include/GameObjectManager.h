@@ -128,13 +128,15 @@ private:
 	//------------------------------------------------------------------------------
 	
 	// Objects
-	static const size_t maxObjects = 200;
-	GameObject* gameObjectActiveList[maxObjects];
+	//static const size_t maxObjects = 200;
+	//GameObject* gameObjectActiveList[maxObjects];
+	std::vector<GameObject*> gameObjectActiveList;
 	size_t numObjects;
 	
 	// Archetypes
-	static const size_t maxArchetypes = 30;
-	GameObject* gameObjectArchetypes[maxArchetypes];
+	//static const size_t maxArchetypes = 30;
+	//GameObject* gameObjectArchetypes[maxArchetypes];
+	std::vector<GameObject*> gameObjectArchetypes;
 	size_t numArchetypes;
 	
 	// Time
