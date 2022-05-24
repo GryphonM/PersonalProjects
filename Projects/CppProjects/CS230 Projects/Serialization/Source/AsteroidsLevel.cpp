@@ -15,16 +15,23 @@
 
 #include "stdafx.h"
 #include "AsteroidsLevel.h"
+
+// Systems
 #include "Space.h"
-#include "Archetypes.h"
+#include "MeshHelper.h"
+#include "SoundManager.h"
+#include "GameObjectFactory.h"
+
+// Components
 #include "PlayerShip.h"
 #include "GameObject.h"
 #include "SpriteSource.h"
 #include "Sprite.h"
+
+// Levels
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
-#include "MeshHelper.h"
 
 using namespace Beta;
 
@@ -39,13 +46,20 @@ AsteroidsLevel::AsteroidsLevel() : asteroidSpawnInitial(8), asteroidSpawnMaximum
 	meshBullet(nullptr), textureBullet(nullptr), spriteSourceBullet(nullptr), asteroidArchetype(nullptr),
 	meshAsteroid(nullptr), textureAsteroid(nullptr), spriteSourceAsteroid(nullptr), missileArchetype(nullptr),
 	meshMissile(nullptr), textureMissile(nullptr), spriteSourceMissile(nullptr), bombArchetype(nullptr),
-	meshBomb(nullptr), textureBomb(nullptr), spriteSourceBomb(nullptr), Level("AsteroidsLevel")
+	meshBomb(nullptr), textureBomb(nullptr), spriteSourceBomb(nullptr), soundManager(nullptr), musicChannel(nullptr),
+	Level("AsteroidsLevel")
 {
 }
 
 // Load the resources associated with the Asteroids level.
 void AsteroidsLevel::Load()
 {
+	soundManager = EngineGetModule(SoundManager);
+	soundManager->AddMusic("Asteroid_Field.mp3");
+	soundManager->AddEffect("teleport.wav");
+	soundManager->AddBank("Master Bank.strings.bank");
+	soundManager->AddBank("Master Bank.bank");
+	
 	meshShip = CreateQuadMesh(Vector2D(1.0f, 1.0f), Vector2D(0.5f, 0.5f));
 	textureShip = Texture::CreateTextureFromFile("ship.png");
 	spriteSourceShip = new SpriteSource(textureShip, "Ship");
@@ -66,22 +80,24 @@ void AsteroidsLevel::Load()
 	textureBomb = Texture::CreateTextureFromFile("Circle.png");
 	spriteSourceBomb = new SpriteSource(textureBomb, "Bomb");
 
-	asteroidArchetype = Archetypes::CreateAsteroidArchetype(meshAsteroid, spriteSourceAsteroid);
-	bulletArchetype = Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet);
-	missileArchetype = Archetypes::CreateMissileArchetype(meshMissile, spriteSourceMissile);
-	bombArchetype = Archetypes::CreateBombArchetype(meshBomb, spriteSourceBomb);
+	asteroidArchetype = EngineGetModule(GameObjectFactory)->CreateObject("Asteroid", meshAsteroid, spriteSourceAsteroid);
+	bulletArchetype = EngineGetModule(GameObjectFactory)->CreateObject("Bullet", meshBullet, spriteSourceBullet);
+	missileArchetype = EngineGetModule(GameObjectFactory)->CreateObject("Missile", meshMissile, spriteSourceMissile);
+	bombArchetype = EngineGetModule(GameObjectFactory)->CreateObject("Bomb", meshBomb, spriteSourceBomb);
 	Beta::EngineCore::GetInstance().GetModule<Beta::GraphicsEngine>()->SetBackgroundColor();
 
-	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));
-	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateMissileArchetype(meshMissile, spriteSourceMissile));
-	GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBombArchetype(meshBomb, spriteSourceBomb));
+	GetSpace()->GetObjectManager().AddArchetype(*bulletArchetype);
+	GetSpace()->GetObjectManager().AddArchetype(*missileArchetype);
+	GetSpace()->GetObjectManager().AddArchetype(*bombArchetype);
 }
 
 // Initialize the memory associated with the Asteroids level.
 void AsteroidsLevel::Initialize()
 {
-	GameObject* ship = Archetypes::CreateShip(meshShip, spriteSourceShip);	
+	GameObject* ship = EngineGetModule(GameObjectFactory)->CreateObject("Ship", meshShip, spriteSourceShip);
 	GetSpace()->GetObjectManager().AddObject(*ship);
+
+	musicChannel = soundManager->PlaySound("Asteroid Field");
 
 	asteroidWaveCount = 0;
 	asteroidSpawnCount = asteroidSpawnInitial;
@@ -103,21 +119,23 @@ void AsteroidsLevel::Update(float dt)
 
 void AsteroidsLevel::Shutdown()
 {
+	musicChannel->stop();
 	if (playerShip->GetScore() > asteroidHighScore)
 		asteroidHighScore = playerShip->GetScore();
+	playerShip->StopSoundEvent();
 }
 
 // Unload/delete the resources associated with the Asteroids level.
 void AsteroidsLevel::Unload()
 {
+	soundManager->Shutdown();
+
 	delete meshShip;
 	delete textureShip;
 	delete spriteSourceShip;
-	delete bulletArchetype;
 	delete meshBullet;
 	delete textureBullet;
 	delete spriteSourceBullet;
-	delete asteroidArchetype;
 	delete meshAsteroid;
 	delete textureAsteroid;
 	delete spriteSourceAsteroid;

@@ -42,7 +42,7 @@ public:
 	//   normalColor = The color that the object reverts to when not colliding.
 	//   collidedColor = The color that the object changes to when colliding.
 	//   collidedColorTime = The amount of time the object will retain the collided color.
-	ColorChange(const Beta::Color& normalColor, const Beta::Color& collidedColor, 
+	ColorChange(const Beta::Color& normalColor = Beta::Colors::Green, const Beta::Color& collidedColor = Beta::Colors::Red, 
 		float collidedColorTime = 0.1f);
 
 	// Return a new copy of the component.

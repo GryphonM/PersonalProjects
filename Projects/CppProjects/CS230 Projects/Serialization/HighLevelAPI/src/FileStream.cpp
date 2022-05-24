@@ -107,10 +107,15 @@ void FileStream::ReadSkip(char delimiter)
 	try
 	{
 		CheckFileOpen();
-		while (!stream.eof() || stream.get() != delimiter)
-			stream.ignore();
+		stream.ignore(256, delimiter);
+		//char input = stream.get();
+		//while (!stream.eof() || input != delimiter)
+		//{
+		//	stream.ignore();
+		//	input = stream.get();
+		//}
 
-		stream.ignore();
+		//stream.ignore();
 	}
 	catch (FileStreamException exc)
 	{

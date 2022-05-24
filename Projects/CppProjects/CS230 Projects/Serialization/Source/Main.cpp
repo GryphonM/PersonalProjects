@@ -20,6 +20,17 @@
 #include "SoundManager.h"
 #include "GameObjectFactory.h"
 
+// Behaviors
+#include "Asteroid.h"
+#include "Bomb.h"
+#include "ColorChange.h"
+#include "HomingMissile.h"
+#include "MonkeyMovement.h"
+#include "PlayerProjectile.h"
+#include "PlayerShip.h"
+#include "ScreenWrap.h"
+#include "TimedDeath.h"
+
 // Initial game state
 #include "Level1.h"
 
@@ -45,8 +56,20 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	// Add additional modules to engine
 	using namespace Beta;
 	EngineCore& engine = EngineCore::GetInstance();
+
 	engine.AddModule<GameObjectFactory>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<Asteroid>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<Bomb>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<ColorChange>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<HomingMissile>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<MonkeyMovement>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<PlayerProjectile>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<PlayerShip>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<ScreenWrap>();
+	EngineGetModule(GameObjectFactory)->RegisterComponent<TimedDeath>();
+
 	engine.AddModule<SoundManager>();
+
 	Space* space = engine.AddModule<Space>();
 
 	// Set initial level to the second level.

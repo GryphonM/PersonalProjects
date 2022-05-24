@@ -77,6 +77,9 @@ public:
 	// Enables the Missile
 	void EnableMissile();
 
+	// Pauses/Stops the sound event if it is playing
+	void StopSoundEvent();
+
 	// Loads object data from a file.
 	// Params:
 	//   stream = The stream for the file we want to read from.

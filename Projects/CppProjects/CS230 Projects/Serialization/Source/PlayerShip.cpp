@@ -23,7 +23,6 @@
 #include "HomingMissile.h"
 #include "Bomb.h"
 #include "Sprite.h"
-#include "Archetypes.h"
 #include "Space.h"
 #include "SoundManager.h"
 #include "FileStream.h"
@@ -130,6 +129,13 @@ void PlayerShip::IncreaseScore(unsigned amount)
 void PlayerShip::EnableMissile()
 {
 	hasMissile = true;
+}
+
+// Pauses/Stops the sound event if it is playing
+void PlayerShip::StopSoundEvent()
+{
+	if (soundEvent != nullptr)
+		soundEvent->setPaused(true);
 }
 
 // Loads object data from a file.

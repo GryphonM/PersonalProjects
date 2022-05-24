@@ -19,7 +19,6 @@
 #include "RigidBody.h"
 #include "Sprite.h"
 #include "GameObject.h"
-#include "Archetypes.h"
 #include "Space.h"
 #include "FileStream.h"
 

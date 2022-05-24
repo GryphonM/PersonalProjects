@@ -26,6 +26,7 @@
 #include "ColliderTilemap.h"
 #include "Animator.h"
 #include "Sprite.h"
+#include "SpriteTilemap.h"
 #include "RigidBody.h"
 #include "Transform.h"
 
@@ -36,7 +37,7 @@ using namespace Beta;
 //------------------------------------------------------------------------------
 
 // Register core components
-GameObjectFactory::GameObjectFactory() : BetaObject("GameObjectFactory"), objectFilePath("Assets\\Objects\\")
+GameObjectFactory::GameObjectFactory() : BetaObject("GameObjectFactory"), objectFilePath("Objects/")
 {
 	RegisterComponent<ColliderCircle>();
 	RegisterComponent<ColliderPoint>();
@@ -44,6 +45,7 @@ GameObjectFactory::GameObjectFactory() : BetaObject("GameObjectFactory"), object
 	RegisterComponent<ColliderTilemap>();
 	RegisterComponent<Animator>();
 	RegisterComponent<Sprite>();
+	RegisterComponent<SpriteTilemap>();
 	RegisterComponent<RigidBody>();
 	RegisterComponent<Transform>();
 }
@@ -71,7 +73,7 @@ GameObject* GameObjectFactory::CreateObject(const std::string& name,
 	Beta::Mesh* mesh, SpriteSource* spriteSource)
 {
 	GameObject* newObj = new GameObject(name);
-	FileStream stream(objectFilePath + name + ".txt", std::fstream::in);
+	FileStream stream(EngineCore::GetInstance().GetFilePath() + objectFilePath + name + ".txt", std::fstream::in);
 	try
 	{
 		newObj->Deserialize(stream);
@@ -100,8 +102,11 @@ Component* GameObjectFactory::CreateComponent(const std::string& name)
 {
 	for (auto it = registeredComponents.begin(); it != registeredComponents.end(); it++)
 	{
-		if (std::string(typeid(**it).name()) == name)
+		std::string curName = std::string(typeid(**it).name()).substr(6);
+		if (curName == name)
+		{
 			return (*it)->Clone();
+		}
 	}
 	return nullptr;
 }

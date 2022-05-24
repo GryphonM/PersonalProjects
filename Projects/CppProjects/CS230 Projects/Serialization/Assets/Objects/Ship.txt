@@ -1,35 +1,35 @@
 Ship
 {
-  numComponents: 6
+  numComponents : 6
   Transform
   {
-    translation: { 0, 0 }
-    rotation: 0
-    scale: { 0.5, 0.5 }
+    translation : { 0, 0 }
+    rotation : 0
+    scale : { 0.5, 0.5 }
   }
   Sprite
   {
-    frameIndex: 0
-    color: { 1 , 1 , 1 , 1 }
+    frameIndex : 0
+    color : { 1 , 1 , 1 , 1 }
   }
   RigidBody
   {
-    velocity: { 0, 0 }
-    angularVelocity: 0
-    mass: 1
+    velocity : { 0, 0 }
+    angularVelocity : 0
+    mass : 1
   }
   PlayerShip
   {
-    forwardThrust: 3
-    maximumSpeed: 2
-    rotationSpeed: 3.14159
-    bulletSpeed: 4
+    forwardThrust : 3
+    maximumSpeed : 2
+    rotationSpeed : 3.14159
+    bulletSpeed : 4
   }
   ScreenWrap
   {
   }
   ColliderCircle
   {
-    radius: 0.25
+    radius : 0.25
   }
 }

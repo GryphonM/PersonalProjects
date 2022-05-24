@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-// File Name:	HomingMissile
+// File Name:	Bomb.h
 // Author(s):	Gryphon McLaughlin (gryphon.mclaughlin)
 // Project:	PRG 7.1.7 Assignment: Asteroids
 // Course:	WANIC VGP2

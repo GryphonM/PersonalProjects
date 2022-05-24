@@ -20,11 +20,12 @@
 #include "Space.h"
 #include "MeshHelper.h"
 #include "SoundManager.h"
+#include "GameObjectFactory.h"
 
 // Components
-#include "Archetypes.h"
 #include "GameObject.h"
 #include "SpriteSource.h"
+#include "PlayerShip.h"
 
 // Levels
 #include "Level2.h"
@@ -70,8 +71,8 @@ using namespace Beta;
 		spriteSourceShip = new SpriteSource(textureShip, "Ship");
 		spriteSourceBullet = new SpriteSource(textureBullet, "Bullet");
 		spriteSourceBomb = new SpriteSource(textureBomb, "Bomb");
-		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBulletArchetype(meshBullet, spriteSourceBullet));
-		GetSpace()->GetObjectManager().AddArchetype(*Archetypes::CreateBombArchetype(meshBomb, spriteSourceBomb));
+		GetSpace()->GetObjectManager().AddArchetype(*EngineGetModule(GameObjectFactory)->CreateObject("Bullet", meshBullet, spriteSourceBullet));
+		GetSpace()->GetObjectManager().AddArchetype(*EngineGetModule(GameObjectFactory)->CreateObject("Bomb", meshBomb, spriteSourceBomb));
 	}
 
 	// Initialize the memory associated with Level 1.
@@ -81,7 +82,7 @@ using namespace Beta;
 
 		musicChannel = soundManager->PlaySound("Asteroid Field");
 
-		GameObject* ship = Archetypes::CreateShip(meshShip, nullptr);
+		GameObject* ship = EngineGetModule(GameObjectFactory)->CreateObject("Ship", meshShip);
 		GetSpace()->GetObjectManager().AddObject(*ship);
 	}
 
@@ -118,6 +119,7 @@ using namespace Beta;
 	void Level1::Shutdown()
 	{
 		musicChannel->stop();
+		dynamic_cast<PlayerShip*>(GetSpace()->GetObjectManager().GetObjectByName("Ship")->GetComponent("PlayerShip"))->StopSoundEvent();
 	}
 
 	// Unload the resources associated with Level 1.

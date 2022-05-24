@@ -75,7 +75,7 @@ public:
 	{
 		for (unsigned i = 0; i < indentLevel; i++)
 			stream << tab;
-		stream << name << ": " << variable << std::endl;
+		stream << name << " : " << variable << std::endl;
 	}
 
 	// Writes a value to the currently open file.

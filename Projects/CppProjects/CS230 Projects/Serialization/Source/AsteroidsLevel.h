@@ -27,6 +27,12 @@
 class PlayerShip;
 class GameObject;
 class SpriteSource;
+class SoundManager;
+
+namespace FMOD
+{
+	class Channel;
+}
 
 namespace Beta
 {
@@ -88,6 +94,10 @@ private:
 	// Private Variables:
 	//------------------------------------------------------------------------------
 
+	// Audio
+	SoundManager* soundManager;
+	FMOD::Channel* musicChannel;
+	
 	// Spawning
 	const unsigned asteroidSpawnInitial;
 	const unsigned asteroidSpawnMaximum;

@@ -18,9 +18,9 @@
 // Systems
 #include "Space.h"
 #include "MeshHelper.h"
+#include "GameObjectFactory.h"
 
 // Components
-#include "Archetypes.h"
 #include "GameObject.h"
 #include "SpriteSource.h"
 #include "Animation.h"
@@ -55,17 +55,21 @@ void Level3::Load()
 // Initialize the memory associated with Level 3.
 void Level3::Initialize()
 {
-	GameObject* staticCircle = Archetypes::CreateCircle(meshQuad, spriteSourceCircle);
+	GameObject* staticCircle = EngineGetModule(GameObjectFactory)->CreateObject("Circle", meshQuad, spriteSourceCircle);
 	dynamic_cast<Transform*>(staticCircle->GetComponent("Transform"))->SetTranslation(Vector2D(2.0f, 2.0f));
-	GameObject* staticRect = Archetypes::CreateRectangle(meshQuad);
+
+	GameObject* staticRect = EngineGetModule(GameObjectFactory)->CreateObject("Rectangle", meshQuad);
 	dynamic_cast<Transform*>(staticRect->GetComponent("Transform"))->SetTranslation(Vector2D(1.0f, -1.5f));
-	GameObject* point = Archetypes::CreatePoint(meshQuad, spriteSourceCircle);
+
+	GameObject* point = EngineGetModule(GameObjectFactory)->CreateObject("Point", meshQuad, spriteSourceCircle);
 	dynamic_cast<Transform*>(point->GetComponent("Transform"))->SetTranslation(Vector2D(1.0f, 2.0f));
 	dynamic_cast<RigidBody*>(point->GetComponent("RigidBody"))->AddForce(Vector2D(0, -pointSpeed));
-	GameObject* moveCircle = Archetypes::CreateCircle(meshQuad, spriteSourceCircle);
+
+	GameObject* moveCircle = EngineGetModule(GameObjectFactory)->CreateObject("Circle", meshQuad, spriteSourceCircle);
 	dynamic_cast<Transform*>(moveCircle->GetComponent("Transform"))->SetTranslation(Vector2D(-1.5f, 0.5f));
 	dynamic_cast<RigidBody*>(moveCircle->GetComponent("RigidBody"))->AddForce(Vector2D(0, circleSpeed).Rotate(-120.f));
-	GameObject* moveRect = Archetypes::CreateRectangle(meshQuad);
+
+	GameObject* moveRect = EngineGetModule(GameObjectFactory)->CreateObject("Rectangle", meshQuad);
 	dynamic_cast<Transform*>(moveRect->GetComponent("Transform"))->SetTranslation(Vector2D(-2.0f, 2.0f));
 	dynamic_cast<RigidBody*>(moveRect->GetComponent("RigidBody"))->AddForce(Vector2D(0, circleSpeed).Rotate(45.f));
 

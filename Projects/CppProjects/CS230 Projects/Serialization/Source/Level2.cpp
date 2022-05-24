@@ -25,10 +25,12 @@
 #include "Animation.h"
 #include "Tilemap.h"
 #include "FileStream.h"
+#include "GameObjectFactory.h"
 
 // Components
 #include "Sprite.h"
-#include "Archetypes.h"
+#include "SpriteTilemap.h"
+#include "ColliderTilemap.h"
 #include "Animator.h"
 #include "GameObject.h"
 
@@ -87,8 +89,10 @@ using namespace Beta;
 		std::cout << "Level2::Initialize" << std::endl;
 		
 		// TO DO:
-		GameObject* monkey = Archetypes::CreateMonkey(meshMonkey, spriteSourceMonkey);
-		GameObject* tilemap = Archetypes::CreateTilemapObject(meshMap, spriteSourceMap, dataMap);
+		GameObject* monkey = EngineGetModule(GameObjectFactory)->CreateObject("Monkey", meshMonkey, spriteSourceMonkey);
+		GameObject* tilemap = EngineGetModule(GameObjectFactory)->CreateObject("Tilemap", meshMap, spriteSourceMap);
+		dynamic_cast<SpriteTilemap*>(tilemap->GetComponent("Sprite"))->SetTilemap(dataMap);
+		dynamic_cast<ColliderTilemap*>(tilemap->GetComponent("Collider"))->SetTilemap(dataMap);
 		GetSpace()->GetObjectManager().AddObject(*monkey);
 		GetSpace()->GetObjectManager().AddObject(*tilemap);
 	}
@@ -124,22 +128,6 @@ using namespace Beta;
 	{
 		std::cout << "Level2::Unload" << std::endl;
 
-		//FileStream stream = FileStream("Test.txt", std::fstream::out);
-		//try
-		//{
-		//	stream.BeginScope();
-		//	stream.BeginScope();
-		//	stream.WriteVariable("Hours Spent Refactoring", 758493);
-		//	stream.WriteValue(1234.56789);
-		//	stream.EndScope();
-		//	stream.EndScope();
-		//}
-		//catch (FileStreamException)
-		//{
-		//	std::cout << "File Not Open" << std::endl;
-		//}
-		
-		// Delete the sprite source, texture, mesh
 		delete spriteSourceMonkey;
 		delete spriteSourceMap;
 		delete meshMonkey;

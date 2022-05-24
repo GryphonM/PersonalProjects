@@ -39,7 +39,7 @@ public:
 	//------------------------------------------------------------------------------
 
 	// Create a new sprite for use with a tilemap.
-	SpriteTilemap(Beta::Mesh* mesh_, const SpriteSource* spriteSource_ = nullptr, const Tilemap* map_ = nullptr);
+	SpriteTilemap(Beta::Mesh* mesh_ = nullptr, const SpriteSource* spriteSource_ = nullptr, const Tilemap* map_ = nullptr);
 
 	// Clone the sprite, returning a dynamically allocated copy.
 	Component* Clone() const override;
