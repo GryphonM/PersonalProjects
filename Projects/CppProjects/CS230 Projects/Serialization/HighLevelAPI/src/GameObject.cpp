@@ -42,10 +42,10 @@ GameObject::GameObject(const std::string& name) :
 GameObject::GameObject(const GameObject& other) : 
 	numComponents(other.numComponents), isDestroyed(other.isDestroyed), BetaObject(other.GetName())
 {
-	for (unsigned int i = 0; i < numComponents; i++)
+	for (auto it = other.components.begin(); it != other.components.end(); it++)
 	{
-		components[i] = other.components[i]->Clone();
-		components[i]->SetOwner(this);
+		components.push_back((*it)->Clone());
+		(*(components.end() - 1))->SetOwner(this);
 	}
 }
 

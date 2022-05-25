@@ -65,6 +65,7 @@ void GameObjectManager::Shutdown(void)
 		delete (*it);
 		(*it) = nullptr;
 	}
+	gameObjectActiveList.clear();
 	numObjects = 0;
 }
 
@@ -76,6 +77,7 @@ void GameObjectManager::Unload(void)
 		delete (*it);
 		(*it) = nullptr;
 	}
+	gameObjectArchetypes.clear();
 	numArchetypes = 0;
 }
 
@@ -172,6 +174,8 @@ size_t GameObjectManager::GetObjectCount(const std::string& objectName) const
 // Update object logic using variable timestep.
 void GameObjectManager::VariableUpdate(float dt)
 {
+	if (EngineGetModule(Input)->CheckTriggered(' '))
+		dt = 1 * dt;
 	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
 	{
 		(*it)->Update(dt);
@@ -229,8 +233,6 @@ void GameObjectManager::DestroyObjects()
 			delete (*it);
 			gameObjectActiveList.erase(it);
 			it--;
-			//(*it) = *(gameObjectActiveList.end() - 1);
-			//*(gameObjectActiveList.end() - 1) = nullptr;
 			numObjects--;
 		}
 	}
