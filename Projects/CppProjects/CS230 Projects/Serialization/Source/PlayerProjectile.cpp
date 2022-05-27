@@ -34,8 +34,8 @@ void PlayerProjectileCollisionHandler(GameObject& object, GameObject& other)
 {
 	if (other.GetName() == "Asteroid")
 	{
-		int points = dynamic_cast<Asteroid*>(other.GetComponent("Asteroid"))->GetPointValue();
-		dynamic_cast<PlayerProjectile*>(object.GetComponent("PlayerProjectile"))->player->IncreaseScore(points);
+		int points = other.GetComponent<Asteroid>()->GetPointValue();
+		object.GetComponent<PlayerProjectile>()->player->IncreaseScore(points);
 		object.Destroy();
 	}
 }
@@ -60,7 +60,7 @@ Component* PlayerProjectile::Clone() const
 // Initialize this component (happens at object creation).
 void PlayerProjectile::Initialize()
 {
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(PlayerProjectileCollisionHandler);
+	GetOwner()->GetComponent<Collider>()->SetCollisionHandler(PlayerProjectileCollisionHandler);
 }
 
 // Set the object that spawned this object

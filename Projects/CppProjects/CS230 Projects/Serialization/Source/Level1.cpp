@@ -100,18 +100,15 @@ using namespace Beta;
 			GetSpace()->RestartLevel();
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
 		{
-			Level2* level = new Level2;
-			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level2>();
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
 		{
-			Level3* level = new Level3;
-			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level3>();
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('4'))
 		{
-			AsteroidsLevel* level = new AsteroidsLevel;
-			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel<AsteroidsLevel>();
 		}
 	}
 
@@ -119,7 +116,7 @@ using namespace Beta;
 	void Level1::Shutdown()
 	{
 		musicChannel->stop();
-		dynamic_cast<PlayerShip*>(GetSpace()->GetObjectManager().GetObjectByName("Ship")->GetComponent("PlayerShip"))->StopSoundEvent();
+		GetSpace()->GetObjectManager().GetObjectByName("Ship")->GetComponent<PlayerShip>()->StopSoundEvent();
 	}
 
 	// Unload the resources associated with Level 1.

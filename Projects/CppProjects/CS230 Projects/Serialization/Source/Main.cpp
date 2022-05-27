@@ -73,7 +73,7 @@ int WINAPI WinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prevInstance, _In
 	Space* space = engine.AddModule<Space>();
 
 	// Set initial level to the second level.
-	space->SetLevel(new Level1());
+	space->SetLevel<Level1>();
 
 	// Game engine goes!
 	StartupSettings settings;

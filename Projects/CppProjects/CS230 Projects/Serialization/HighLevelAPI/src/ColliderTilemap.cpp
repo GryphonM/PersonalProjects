@@ -52,12 +52,12 @@ void ColliderTilemap::Draw()
 //	 Return the results of the collision check.
 bool ColliderTilemap::IsCollidingWith(const Collider& other) const
 {
-	BoundingRectangle edges = BoundingRectangle(dynamic_cast<Transform*>(other.GetOwner()->GetComponent("Transform"))->GetTranslation(),
+	BoundingRectangle edges = BoundingRectangle(other.GetOwner()->GetComponent<Transform>()->GetTranslation(),
 		dynamic_cast<const ColliderRectangle&>(other).GetExtents());
 	MapCollision collisions = MapCollision(IsSideColliding(edges, RectangleSide::Bottom), IsSideColliding(edges, RectangleSide::Top),
 		IsSideColliding(edges, RectangleSide::Left), IsSideColliding(edges, RectangleSide::Right));
-	ResolveCollisions(edges, dynamic_cast<Transform*>(other.GetOwner()->GetComponent("Transform")), 
-		dynamic_cast<RigidBody*>(other.GetOwner()->GetComponent("RigidBody")), collisions);
+	ResolveCollisions(edges, other.GetOwner()->GetComponent<Transform>(), 
+		dynamic_cast<RigidBody*>(other.GetOwner()->GetComponent<RigidBody>()), collisions);
 
 	bool collided = collisions.bottom || collisions.top || collisions.right || collisions.left;
 	if (collided)

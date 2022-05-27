@@ -46,7 +46,7 @@ Component* Sprite::Clone() const
 // Initialize this component, grab pointers to other components from owner.
 void Sprite::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
+	transform = GetOwner()->GetComponent<Transform>();
 }
 
 // Draw a sprite (Sprite can be textured or untextured).

@@ -40,8 +40,8 @@ Component* ScreenWrap::Clone() const
 // Initialize this component (happens at object creation).
 void ScreenWrap::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
-	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
+	transform = GetOwner()->GetComponent<Transform>();
+	rigidBody = GetOwner()->GetComponent<RigidBody>();
 }
 
 // Update function for this component.
@@ -52,31 +52,31 @@ void ScreenWrap::Update(float dt)
 	UNREFERENCED_PARAMETER(dt);
 	
 	BoundingRectangle screen = EngineCore::GetInstance().GetModule<GraphicsEngine>()->GetDefaultCamera().GetScreenWorldDimensions();
-	Vector2D position = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->GetTranslation();
-	Vector2D scale = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->GetScale();
-	Vector2D velocity = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"))->GetVelocity();
+	Vector2D position = GetOwner()->GetComponent<Transform>()->GetTranslation();
+	Vector2D scale = GetOwner()->GetComponent<Transform>()->GetScale();
+	Vector2D velocity = GetOwner()->GetComponent<RigidBody>()->GetVelocity();
 
 	if (velocity.x > 0 && position.x > screen.right + scale.x)
 	{
 		Vector2D newPos = Vector2D(screen.left - scale.x, position.y);
-		dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->SetTranslation(newPos);
+		GetOwner()->GetComponent<Transform>()->SetTranslation(newPos);
 	}
 
 	if (velocity.x < 0 && position.x < screen.left - scale.x)
 	{
 		Vector2D newPos = Vector2D(screen.right + scale.x, position.y);
-		dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->SetTranslation(newPos);
+		GetOwner()->GetComponent<Transform>()->SetTranslation(newPos);
 	}
 
 	if (velocity.y > 0 && position.y > screen.top + scale.y)
 	{
 		Vector2D newPos = Vector2D(position.x, screen.bottom - scale.y);
-		dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->SetTranslation(newPos);
+		GetOwner()->GetComponent<Transform>()->SetTranslation(newPos);
 	}
 
 	if (velocity.y < 0 && position.y < screen.bottom - scale.y)
 	{
 		Vector2D newPos = Vector2D(position.x, screen.top + scale.y);
-		dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->SetTranslation(newPos);
+		GetOwner()->GetComponent<Transform>()->SetTranslation(newPos);
 	}
 }

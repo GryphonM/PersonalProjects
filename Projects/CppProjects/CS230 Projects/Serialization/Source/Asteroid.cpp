@@ -39,9 +39,9 @@ void AsteroidCollisionHandler(GameObject& object, GameObject& other)
 {
 	if (other.GetName() == "Bullet" || 
 		other.GetName() == "Missile" ||
-		(other.GetName() == "Bomb" && dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->IsExploding()))
+		(other.GetName() == "Bomb" && other.GetComponent<Bomb>()->IsExploding()))
 	{
-		dynamic_cast<Asteroid*>(object.GetComponent("Asteroid"))->SpawnNewAsteroids();
+		object.GetComponent<Asteroid>()->SpawnNewAsteroids();
 		object.Destroy();
 	}
 }
@@ -91,10 +91,9 @@ void Asteroid::SpawnNewAsteroids()
 			for (int i = 0; i < Random::Range(2, 3); i++)
 			{
 				GameObject* newAst = new GameObject(*GetOwner());
-				dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Medium;
-				dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
-				dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
-					(spawnScaleModifier * transform->GetScale().x) / 2);
+				newAst->GetComponent<Asteroid>()->size = Size::Medium;
+				newAst->GetComponent<Transform>()->SetScale(spawnScaleModifier * transform->GetScale());
+				newAst->GetComponent<ColliderCircle>()->SetRadius((spawnScaleModifier * transform->GetScale().x) / 2);
 				GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
 			}
 		}
@@ -103,10 +102,9 @@ void Asteroid::SpawnNewAsteroids()
 			for (int i = 0; i < Random::Range(1, 2); i++)
 			{
 				GameObject* newAst = new GameObject(*GetOwner());
-				dynamic_cast<Asteroid*>(newAst->GetComponent("Asteroid"))->size = Size::Small;
-				dynamic_cast<Transform*>(newAst->GetComponent("Transform"))->SetScale(spawnScaleModifier * transform->GetScale());
-				dynamic_cast<ColliderCircle*>(newAst->GetComponent("Collider"))->SetRadius(
-					(spawnScaleModifier * transform->GetScale().x) / 2);
+				newAst->GetComponent<Asteroid>()->size = Size::Small;
+				newAst->GetComponent<Transform>()->SetScale(spawnScaleModifier * transform->GetScale());
+				newAst->GetComponent<ColliderCircle>()->SetRadius((spawnScaleModifier * transform->GetScale().x) / 2);
 				GetOwner()->GetSpace()->GetObjectManager().AddObject(*newAst);
 			}
 		}
@@ -144,9 +142,9 @@ Component* Asteroid::Clone() const
 // Initialize this component (happens at object creation).
 void Asteroid::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
-	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(AsteroidCollisionHandler);
+	transform = GetOwner()->GetComponent<Transform>();
+	rigidBody = GetOwner()->GetComponent<RigidBody>();
+	GetOwner()->GetComponent<Collider>()->SetCollisionHandler(AsteroidCollisionHandler);
 	SetPosition();
 	SetVelocity();
 }

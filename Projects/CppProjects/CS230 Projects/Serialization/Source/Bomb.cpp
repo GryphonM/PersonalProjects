@@ -38,21 +38,21 @@ using namespace Beta;
 //   other  = The other object the first object is colliding with.
 void BombCollisionHandler(GameObject& object, GameObject& other)
 {
-	if (other.GetName() == "Asteroid" && dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->exploding)
+	if (other.GetName() == "Asteroid" && object.GetComponent<Bomb>()->exploding)
 	{
-		int points = dynamic_cast<Asteroid*>(other.GetComponent("Asteroid"))->GetPointValue();
-		dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->player->IncreaseScore(points);
+		int points = other.GetComponent<Asteroid>()->GetPointValue();
+		object.GetComponent<Bomb>()->player->IncreaseScore(points);
 	}
-	else if (other.GetName() == "Bullet" && !dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->exploding)
+	else if (other.GetName() == "Bullet" && !object.GetComponent<Bomb>()->exploding)
 	{
-		dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->StartExplosion();
+		object.GetComponent<Bomb>()->StartExplosion();
 		other.Destroy();
 	}
-	else if (other.GetName() == "Bomb" && dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->exploding
-		&& !dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->exploding)
+	else if (other.GetName() == "Bomb" && object.GetComponent<Bomb>()->exploding
+		&& !other.GetComponent<Bomb>()->exploding)
 	{
-		dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->explosionRadius += 0.25f * dynamic_cast<Bomb*>(object.GetComponent("Bomb"))->explosionRadius;
-		dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->StartExplosion();
+		other.GetComponent<Bomb>()->explosionRadius += 0.25f * object.GetComponent<Bomb>()->explosionRadius;
+		other.GetComponent<Bomb>()->StartExplosion();
 	}
 }
 //------------------------------------------------------------------------------
@@ -82,11 +82,11 @@ Component* Bomb::Clone() const
 // Initialize this component (happens at object creation).
 void Bomb::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
-	sprite = dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"));
-	collider = dynamic_cast<ColliderCircle*>(GetOwner()->GetComponent("Collider"));
+	transform = GetOwner()->GetComponent<Transform>();
+	sprite = GetOwner()->GetComponent<Sprite>();
+	collider = GetOwner()->GetComponent<ColliderCircle>();
 	waitTimer = waitDuration;
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(BombCollisionHandler);
+	GetOwner()->GetComponent<Collider>()->SetCollisionHandler(BombCollisionHandler);
 }
 
 // Update function for this component.

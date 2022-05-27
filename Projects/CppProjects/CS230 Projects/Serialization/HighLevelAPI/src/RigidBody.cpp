@@ -44,7 +44,7 @@ Component* RigidBody::Clone() const
 // Initialize this component, grab pointers to other components from owner.
 void RigidBody::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
+	transform = GetOwner()->GetComponent<Transform>();
 }
 
 // Reset acceleration.

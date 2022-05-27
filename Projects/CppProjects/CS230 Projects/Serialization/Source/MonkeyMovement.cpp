@@ -37,7 +37,7 @@ using namespace Beta;
 void MonkeyMapCollisionHandler(GameObject& object, const MapCollision& collision)
 {
 	if (collision.bottom)
-		dynamic_cast<MonkeyMovement*>(object.GetComponent("Monkey"))->onGround = true;
+		object.GetComponent<MonkeyMovement>()->onGround = true;
 }
 
 //------------------------------------------------------------------------------
@@ -61,10 +61,10 @@ Component* MonkeyMovement::Clone() const
 // Initialize this component (happens at object creation).
 void MonkeyMovement::Initialize()
 {
-	transform = dynamic_cast<Transform *>(GetOwner()->GetComponent("Transform"));
-	rigidBody = dynamic_cast<RigidBody *>(GetOwner()->GetComponent("RigidBody"));
-	sprite = dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"));
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetMapCollisionHandler(MonkeyMapCollisionHandler);
+	transform = GetOwner()->GetComponent<Transform>();
+	rigidBody = GetOwner()->GetComponent<RigidBody>();
+	sprite = GetOwner()->GetComponent<Sprite>();
+	GetOwner()->GetComponent<Collider>()->SetMapCollisionHandler(MonkeyMapCollisionHandler);
 }
 
 // Update function for this component.

@@ -101,7 +101,7 @@ void AsteroidsLevel::Initialize()
 
 	asteroidWaveCount = 0;
 	asteroidSpawnCount = asteroidSpawnInitial;
-	playerShip = dynamic_cast<PlayerShip*>(GetSpace()->GetObjectManager().GetObjectByName("Ship")->GetComponent("PlayerShip"));
+	playerShip = GetSpace()->GetObjectManager().GetObjectByName("Ship")->GetComponent<PlayerShip>();
 	playerShip->EnableMissile();
 }
 
@@ -176,18 +176,15 @@ void AsteroidsLevel::SwitchLevels()
 {
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 	{
-		Level1* level = new Level1;
-		EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level1>();
 	}
 	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
 	{
-		Level2* level = new Level2;
-		EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level2>();
 	}
 	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
 	{
-		Level3* level = new Level3;
-		EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+		EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level3>();
 	}
 	else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('4'))
 	{

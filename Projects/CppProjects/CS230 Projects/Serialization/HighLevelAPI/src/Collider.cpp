@@ -42,8 +42,8 @@ Collider::Collider(ColliderType type_) : transform(nullptr), rigidBody(nullptr),
 // Set component pointers.
 void Collider::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
-	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
+	transform = GetOwner()->GetComponent<Transform>();
+	rigidBody = GetOwner()->GetComponent<RigidBody>();
 }
 
 // Check if two objects are colliding and send collision events.

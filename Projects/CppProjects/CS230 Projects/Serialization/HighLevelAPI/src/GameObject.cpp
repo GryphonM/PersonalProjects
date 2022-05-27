@@ -115,18 +115,18 @@ void GameObject::AddComponent(Component* component)
 // Retrieves the component with the given name if it exists.
 // Params:
 //   name = The name of the component to find.
-Component* GameObject::GetComponent(const std::string& name_)
-{
-	for (auto it = components.begin(); it != components.end(); it++)
-	{
-		if ((*it)->GetName() == name_)
-		{
-			return (*it);
-		}
-	}
-
-	return nullptr;
-}
+//Component* GameObject::GetComponent(const std::string& name_)
+//{
+//	for (auto it = components.begin(); it != components.end(); it++)
+//	{
+//		if ((*it)->GetName() == name_)
+//		{
+//			return (*it);
+//		}
+//	}
+//
+//	return nullptr;
+//}
 
 // Mark an object for destruction.
 void GameObject::Destroy()

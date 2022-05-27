@@ -30,7 +30,7 @@
 void ColorChangeCollisionHandler(GameObject& object, GameObject& other)
 {
 	UNREFERENCED_PARAMETER(other);
-	dynamic_cast<ColorChange*>(object.GetComponent("ColorChange"))->collided = true;
+	object.GetComponent<ColorChange>()->collided = true;
 }
 
 // Constructor
@@ -54,8 +54,8 @@ Component* ColorChange::Clone() const
 // Initialize data for this object.
 void ColorChange::Initialize()
 {
-	sprite = dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"));
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(ColorChangeCollisionHandler);
+	sprite = GetOwner()->GetComponent<Sprite>();
+	GetOwner()->GetComponent<Collider>()->SetCollisionHandler(ColorChangeCollisionHandler);
 }
 
 // Update function for this component.

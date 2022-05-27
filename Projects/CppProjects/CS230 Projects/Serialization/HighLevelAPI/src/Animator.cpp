@@ -47,7 +47,7 @@ Component* Animator::Clone() const
 // Initialize this component, grab pointers to other components from owner.
 void Animator::Initialize() 
 {
-	sprite = dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"));
+	sprite = GetOwner()->GetComponent<Sprite>();
 }
 
 // Update the animation.

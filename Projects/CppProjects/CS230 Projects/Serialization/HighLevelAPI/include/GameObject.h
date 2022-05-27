@@ -75,7 +75,19 @@ public:
 	// Retrieves the component with the given name if it exists.
 	// Params:
 	//   name = The name of the component to find.
-	Component* GetComponent(const std::string& name);
+	template <class T>
+	T* GetComponent()
+	{
+		for (auto it = components.begin(); it != components.end(); it++)
+		{
+			if (dynamic_cast<T*>(*it) != nullptr)
+			{
+				return (dynamic_cast<T*>(*it));
+			}
+		}
+
+		return nullptr;
+	}
 	
 	// Mark an object for destruction.
 	void Destroy();

@@ -41,7 +41,7 @@ void SpriteTilemap::Draw()
 {
 	unsigned rows = map->GetHeight();
 	unsigned columns = map->GetWidth();
-	Vector2D scale = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"))->GetScale();
+	Vector2D scale = GetOwner()->GetComponent<Transform>()->GetScale();
 	for (unsigned i = 0; i < rows; i++)
 	{
 		for (unsigned j = 0; j < columns; j++)

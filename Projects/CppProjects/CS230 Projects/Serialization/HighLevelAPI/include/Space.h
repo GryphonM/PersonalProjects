@@ -17,6 +17,7 @@
 
 #include "BetaObject.h"			// inheritance
 #include "GameObjectManager.h"	// GameObjectManager
+#include "Level.h"				// Template Function
 
 //------------------------------------------------------------------------------
 
@@ -24,7 +25,7 @@
 // Forward Declarations:
 //------------------------------------------------------------------------------
 
-class Level;
+//class Level;
 
 //------------------------------------------------------------------------------
 // Public Structures:
@@ -67,7 +68,13 @@ public:
 	// Sets the level that the space is using after unloading the current level.
 	// Params:
 	//   level = The next level that the space will be using.
-	void SetLevel(Level* level);
+	template <class T>
+	void SetLevel()
+	{
+		T* level = new T();
+		nextLevel = level;
+		nextLevel->SetOwner(this);
+	}
 
 	// Restarts the current level (next level = current)
 	void RestartLevel();

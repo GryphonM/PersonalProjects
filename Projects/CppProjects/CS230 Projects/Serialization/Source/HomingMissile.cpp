@@ -41,9 +41,9 @@ void MissileCollisionHandler(GameObject& object, GameObject& other)
 {
 	if (other.GetName() == "Asteroid")
 	{
-		int points = dynamic_cast<Asteroid*>(other.GetComponent("Asteroid"))->GetPointValue();
-		dynamic_cast<HomingMissile*>(object.GetComponent("HomingMissile"))->player->IncreaseScore(points);
-		dynamic_cast<HomingMissile*>(object.GetComponent("HomingMissile"))->Explode();
+		int points = other.GetComponent<Asteroid>()->GetPointValue();
+		object.GetComponent<HomingMissile>()->player->IncreaseScore(points);
+		object.GetComponent<HomingMissile>()->Explode();
 	}
 }
 
@@ -70,9 +70,9 @@ Component* HomingMissile::Clone() const
 // Initialize this component (happens at object creation).
 void HomingMissile::Initialize()
 {
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
-	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(MissileCollisionHandler);
+	transform = GetOwner()->GetComponent<Transform>();
+	rigidBody = GetOwner()->GetComponent<RigidBody>();
+	GetOwner()->GetComponent<Collider>()->SetCollisionHandler(MissileCollisionHandler);
 	SetTarget();
 }
 
@@ -118,7 +118,7 @@ void HomingMissile::Serialize(FileStream& stream) const
 // Handles a custom destruction
 void HomingMissile::Explode()
 {
-	dynamic_cast<ColliderCircle*> (GetOwner()->GetComponent("Collider"))->SetRadius(explosionRadius);
+	GetOwner()->GetComponent<ColliderCircle>()->SetRadius(explosionRadius);
 	GetOwner()->Destroy();
 }
 
@@ -128,11 +128,11 @@ void HomingMissile::SetTarget()
 	std::vector<GameObject*> Asteroids;
 	GetOwner()->GetSpace()->GetObjectManager().GetObjectsByName("Asteroid", Asteroids);
 	int target_ = Asteroids[0]->GetID();
-	float currentDist = dynamic_cast<Transform*>(Asteroids[0]->GetComponent("Transform"))->GetTranslation().DistanceSquared(transform->GetTranslation());
+	float currentDist = Asteroids[0]->GetComponent<Transform>()->GetTranslation().DistanceSquared(transform->GetTranslation());
 
 	for (auto it = Asteroids.begin() + 1; it != Asteroids.end(); it++)
 	{
-		float dist = dynamic_cast<Transform*>((*it)->GetComponent("Transform"))->GetTranslation().DistanceSquared(transform->GetTranslation());
+		float dist = (*it)->GetComponent<Transform>()->GetTranslation().DistanceSquared(transform->GetTranslation());
 		if (dist < currentDist)
 		{
 			target_ = (*it)->GetID();
@@ -149,7 +149,7 @@ void HomingMissile::Move()
 	GameObject* target = dynamic_cast<GameObject*>(GetOwner()->GetSpace()->GetObjectByID(targetID));
 	if (target != nullptr)
 	{
-		Vector2D targetDir = dynamic_cast<Transform*>(target->GetComponent("Transform"))->GetTranslation() - transform->GetTranslation();
+		Vector2D targetDir = target->GetComponent<Transform>()->GetTranslation() - transform->GetTranslation();
 		float angle = atan2(targetDir.y, targetDir.x);
 		transform->SetRotation(angle);
 		rigidBody->SetVelocity(targetDir * speed);

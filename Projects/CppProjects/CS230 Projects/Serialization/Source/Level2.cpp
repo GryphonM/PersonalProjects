@@ -91,8 +91,8 @@ using namespace Beta;
 		// TO DO:
 		GameObject* monkey = EngineGetModule(GameObjectFactory)->CreateObject("Monkey", meshMonkey, spriteSourceMonkey);
 		GameObject* tilemap = EngineGetModule(GameObjectFactory)->CreateObject("Tilemap", meshMap, spriteSourceMap);
-		dynamic_cast<SpriteTilemap*>(tilemap->GetComponent("Sprite"))->SetTilemap(dataMap);
-		dynamic_cast<ColliderTilemap*>(tilemap->GetComponent("Collider"))->SetTilemap(dataMap);
+		tilemap->GetComponent<SpriteTilemap>()->SetTilemap(dataMap);
+		tilemap->GetComponent<ColliderTilemap>()->SetTilemap(dataMap);
 		GetSpace()->GetObjectManager().AddObject(*monkey);
 		GetSpace()->GetObjectManager().AddObject(*tilemap);
 	}
@@ -106,18 +106,15 @@ using namespace Beta;
 
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('1'))
 		{
-			Level1* level = new Level1;
-			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level1>();
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('3'))
 		{
-			Level3* level = new Level3;
-			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel<Level3>();
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('4'))
 		{
-			AsteroidsLevel* level = new AsteroidsLevel;
-			EngineCore::GetInstance().GetModule<Space>()->SetLevel(level);
+			EngineCore::GetInstance().GetModule<Space>()->SetLevel<AsteroidsLevel>();
 		}
 		else if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered('2'))
 			GetSpace()->RestartLevel();

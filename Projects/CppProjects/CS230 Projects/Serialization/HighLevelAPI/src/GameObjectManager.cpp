@@ -176,9 +176,9 @@ void GameObjectManager::VariableUpdate(float dt)
 {
 	if (EngineGetModule(Input)->CheckTriggered(' '))
 		dt = 1 * dt;
-	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
+	for (int i = 0; i < numObjects; i++)
 	{
-		(*it)->Update(dt);
+		gameObjectActiveList[i]->Update(dt);
 	}
 }
 
@@ -188,9 +188,9 @@ void GameObjectManager::FixedUpdate(float dt)
 	timeAccumulator += dt;
 	while (timeAccumulator >= fixedUpdateDt)
 	{
-		for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
+		for (int i = 0; i < numObjects; i++)
 		{
-			(*it)->FixedUpdate(fixedUpdateDt);
+			gameObjectActiveList[i]->FixedUpdate(fixedUpdateDt);
 		}
 		CheckCollisions();
 		timeAccumulator -= fixedUpdateDt;
@@ -200,18 +200,18 @@ void GameObjectManager::FixedUpdate(float dt)
 // Check for collisions between pairs of objects
 void GameObjectManager::CheckCollisions()
 {	
-	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
+	for (int i = 0; i < numObjects; i++)
 	{
-		if (!(*it)->IsDestroyed())
+		if (!gameObjectActiveList[i]->IsDestroyed())
 		{
-			Collider* col = dynamic_cast<Collider*>((*it)->GetComponent("Collider"));
+			Collider* col = dynamic_cast<Collider*>(gameObjectActiveList[i]->GetComponent<Collider>());
 			if (col != nullptr)
 			{
-				if ((it + 1) != gameObjectActiveList.end())
+				if (i + 1 != numObjects)
 				{
-					for (auto jt = it + 1; jt != gameObjectActiveList.end(); jt++)
+					for (int j = i + 1; j < numObjects; j++)
 					{
-						Collider* col2 = dynamic_cast<Collider*>((*jt)->GetComponent("Collider"));
+						Collider* col2 = dynamic_cast<Collider*>(gameObjectActiveList[j]->GetComponent<Collider>());
 						if (col2 != nullptr)
 						{
 							col->CheckCollision(*col2);
@@ -226,15 +226,17 @@ void GameObjectManager::CheckCollisions()
 // Destroy any objects marked for destruction.
 void GameObjectManager::DestroyObjects()
 {
-	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end(); it++)
+	for (auto it = gameObjectActiveList.begin(); it != gameObjectActiveList.end();)
 	{
 		if ((*it)->IsDestroyed())
 		{
 			delete (*it);
-			gameObjectActiveList.erase(it);
-			it--;
+			(*it) = nullptr;
+			it = gameObjectActiveList.erase(it);
 			numObjects--;
 		}
+		else
+			it++;
 	}
 }
 

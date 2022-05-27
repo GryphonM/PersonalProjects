@@ -41,13 +41,13 @@ using namespace Beta;
 //   other  = The other object the first object is colliding with.
 void PlayerShipCollisionHandler(GameObject& object, GameObject& other)
 {
-	if ((other.GetName() == "Asteroid" && !dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying) ||
-		(other.GetName() == "Bomb" && dynamic_cast<Bomb*>(other.GetComponent("Bomb"))->IsExploding()))
+	if ((other.GetName() == "Asteroid" && !object.GetComponent<PlayerShip>()->isDying) ||
+		(other.GetName() == "Bomb" && other.GetComponent<Bomb>()->IsExploding()))
 	{
-		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->isDying = true;
-		dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->timer = dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deathDuration;
-		dynamic_cast<Sprite*>(object.GetComponent("Sprite"))->SetColor(dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->deadColor);
-		dynamic_cast<RigidBody*>(object.GetComponent("RigidBody"))->SetAngularVelocity(dynamic_cast<PlayerShip*>(object.GetComponent("PlayerShip"))->spinSpeed);
+		object.GetComponent<PlayerShip>()->isDying = true;
+		object.GetComponent<PlayerShip>()->timer = object.GetComponent<PlayerShip>()->deathDuration;
+		object.GetComponent<Sprite>()->SetColor(object.GetComponent<PlayerShip>()->deadColor);
+		object.GetComponent<RigidBody>()->SetAngularVelocity(object.GetComponent<PlayerShip>()->spinSpeed);
 	}
 }
 
@@ -91,9 +91,9 @@ void PlayerShip::Initialize()
 	missileArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Missile");
 	bombArchetype = GetOwner()->GetSpace()->GetObjectManager().GetArchetypeByName("Bomb");
 
-	transform = dynamic_cast<Transform*>(GetOwner()->GetComponent("Transform"));
-	rigidBody = dynamic_cast<RigidBody*>(GetOwner()->GetComponent("RigidBody"));
-	dynamic_cast<Collider*>(GetOwner()->GetComponent("Collider"))->SetCollisionHandler(PlayerShipCollisionHandler);
+	transform = GetOwner()->GetComponent<Transform>();
+	rigidBody = GetOwner()->GetComponent<RigidBody>();
+	GetOwner()->GetComponent<Collider>()->SetCollisionHandler(PlayerShipCollisionHandler);
 }
 
 // Update function for this component.
@@ -204,9 +204,9 @@ void PlayerShip::Shoot()
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(' '))
 	{
 		GameObject* bullet = new GameObject(*bulletArchetype);
-		dynamic_cast<Transform*>(bullet->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
-		dynamic_cast<RigidBody*>(bullet->GetComponent("RigidBody"))->SetVelocity(Vector2D(bulletSpeed, 0).Rotate(transform->GetRotation()));
-		dynamic_cast<PlayerProjectile*>(bullet->GetComponent("PlayerProjectile"))->SetSpawner(this);
+		bullet->GetComponent<Transform>()->SetTranslation(transform->GetTranslation());
+		bullet->GetComponent<RigidBody>()->SetVelocity(Vector2D(bulletSpeed, 0).Rotate(transform->GetRotation()));
+		bullet->GetComponent<PlayerProjectile>()->SetSpawner(this);
 		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bullet);
 	}
 }
@@ -216,15 +216,15 @@ void PlayerShip::MissileFire(float dt)
 {
 	if (hasMissile && missileTimer <= 0)
 	{
-		dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(readyColor);
+		GetOwner()->GetComponent<Sprite>()->SetColor(readyColor);
 		if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(16))
 		{
 			missileTimer = missileWait;
-			dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetColor(normalColor);
+			GetOwner()->GetComponent<Sprite>()->SetColor(normalColor);
 
 			GameObject* missile = new GameObject(*missileArchetype);
-			dynamic_cast<Transform*>(missile->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
-			dynamic_cast<HomingMissile*>(missile->GetComponent("HomingMissile"))->SetSpawner(this);
+			missile->GetComponent<Transform>()->SetTranslation(transform->GetTranslation());
+			missile->GetComponent<HomingMissile>()->SetSpawner(this);
 			GetOwner()->GetSpace()->GetObjectManager().AddObject(*missile);
 		}
 	}
@@ -238,8 +238,8 @@ void PlayerShip::LayBomb()
 	if (EngineCore::GetInstance().GetModule<Input>()->CheckTriggered(40))
 	{
 		GameObject* bomb = new GameObject(*bombArchetype);
-		dynamic_cast<Transform*>(bomb->GetComponent("Transform"))->SetTranslation(transform->GetTranslation());
-		dynamic_cast<Bomb*>(bomb->GetComponent("Bomb"))->SetSpawner(this);
+		bomb->GetComponent<Transform>()->SetTranslation(transform->GetTranslation());
+		bomb->GetComponent<Bomb>()->SetSpawner(this);
 		GetOwner()->GetSpace()->GetObjectManager().AddObject(*bomb);
 	}
 }
@@ -255,9 +255,9 @@ void PlayerShip::DeathSequence(float dt)
 		{
 			blinkTimer = blinkDuration;
 			if (blinkOn)
-				dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetAlpha(1);
+				GetOwner()->GetComponent<Sprite>()->SetAlpha(1);
 			else
-				dynamic_cast<Sprite*>(GetOwner()->GetComponent("Sprite"))->SetAlpha(0);
+				GetOwner()->GetComponent<Sprite>()->SetAlpha(0);
 			blinkOn = !blinkOn;
 		}
 		else

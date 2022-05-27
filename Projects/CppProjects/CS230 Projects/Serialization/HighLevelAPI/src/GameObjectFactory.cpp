@@ -77,10 +77,10 @@ GameObject* GameObjectFactory::CreateObject(const std::string& name,
 	try
 	{
 		newObj->Deserialize(stream);
-		if (dynamic_cast<Sprite*>(newObj->GetComponent("Sprite")) != nullptr)
+		if (newObj->GetComponent<Sprite>() != nullptr)
 		{
-			dynamic_cast<Sprite*>(newObj->GetComponent("Sprite"))->SetMesh(mesh);
-			dynamic_cast<Sprite*>(newObj->GetComponent("Sprite"))->SetSpriteSource(spriteSource);
+			newObj->GetComponent<Sprite>()->SetMesh(mesh);
+			newObj->GetComponent<Sprite>()->SetSpriteSource(spriteSource);
 		}
 	}
 	catch (FileStreamException exc)

@@ -87,11 +87,11 @@ void Space::SetPaused(bool value)
 	paused = value;
 }
 
-void Space::SetLevel(Level* level)
-{
-	nextLevel = level;
-	nextLevel->SetOwner(this);
-}
+//void Space::SetLevel(Level* level)
+//{
+//	nextLevel = level;
+//	nextLevel->SetOwner(this);
+//}
 
 // Restarts the current level (next level = current)
 void Space::RestartLevel()
