@@ -1,0 +1,33 @@
+Missile
+{
+  numComponents : 6
+  Transform
+  {
+    translation : { 0, 0 }
+    rotation : 0
+    scale : { 0.25, 0.25 }
+  }
+  Sprite
+  {
+    frameIndex : 0
+    color : { 1 , 1 , 1 , 1 }
+  }
+  RigidBody
+  {
+    velocity : { 0, 0 }
+    angularVelocity : 0
+    mass : 1
+  }
+  HomingMissile
+  {
+    speed : 3
+    radius : 1
+  }
+  ScreenWrap
+  {
+  }
+  ColliderCircle
+  {
+    radius : 0.125
+  }
+}

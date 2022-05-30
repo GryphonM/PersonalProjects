@@ -1,0 +1,33 @@
+Point
+{
+  numComponents : 6
+  Transform
+  {
+    translation : { 0, 0 }
+    rotation : 0
+    scale : { 0.2, 0.2 }
+  }
+  Sprite
+  {
+    frameIndex : 0
+    color : { 1 , 1 , 1 , 1 }
+  }
+  RigidBody
+  {
+    velocity : { 0, 0 }
+    angularVelocity : 0
+    mass : 1
+  }
+  ColliderPoint
+  {
+  }
+  ColorChange
+  {
+    normalColor : { 0 , 0 , 1 , 1 }
+    collidedColor : { 1 , 0 , 0 , 1 }
+    collidedColorTime : 0.1
+  }
+  ScreenWrap
+  {
+  }
+}
