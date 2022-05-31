@@ -21,6 +21,7 @@
 #include "Sprite.h"
 #include "FileStream.h"
 #include "ColliderCircle.h"
+#include "ColliderLine.h"
 #include "ColliderPoint.h"
 #include "ColliderRectangle.h"
 #include "ColliderTilemap.h"
@@ -40,6 +41,7 @@ using namespace Beta;
 GameObjectFactory::GameObjectFactory() : BetaObject("GameObjectFactory"), objectFilePath("Objects/")
 {
 	RegisterComponent<ColliderCircle>();
+	RegisterComponent<ColliderLine>();
 	RegisterComponent<ColliderPoint>();
 	RegisterComponent<ColliderRectangle>();
 	RegisterComponent<ColliderTilemap>();

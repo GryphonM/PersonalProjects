@@ -82,7 +82,9 @@ bool ColliderLine::IsCollidingWith(const Collider& other) const
 		float timeToIntersection;
 		if (MovingPointLineIntersection(truePos, otherMove, intersection, timeToIntersection))
 		{
-			MovingPointLineReflection(other.GetOwner()->GetComponent<Transform>(), other.GetOwner()->GetComponent<RigidBody>(), truePos, otherMove, intersection);
+			Transform* transform = other.GetOwner()->GetComponent<Transform>();
+			RigidBody* rigidBody = other.GetOwner()->GetComponent<RigidBody>();
+			MovingPointLineReflection(*transform, *rigidBody, truePos, otherMove, intersection);
 			return true;
 		}
 	}
@@ -95,7 +97,12 @@ bool ColliderLine::IsCollidingWith(const Collider& other) const
 void ColliderLine::Serialize(FileStream& file) const
 {
 	file.WriteVariable("lineCount", lineSegments.size());
-	file.WriteVariable("lines", lineSegments);
+	for (auto it = lineSegments.begin(); it != lineSegments.end(); it++)
+	{
+		file.WriteValue('{ ');
+		file.WriteValue(*it);
+		file.WriteValue(' }');
+	}
 }
 
 // Load object data from file
@@ -103,7 +110,18 @@ void ColliderLine::Serialize(FileStream& file) const
 //   file = The file stream used to load the object's data.
 void ColliderLine::Deserialize(FileStream& file)
 {
-	file.ReadVariable("lines", lineSegments);
+	int lineCount;
+	file.ReadVariable("lineCount", lineCount);
+	file.ReadSkip("lines");
+	file.ReadSkip(':');
+	file.ReadSkip('{');
+	for (int i = 0; i < lineCount; i++)
+	{
+		Beta::LineSegment line;
+		file.ReadValue(line);
+		lineSegments.push_back(line);
+	}
+	file.ReadSkip('}');
 }
 
 // Gets a line segment that incorporates the transform of the object
