@@ -212,5 +212,8 @@
     <ClCompile Include="src\GameObjectFactory.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\ColliderLine.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

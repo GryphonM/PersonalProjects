@@ -46,7 +46,7 @@ asteroidSpawnCount(0), asteroidWaveCount(0), playerShip(nullptr), asteroidHighSc
 mesh(nullptr), textureShip(nullptr), bulletArchetype(nullptr), textureBullet(nullptr),
 asteroidArchetype(nullptr), textureAsteroid(nullptr), missileArchetype(nullptr),
 textureMissile(nullptr), bombArchetype(nullptr), textureBomb(nullptr), spriteAsteroid(nullptr),
-spriteBullet(nullptr), spriteShip(nullptr), Level("AsteroidsLevel")
+spriteBullet(nullptr), spriteShip(nullptr), spriteMissile(nullptr), spriteBomb(nullptr), Level("AsteroidsLevel")
 {
 }
 
@@ -86,6 +86,12 @@ void Omega::Initialize()
 {
 	GameObject* ship = EngineGetModule(GameObjectFactory)->CreateObject("Ship", mesh, spriteShip);
 	GetSpace()->GetObjectManager().AddObject(*ship);
+
+	GameObject* walls = EngineGetModule(GameObjectFactory)->CreateObject("Walls");
+	GetSpace()->GetObjectManager().AddObject(*walls);
+
+	GameObject* arena = EngineGetModule(GameObjectFactory)->CreateObject("Arena");
+	GetSpace()->GetObjectManager().AddObject(*arena);
 
 	asteroidWaveCount = 0;
 	asteroidSpawnCount = asteroidSpawnInitial;

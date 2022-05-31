@@ -106,3 +106,80 @@ bool RectangleCircleIntersection(const Beta::BoundingRectangle& rect, const Beta
 
 	return clampPoint.DistanceSquared(circle.center) < (circle.radius * circle.radius);
 }
+
+// Check whether a moving point and line intersect.
+// Params:
+//  staticLine   = Start and end of first line segment.
+//  movingPoint = Start and end of second line segment (usually a moving point).
+//  intersection = Intersection point, if any.
+//  t = The t value from the intersection calculation.
+// Returns:
+//   True if intersection, false otherwise.
+bool MovingPointLineIntersection(const Beta::LineSegment& staticLine, const Beta::LineSegment& movingPoint, Beta::Vector2D& intersection, float& t)
+{
+	Beta::Vector2D velocity = movingPoint.end - movingPoint.start;
+	if (velocity.DotProduct(staticLine.normal) == 0)
+		return false;
+
+	float intersectTime = (staticLine.normal.DotProduct(staticLine.start) - staticLine.normal.DotProduct(movingPoint.start)) / staticLine.normal.DotProduct(velocity);
+	if (t < 0 || t > 1)
+		return false;
+
+	Beta::Vector2D intersectPoint = movingPoint.start + (velocity * intersectTime);
+	if (!PointIsBetweenLines(intersectPoint, staticLine.start, staticLine.end, staticLine.normal))
+		return false;
+	return true;
+}
+
+// Modifies object's position, velocity, and rotation using simple point-line reflection.
+// Params:
+//  transform = Transform of the object that is being reflected.
+//  rigidBody   = RigidBody of the object being reflected.
+//  staticLine   = Start and end of first line segment.
+//  movingPoint = Start and end of second line segment (usually a moving point).
+//  intersection = Intersection point of the line and circle. 
+void MovingPointLineReflection(Transform& transform, RigidBody& rigidBody, const Beta::LineSegment& staticLine, const Beta::LineSegment& movingPoint, const Beta::Vector2D& intersection)
+{
+	Beta::Vector2D reflectedPos = ReflectPointOverLine(movingPoint.end, staticLine);
+	transform.SetTranslation(reflectedPos);
+
+	Beta::Vector2D reflectedVel = (reflectedPos - intersection).Normalized();
+	rigidBody.SetVelocity(reflectedVel * rigidBody.GetVelocity().Magnitude());
+
+	float reflectedRot = atan2(reflectedVel.x, reflectedVel.y);
+	transform.SetRotation(reflectedRot);
+}
+
+// Checks whether a point is between two parallel lines.
+// Params:
+//   point = The point in question.
+//   firstLine = A point on the first line.
+//   secondLine = A point on the second line.
+//   normal = Normal vector to the two lines.
+// Returns:
+//   True if the point is between the two lines, false otherwise.
+bool PointIsBetweenLines(const Beta::Vector2D& point, const Beta::Vector2D& firstLine, const Beta::Vector2D& secondLine, const Beta::Vector2D& normal)
+{
+	float distToStart = normal.DotProduct(firstLine);
+	float distToEnd = normal.DotProduct(secondLine);
+	float distToPoint = normal.DotProduct(point);
+
+	if (distToPoint < distToStart && distToPoint < distToEnd)
+		return false;
+	if (distToPoint > distToStart && distToPoint > distToEnd)
+		return false;
+	return true;
+}
+
+// Reflects a point over a line.
+// Params:
+//   point = The point being reflected.
+//   line = The line the point will be reflected over.
+// Returns:
+//   The reflected point.
+Beta::Vector2D ReflectPointOverLine(const Beta::Vector2D& point, const Beta::LineSegment& line)
+{
+	Beta::Vector2D reflectedPoint = point - line.start;
+	reflectedPoint = reflectedPoint - 2 * (reflectedPoint.DotProduct(line.normal)) * line.normal;
+	return reflectedPoint + line.start;
+}

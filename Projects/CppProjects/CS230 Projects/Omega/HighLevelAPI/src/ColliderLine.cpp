@@ -17,6 +17,7 @@
 #include "GameObject.h"
 #include "RigidBody.h"
 #include "Transform.h"
+#include "FileStream.h"
 
 //------------------------------------------------------------------------------
 // Public Functions:
@@ -42,9 +43,10 @@ void ColliderLine::Draw()
 
 	for (auto it = lineSegments.begin(); it != lineSegments.end(); it++)
 	{
-		debugDraw.AddLineToList((*it).start, (*it).end, Beta::Colors::Green);
-		Beta::Vector2D midpoint = 0.5 * ((*it).start - (*it).end);
-		debugDraw.AddLineToList(midpoint, 0.2 * (midpoint + (*it).normal), Beta::Colors::Red);
+		Beta::LineSegment truePos = GetLineWithTransform(it - lineSegments.begin());
+		debugDraw.AddLineToList(truePos.start, truePos.end, Beta::Colors::Green);
+		Beta::Vector2D midpoint = 0.5f * (truePos.start - truePos.end);
+		debugDraw.AddLineToList(midpoint, 0.2f * (midpoint + truePos.normal), Beta::Colors::Red);
 	}
 	
 	debugDraw.EndLineList();
@@ -85,4 +87,30 @@ bool ColliderLine::IsCollidingWith(const Collider& other) const
 		}
 	}
 	return false;
+}
+
+// Save object data to file.
+// Params:
+//   file = The file stream to save the object's data.
+void ColliderLine::Serialize(FileStream& file) const
+{
+	file.WriteVariable("lineCount", lineSegments.size());
+	file.WriteVariable("lines", lineSegments);
+}
+
+// Load object data from file
+// Params:
+//   file = The file stream used to load the object's data.
+void ColliderLine::Deserialize(FileStream& file)
+{
+	file.ReadVariable("lines", lineSegments);
+}
+
+// Gets a line segment that incorporates the transform of the object
+// Params:
+//   index = The index of the line within the array of line segments.
+Beta::LineSegment ColliderLine::GetLineWithTransform(unsigned index) const
+{
+	Beta::Vector2D pos = GetOwner()->GetComponent<Transform>()->GetTranslation();
+	return Beta::LineSegment(lineSegments[index].start + pos, lineSegments[index].end + pos);
 }
