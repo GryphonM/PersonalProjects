@@ -151,12 +151,12 @@ void Omega::SpawnAsteroid(void)
 // Create a group of asteroids
 void Omega::SpawnAsteroidWave(void)
 {
-	//asteroidWaveCount++;
-	//for (unsigned i = 0; i < asteroidSpawnCount; i++)
-	//	SpawnAsteroid();
+	asteroidWaveCount++;
+	for (unsigned i = 0; i < asteroidSpawnCount; i++)
+		SpawnAsteroid();
 
-	//if (asteroidSpawnCount < asteroidSpawnMaximum)
-	//	asteroidSpawnCount++;
+	if (asteroidSpawnCount < asteroidSpawnMaximum)
+		asteroidSpawnCount++;
 }
 
 // Update the score string

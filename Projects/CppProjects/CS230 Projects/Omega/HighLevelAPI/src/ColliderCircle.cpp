@@ -85,7 +85,7 @@ bool ColliderCircle::IsCollidingWith(const Collider& other) const
 			dynamic_cast<const ColliderRectangle&>(other).GetExtents()),
 			Beta::Circle(transform->GetTranslation(), radius));
 	}
-	else if (other.GetType() == ColliderType::Lines)
+	else
 	{
 		return other.IsCollidingWith(*this);
 	}

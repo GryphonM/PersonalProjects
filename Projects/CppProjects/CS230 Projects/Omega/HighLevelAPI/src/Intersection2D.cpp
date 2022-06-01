@@ -149,7 +149,7 @@ void MovingPointLineReflection(Transform& transform, RigidBody& rigidBody, const
 	Beta::Vector2D reflectedVel = (reflectedPos - intersection).Normalized();
 	rigidBody.SetVelocity(reflectedVel * rigidBody.GetVelocity().Magnitude());
 
-	float reflectedRot = atan2(reflectedVel.x, reflectedVel.y);
+	float reflectedRot = atan2(reflectedVel.y, reflectedVel.x);
 	transform.SetRotation(reflectedRot);
 }
 
