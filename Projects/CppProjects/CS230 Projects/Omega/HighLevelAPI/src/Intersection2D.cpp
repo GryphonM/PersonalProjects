@@ -122,12 +122,15 @@ bool MovingPointLineIntersection(const Beta::LineSegment& staticLine, const Beta
 		return false;
 
 	float intersectTime = (staticLine.normal.DotProduct(staticLine.start) - staticLine.normal.DotProduct(movingPoint.start)) / staticLine.normal.DotProduct(velocity);
-	if (t < 0 || t > 1)
+	if (intersectTime < 0 || intersectTime > 1)
 		return false;
 
 	Beta::Vector2D intersectPoint = movingPoint.start + (velocity * intersectTime);
 	if (!PointIsBetweenLines(intersectPoint, staticLine.start, staticLine.end, staticLine.normal))
 		return false;
+
+	t = intersectTime;
+	intersection = intersectPoint;
 	return true;
 }
 
@@ -160,13 +163,10 @@ void MovingPointLineReflection(Transform& transform, RigidBody& rigidBody, const
 //   True if the point is between the two lines, false otherwise.
 bool PointIsBetweenLines(const Beta::Vector2D& point, const Beta::Vector2D& firstLine, const Beta::Vector2D& secondLine, const Beta::Vector2D& normal)
 {
-	float distToStart = normal.DotProduct(firstLine);
-	float distToEnd = normal.DotProduct(secondLine);
-	float distToPoint = normal.DotProduct(point);
-
-	if (distToPoint < distToStart && distToPoint < distToEnd)
+	UNREFERENCED_PARAMETER(normal);
+	if ((secondLine - firstLine).DotProduct(point - firstLine) < 0)
 		return false;
-	if (distToPoint > distToStart && distToPoint > distToEnd)
+	if ((firstLine - secondLine).DotProduct(point - secondLine) < 0)
 		return false;
 	return true;
 }

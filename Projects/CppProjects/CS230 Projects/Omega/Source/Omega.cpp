@@ -26,6 +26,7 @@
 #include "PlayerShip.h"
 #include "GameObject.h"
 #include "SpriteSource.h"
+#include "Transform.h"
 #include "Sprite.h"
 
 // Levels
@@ -85,9 +86,10 @@ void Omega::Load()
 void Omega::Initialize()
 {
 	GameObject* ship = EngineGetModule(GameObjectFactory)->CreateObject("Ship", mesh, spriteShip);
+	ship->GetComponent<Transform>()->SetTranslation(Beta::Vector2D(0.0f, -2.0f));
 	GetSpace()->GetObjectManager().AddObject(*ship);
 
-	GameObject* walls = EngineGetModule(GameObjectFactory)->CreateObject("Walls");
+	GameObject* walls = EngineGetModule(GameObjectFactory)->CreateObject("Walls", mesh);
 	GetSpace()->GetObjectManager().AddObject(*walls);
 
 	GameObject* arena = EngineGetModule(GameObjectFactory)->CreateObject("Arena");
@@ -149,12 +151,12 @@ void Omega::SpawnAsteroid(void)
 // Create a group of asteroids
 void Omega::SpawnAsteroidWave(void)
 {
-	asteroidWaveCount++;
-	for (unsigned i = 0; i < asteroidSpawnCount; i++)
-		SpawnAsteroid();
+	//asteroidWaveCount++;
+	//for (unsigned i = 0; i < asteroidSpawnCount; i++)
+	//	SpawnAsteroid();
 
-	if (asteroidSpawnCount < asteroidSpawnMaximum)
-		asteroidSpawnCount++;
+	//if (asteroidSpawnCount < asteroidSpawnMaximum)
+	//	asteroidSpawnCount++;
 }
 
 // Update the score string

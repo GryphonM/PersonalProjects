@@ -45,8 +45,10 @@ void ColliderLine::Draw()
 	{
 		Beta::LineSegment truePos = GetLineWithTransform(it - lineSegments.begin());
 		debugDraw.AddLineToList(truePos.start, truePos.end, Beta::Colors::Green);
-		Beta::Vector2D midpoint = 0.5f * (truePos.start - truePos.end);
-		debugDraw.AddLineToList(midpoint, 0.2f * (midpoint + truePos.normal), Beta::Colors::Red);
+		Beta::Vector2D midpoint = 0.5f * (truePos.end + truePos.start);
+		Beta::Vector2D shortNormal = 0.2f * truePos.normal;
+		Beta::Vector2D endNormal = midpoint + shortNormal;
+		debugDraw.AddLineToList(midpoint, endNormal, Beta::Colors::Red);
 	}
 	
 	debugDraw.EndLineList();
@@ -69,7 +71,9 @@ void ColliderLine::AddLineSegment(const Beta::Vector2D& p0, const Beta::Vector2D
 //	 Return the results of the collision check.
 bool ColliderLine::IsCollidingWith(const Collider& other) const
 {
-	if (other.GetType() != ColliderType::Point)
+	if (other.GetType() != ColliderType::Point && other.GetType() != ColliderType::Circle)
+		return false;
+	if (other.GetOwner()->GetComponent<RigidBody>() == nullptr || other.GetOwner()->GetComponent<Transform>() == nullptr)
 		return false;
 
 	Beta::LineSegment otherMove = Beta::LineSegment(other.GetOwner()->GetComponent<RigidBody>()->GetOldTranslation(), 
@@ -130,5 +134,8 @@ void ColliderLine::Deserialize(FileStream& file)
 Beta::LineSegment ColliderLine::GetLineWithTransform(unsigned index) const
 {
 	Beta::Vector2D pos = GetOwner()->GetComponent<Transform>()->GetTranslation();
-	return Beta::LineSegment(lineSegments[index].start + pos, lineSegments[index].end + pos);
+	Beta::Vector2D scale = GetOwner()->GetComponent<Transform>()->GetScale();
+	Beta::Vector2D p0 = Beta::Vector2D(lineSegments[index].start.x * scale.x, lineSegments[index].start.y * scale.y) + pos;
+	Beta::Vector2D p1 = Beta::Vector2D(lineSegments[index].end.x * scale.x, lineSegments[index].end.y * scale.y) + pos;
+	return Beta::LineSegment(p0, p1);
 }

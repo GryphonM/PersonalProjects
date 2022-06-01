@@ -56,16 +56,16 @@ void Asteroid::SetPosition()
 		switch (corner)
 		{
 		case Location::TopLeft:
-			transform->SetTranslation(Vector2D(screen.top - transform->GetScale().y, screen.left + transform->GetScale().x));
+			transform->SetTranslation(Vector2D(screen.top - transform->GetScale().y - 1.0f, screen.left + transform->GetScale().x + 1.0f));
 			break;
 		case Location::TopRight:
-			transform->SetTranslation(Vector2D(screen.top - transform->GetScale().y, screen.right - transform->GetScale().x));
+			transform->SetTranslation(Vector2D(screen.top - transform->GetScale().y - 1.0f, screen.right - transform->GetScale().x - 1.0f));
 			break;
 		case Location::BottomLeft:
-			transform->SetTranslation(Vector2D(screen.bottom + transform->GetScale().y, screen.left + transform->GetScale().x));
+			transform->SetTranslation(Vector2D(screen.bottom + transform->GetScale().y + 1.0f, screen.left + transform->GetScale().x + 1.0f));
 			break;
 		case Location::BottomRight:
-			transform->SetTranslation(Vector2D(screen.bottom + transform->GetScale().y, screen.right - transform->GetScale().x));
+			transform->SetTranslation(Vector2D(screen.bottom + transform->GetScale().y + 1.0f, screen.right - transform->GetScale().x - 1.0f));
 			break;
 		}
 	}

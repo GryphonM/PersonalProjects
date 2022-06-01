@@ -60,5 +60,9 @@ bool ColliderPoint::IsCollidingWith(const Collider& other) const
 		return PointRectangleIntersection(transform->GetTranslation(),
 			Beta::BoundingRectangle(other.transform->GetTranslation(), dynamic_cast<const ColliderRectangle&>(other).GetExtents()));
 	}
+	else if (other.GetType() == ColliderType::Lines)
+	{
+		return other.IsCollidingWith(*this);
+	}
 	return false;
 }
